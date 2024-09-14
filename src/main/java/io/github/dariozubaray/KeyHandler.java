@@ -1,6 +1,7 @@
 package io.github.dariozubaray;
 
-import java.awt.event.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
 public class KeyHandler implements KeyListener {
 

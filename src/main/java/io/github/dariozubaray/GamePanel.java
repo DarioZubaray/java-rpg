@@ -1,9 +1,11 @@
 package io.github.dariozubaray;
 
-import io.github.dariozubaray.entities.*;
-
+import io.github.dariozubaray.entities.Player;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
-import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 

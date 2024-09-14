@@ -1,8 +1,10 @@
 package io.github.dariozubaray.entities;
 
-import io.github.dariozubaray.*;
+import io.github.dariozubaray.GamePanel;
+import io.github.dariozubaray.KeyHandler;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class Player extends Entity {
 
