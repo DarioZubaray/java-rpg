@@ -15,5 +15,7 @@ public class MainLauncher {
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gamepanel.startGameThread();
     }
 }
