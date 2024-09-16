@@ -1,6 +1,7 @@
 package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.Player;
+import io.github.dariozubaray.tiles.TileManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,15 +15,16 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
 
     final int FPS = 60;
 
-    KeyHandler keyHandler;
     Thread gameThread;
+    KeyHandler keyHandler;
+    TileManager tileManager;
     Player player;
 
     public GamePanel () {
@@ -30,16 +32,17 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
-        keyHandler = new KeyHandler();
+        this.keyHandler = new KeyHandler();
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
+        this.tileManager = new TileManager(this);
         this.player = new Player(this, keyHandler);
     }
 
     public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
+        this.gameThread = new Thread(this);
+        this.gameThread.start();
     }
 
     @Override
@@ -83,7 +86,9 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        player.draw(g2);
+
+        this.tileManager.draw(g2);
+        this.player.draw(g2);
         g2.dispose();
     }
 }
