@@ -11,25 +11,30 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements Runnable {
 
     //Screen Settings
-    final int originalTileSize = 16;
-    final int scale = 3;
+    final int ORIGINAL_TILE_SIZE = 16;
+    final int SCALE = 3;
 
-    public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
-    public final int screenWidth = tileSize * maxScreenCol;
-    public final int screenHeight = tileSize * maxScreenRow;
+    public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public final int MAX_SCREEN_COL = 16;
+    public final int MAX_SCREEN_ROW = 12;
+    public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
+    public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+
+    public final int MAX_WORLD_COL = 50;
+    public final int MAX_WORLD_ROW = 50;
+    public final int WORLD_WIDTH = TILE_SIZE * MAX_WORLD_COL;
+    public final int WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
     final int FPS = 60;
 
     Thread gameThread;
     KeyHandler keyHandler;
     TileManager tileManager;
-    Player player;
+    public Player player;
 
     public GamePanel () {
-        System.out.println(screenWidth + " - " + screenHeight);
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        System.out.println(SCREEN_WIDTH + " - " + SCREEN_HEIGHT);
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
         this.keyHandler = new KeyHandler();
