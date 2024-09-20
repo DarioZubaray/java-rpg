@@ -8,6 +8,7 @@ public class MainLauncher {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        System.out.println("JavaRPG - 2D Adventure");
         window.setTitle("JavaRPG - 2D Adventure");
 
         GamePanel gamepanel = new GamePanel();

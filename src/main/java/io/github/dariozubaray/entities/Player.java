@@ -4,6 +4,7 @@ import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.KeyHandler;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -22,6 +23,12 @@ public class Player extends Entity {
 
         SCREEN_X = (gamePanel.SCREEN_WIDTH /2) - (gamePanel.TILE_SIZE /2);
         SCREEN_Y = (gamePanel.SCREEN_HEIGHT /2) - (gamePanel.TILE_SIZE /2);
+
+        this.solidArea = new Rectangle();
+        this.solidArea.x = 8;
+        this.solidArea.y = 16;
+        this.solidArea.width = 32;
+        this.solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -54,16 +61,31 @@ public class Player extends Entity {
 
             if (keyHandler.upPressed) {
                 this.direction = "up";
-                this.worldY -= speed;
             } else if (keyHandler.downPressed) {
                 this.direction = "down";
-                this.worldY += speed;
             } else if (keyHandler.rightPressed) {
                 this.direction = "right";
-                this.worldX += speed;
             } else if (keyHandler.leftPressed) {
                 this.direction = "left";
-                this.worldX -= speed;
+            }
+
+            collisionOn = false;
+            gamePanel.collisionChecker.checkTile(this);
+            if (!collisionOn) {
+                switch (this.direction) {
+                    case "up":
+                        this.worldY -= speed;
+                        break;
+                    case "down":
+                        this.worldY += speed;
+                        break;
+                    case "left":
+                        this.worldX -= speed;
+                        break;
+                    case "right":
+                        this.worldX += speed;
+                        break;
+                }
             }
 
             spriteCounter++;

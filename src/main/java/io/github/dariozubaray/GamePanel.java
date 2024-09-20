@@ -30,10 +30,12 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     KeyHandler keyHandler;
     TileManager tileManager;
+    public CollisionChecker collisionChecker;
     public Player player;
 
     public GamePanel () {
-        System.out.println(SCREEN_WIDTH + " - " + SCREEN_HEIGHT);
+        System.out.print("GamePanel: screen dimensions: ");
+        System.out.println(SCREEN_WIDTH + " x " + SCREEN_HEIGHT);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
@@ -42,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
         this.tileManager = new TileManager(this);
+        this.collisionChecker = new CollisionChecker(this);
         this.player = new Player(this, keyHandler);
     }
 
