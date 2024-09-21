@@ -65,7 +65,7 @@ public class Player extends Entity {
                 this.direction = "down";
             } else if (keyHandler.rightPressed) {
                 this.direction = "right";
-            } else if (keyHandler.leftPressed) {
+            } else {
                 this.direction = "left";
             }
 
@@ -73,18 +73,10 @@ public class Player extends Entity {
             gamePanel.collisionChecker.checkTile(this);
             if (!collisionOn) {
                 switch (this.direction) {
-                    case "up":
-                        this.worldY -= speed;
-                        break;
-                    case "down":
-                        this.worldY += speed;
-                        break;
-                    case "left":
-                        this.worldX -= speed;
-                        break;
-                    case "right":
-                        this.worldX += speed;
-                        break;
+                    case "up" -> this.worldY -= speed;
+                    case "down" -> this.worldY += speed;
+                    case "left" -> this.worldX -= speed;
+                    case "right" -> this.worldX += speed;
                 }
             }
 
@@ -104,22 +96,22 @@ public class Player extends Entity {
         //g2.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);
         BufferedImage image = null;
         switch (direction) {
-            case "up":
+            case "up" -> {
                 if (this.spriteNumber == 1) image = up1;
                 if (this.spriteNumber == 2) image = up2;
-                break;
-            case "down":
+            }
+            case "down" -> {
                 if (this.spriteNumber == 1) image = down1;
                 if (this.spriteNumber == 2) image = down2;
-                break;
-            case "right":
+            }
+            case "right" -> {
                 if (this.spriteNumber == 1) image = right1;
                 if (this.spriteNumber == 2) image = right2;
-                break;
-            case "left":
+            }
+            case "left" -> {
                 if (this.spriteNumber == 1) image = left1;
                 if (this.spriteNumber == 2) image = left2;
-                break;
+            }
         }
 
         g2.drawImage(image, this.SCREEN_X, this.SCREEN_Y, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, null);

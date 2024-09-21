@@ -7,13 +7,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 
 public class TileManager {
 
     GamePanel gamePanel;
     public Tile[] tiles;
-    public int mapTileNum[][];
+    public int[][] mapTileNum;
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -51,18 +52,18 @@ public class TileManager {
     }
 
     public void loadMap() {
-        String line = null;
+        String line;
         int col = 0;
         int row = 0;
-        try {
-            InputStream is = getClass().getResourceAsStream("/maps/world01.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+        try (InputStream is = getClass().getResourceAsStream("/maps/world01.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 
             while (col < gamePanel.MAX_WORLD_COL && row < gamePanel.MAX_WORLD_ROW) {
                 line = br.readLine();
 
                 while (col < gamePanel.MAX_WORLD_COL) {
-                    String numbers[] = line.split(" ");
+                    String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
 
                     mapTileNum[col][row] = num;
@@ -74,7 +75,7 @@ public class TileManager {
                     row++;
                 }
             }
-            br.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
