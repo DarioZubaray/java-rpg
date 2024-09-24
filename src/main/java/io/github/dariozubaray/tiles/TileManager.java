@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Objects;
 import javax.imageio.ImageIO;
 
 public class TileManager {
@@ -35,7 +34,7 @@ public class TileManager {
 
             this.tiles[2] = new Tile();
             this.tiles[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
-            this.tiles[1].collision = true;
+            this.tiles[2].collision = true;
 
             this.tiles[3] = new Tile();
             this.tiles[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));

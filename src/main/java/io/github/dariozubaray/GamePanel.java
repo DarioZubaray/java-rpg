@@ -1,11 +1,13 @@
 package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.Player;
+import io.github.dariozubaray.object.SuperObject;
 import io.github.dariozubaray.tiles.TileManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Objects;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -31,6 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler;
     TileManager tileManager;
     public CollisionChecker collisionChecker;
+    public SuperObject[] objects;
+    public AssetSetter assetSetter;
     public Player player;
 
     public GamePanel () {
@@ -45,7 +49,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.tileManager = new TileManager(this);
         this.collisionChecker = new CollisionChecker(this);
+        this.objects = new SuperObject[10];
+        this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
+    }
+
+    public void setupGame() {
+        assetSetter.setObject();
     }
 
     public void startGameThread() {
@@ -96,6 +106,13 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         this.tileManager.draw(g2);
+
+        for (int i = 0; i < objects.length; i++) {
+            if (Objects.nonNull(objects[i])) {
+                objects[i].draw(g2, this);
+            }
+        }
+        
         this.player.draw(g2);
         g2.dispose();
     }
