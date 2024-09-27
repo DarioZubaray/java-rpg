@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 public class OBJ_Door extends SuperObject {
 
     public OBJ_Door() {
-        this.name = "Door";
+        this.name = ObjectLabel.DOOR;
 
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/objects/door.png"));

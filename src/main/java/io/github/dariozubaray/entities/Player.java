@@ -3,6 +3,7 @@ package io.github.dariozubaray.entities;
 import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.KeyHandler;
 
+import io.github.dariozubaray.object.ObjectLabel;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -41,7 +42,7 @@ public class Player extends Entity {
         this.worldX = gamePanel.TILE_SIZE * 23;
         this.worldY = gamePanel.TILE_SIZE * 21;
         this.speed = 4;
-        this.direction = "right";
+        this.direction = EntityDirection.DOWN;
     }
 
     public void getPlayerImage() {
@@ -63,13 +64,13 @@ public class Player extends Entity {
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed) {
 
             if (keyHandler.upPressed) {
-                this.direction = "up";
+                this.direction = EntityDirection.UP;
             } else if (keyHandler.downPressed) {
-                this.direction = "down";
+                this.direction = EntityDirection.DOWN;
             } else if (keyHandler.rightPressed) {
-                this.direction = "right";
+                this.direction = EntityDirection.RIGHT;
             } else {
-                this.direction = "left";
+                this.direction = EntityDirection.LEFT;
             }
 
             collisionOn = false;
@@ -79,10 +80,10 @@ public class Player extends Entity {
 
             if (!collisionOn) {
                 switch (this.direction) {
-                    case "up" -> this.worldY -= speed;
-                    case "down" -> this.worldY += speed;
-                    case "left" -> this.worldX -= speed;
-                    case "right" -> this.worldX += speed;
+                    case UP -> this.worldY -= speed;
+                    case DOWN -> this.worldY += speed;
+                    case LEFT -> this.worldX -= speed;
+                    case RIGHT -> this.worldX += speed;
                 }
             }
 
@@ -101,14 +102,13 @@ public class Player extends Entity {
         if (index == -1) {
             return;
         }
-        String objectName = gamePanel.objects[index].name;
-        System.out.println(objectName);
-        switch (objectName) {
-            case "Key" -> {
+        ObjectLabel objectLabel = gamePanel.objects[index].name;
+        switch (objectLabel) {
+            case KEY -> {
                 hasKey++;
                 gamePanel.objects[index] = null;
             }
-            case "Door" -> {
+            case DOOR -> {
                 if (hasKey > 0) {
                     gamePanel.objects[index] = null;
                     hasKey--;
@@ -121,19 +121,19 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "up" -> {
+            case UP -> {
                 if (this.spriteNumber == 1) image = up1;
                 if (this.spriteNumber == 2) image = up2;
             }
-            case "down" -> {
+            case DOWN -> {
                 if (this.spriteNumber == 1) image = down1;
                 if (this.spriteNumber == 2) image = down2;
             }
-            case "right" -> {
+            case RIGHT -> {
                 if (this.spriteNumber == 1) image = right1;
                 if (this.spriteNumber == 2) image = right2;
             }
-            case "left" -> {
+            case LEFT -> {
                 if (this.spriteNumber == 1) image = left1;
                 if (this.spriteNumber == 2) image = left2;
             }

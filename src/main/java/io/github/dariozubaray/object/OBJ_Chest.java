@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 public class OBJ_Chest extends SuperObject {
 
     public OBJ_Chest() {
-        this.name = "Chest";
+        this.name = ObjectLabel.CHEST;
 
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png"));
