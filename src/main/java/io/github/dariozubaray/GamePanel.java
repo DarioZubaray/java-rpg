@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    //Screen Settings
     final int ORIGINAL_TILE_SIZE = 16;
     final int SCALE = 3;
 
@@ -24,8 +23,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int MAX_WORLD_COL = 50;
     public final int MAX_WORLD_ROW = 50;
-    public final int WORLD_WIDTH = TILE_SIZE * MAX_WORLD_COL;
-    public final int WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
     final int FPS = 60;
 

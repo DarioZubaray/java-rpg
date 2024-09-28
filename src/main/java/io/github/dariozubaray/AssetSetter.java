@@ -1,5 +1,6 @@
 package io.github.dariozubaray;
 
+import io.github.dariozubaray.object.OBJ_Boot;
 import io.github.dariozubaray.object.OBJ_Chest;
 import io.github.dariozubaray.object.OBJ_Door;
 import io.github.dariozubaray.object.OBJ_Key;
@@ -37,5 +38,8 @@ public class AssetSetter {
         gamePanel.objects[6].worldX = 10 * gamePanel.TILE_SIZE;
         gamePanel.objects[6].worldY = 7 * gamePanel.TILE_SIZE;
 
+        gamePanel.objects[7] = new OBJ_Boot();
+        gamePanel.objects[7].worldX = 36 * gamePanel.TILE_SIZE;
+        gamePanel.objects[7].worldY = 41 * gamePanel.TILE_SIZE;
     }
 }

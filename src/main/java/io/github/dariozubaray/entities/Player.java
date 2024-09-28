@@ -114,6 +114,10 @@ public class Player extends Entity {
                     hasKey--;
                 }
             }
+            case BOOT -> {
+                gamePanel.objects[index] = null;
+                speed += 2;
+            }
         }
 
     }
