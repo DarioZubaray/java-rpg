@@ -5,16 +5,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-public class Sound {
-
+public class Music {
     Clip clip;
     URL[] soundURL = new URL[30];
 
-    public Sound() {
-        soundURL[0] = getClass().getResource("/sound/coin.wav");
-        soundURL[1] = getClass().getResource("/sound/powerup.wav");
-        soundURL[2] = getClass().getResource("/sound/unlock.wav");
-        soundURL[3] = getClass().getResource("/sound/fanfare.wav");
+    public Music() {
+        soundURL[0] = getClass().getResource("/sound/BlueBoyAdventure.wav");
     }
 
     public void setFile(int i) {
