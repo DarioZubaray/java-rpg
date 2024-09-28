@@ -1,5 +1,6 @@
 package io.github.dariozubaray;
 
+import static io.github.dariozubaray.Music.MAIN_MUSIC_INDEX;
 import io.github.dariozubaray.entities.Player;
 import io.github.dariozubaray.object.SuperObject;
 import io.github.dariozubaray.tiles.TileManager;
@@ -57,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         assetSetter.setObject();
-        playMusic(0);
+        playMusic(MAIN_MUSIC_INDEX);
     }
 
     public void startGameThread() {

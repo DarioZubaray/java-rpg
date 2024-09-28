@@ -8,6 +8,7 @@ import javax.sound.sampled.Clip;
 public class Music {
     Clip clip;
     URL[] soundURL = new URL[30];
+    public static final int MAIN_MUSIC_INDEX = 0;
 
     public Music() {
         soundURL[0] = getClass().getResource("/sound/BlueBoyAdventure.wav");
