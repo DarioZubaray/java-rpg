@@ -100,16 +100,19 @@ public class Player extends Entity {
         ObjectLabel objectLabel = gamePanel.objects[index].name;
         switch (objectLabel) {
             case KEY -> {
+                gamePanel.playSoundEffect(1);
                 hasKey++;
                 gamePanel.objects[index] = null;
             }
             case DOOR -> {
                 if (hasKey > 0) {
+                    gamePanel.playSoundEffect(3);
                     gamePanel.objects[index] = null;
                     hasKey--;
                 }
             }
             case BOOT -> {
+                gamePanel.playSoundEffect(2);
                 gamePanel.objects[index] = null;
                 speed += 2;
             }
