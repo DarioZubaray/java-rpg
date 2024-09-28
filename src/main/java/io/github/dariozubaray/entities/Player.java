@@ -1,14 +1,13 @@
 package io.github.dariozubaray.entities;
 
 import io.github.dariozubaray.GamePanel;
+import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
 import io.github.dariozubaray.object.ObjectLabel;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class Player extends Entity {
 
@@ -46,18 +45,14 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        up1 = ImageLoader.loadSprite("/player/boy_up_1.png");
+        up2 = ImageLoader.loadSprite("/player/boy_up_2.png");
+        down1 = ImageLoader.loadSprite("/player/boy_down_1.png");
+        down2 = ImageLoader.loadSprite("/player/boy_down_2.png");
+        right1 = ImageLoader.loadSprite("/player/boy_right_1.png");
+        right2 = ImageLoader.loadSprite("/player/boy_right_2.png");
+        left1 = ImageLoader.loadSprite("/player/boy_left_1.png");
+        left2 = ImageLoader.loadSprite("/player/boy_left_2.png");
     }
 
     public void update() {

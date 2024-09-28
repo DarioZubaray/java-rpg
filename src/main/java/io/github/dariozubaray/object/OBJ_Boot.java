@@ -1,17 +1,11 @@
 package io.github.dariozubaray.object;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import io.github.dariozubaray.ImageLoader;
 
 public class OBJ_Boot extends SuperObject {
 
     public OBJ_Boot() {
         this.name = ObjectLabel.BOOT;
-
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/boots.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.image = ImageLoader.loadSprite("/objects/boots.png");
     }
 }

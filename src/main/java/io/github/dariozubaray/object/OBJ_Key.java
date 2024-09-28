@@ -1,18 +1,12 @@
 package io.github.dariozubaray.object;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import io.github.dariozubaray.ImageLoader;
 
 public class OBJ_Key extends SuperObject {
 
     public OBJ_Key() {
         this.name = ObjectLabel.KEY;
-
-        try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/key.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.image = ImageLoader.loadSprite("/objects/key.png");
     }
 }
 

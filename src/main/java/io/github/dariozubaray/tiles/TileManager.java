@@ -1,13 +1,13 @@
 package io.github.dariozubaray.tiles;
 
 import io.github.dariozubaray.GamePanel;
+import io.github.dariozubaray.ImageLoader;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import javax.imageio.ImageIO;
 
 public class TileManager {
 
@@ -24,30 +24,26 @@ public class TileManager {
     }
 
     public void getTilesImage() {
-        try {
-            this.tiles[0] = new Tile();
-            this.tiles[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
+        this.tiles[0] = new Tile();
+        this.tiles[0].image = ImageLoader.loadSprite("/tiles/grass.png");
 
-            this.tiles[1] = new Tile();
-            this.tiles[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
-            this.tiles[1].collision = true;
+        this.tiles[1] = new Tile();
+        this.tiles[1].image = ImageLoader.loadSprite("/tiles/wall.png");
+        this.tiles[1].collision = true;
 
-            this.tiles[2] = new Tile();
-            this.tiles[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
-            this.tiles[2].collision = true;
+        this.tiles[2] = new Tile();
+        this.tiles[2].image = ImageLoader.loadSprite("/tiles/water.png");
+        this.tiles[2].collision = true;
 
-            this.tiles[3] = new Tile();
-            this.tiles[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+        this.tiles[3] = new Tile();
+        this.tiles[3].image = ImageLoader.loadSprite("/tiles/earth.png");
 
-            this.tiles[4] = new Tile();
-            this.tiles[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
-            this.tiles[4].collision = true;
+        this.tiles[4] = new Tile();
+        this.tiles[4].image = ImageLoader.loadSprite("/tiles/tree.png");
+        this.tiles[4].collision = true;
 
-            this.tiles[5] = new Tile();
-            this.tiles[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/sand.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.tiles[5] = new Tile();
+        this.tiles[5].image = ImageLoader.loadSprite("/tiles/sand.png");
     }
 
     public void loadMap() {
