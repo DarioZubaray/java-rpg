@@ -120,6 +120,11 @@ public class Player extends Entity {
                 gamePanel.objects[index] = null;
                 speed += 2;
             }
+            case CHEST -> {
+                gamePanel.ui.gameFinished = true;
+                gamePanel.stopMusic();
+                gamePanel.playSoundEffect(3);
+            }
         }
 
     }
