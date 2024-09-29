@@ -16,7 +16,7 @@ public class Player extends Entity {
 
     public final int SCREEN_X;
     public final int SCREEN_Y;
-    int hasKey = 0;
+    public int hasKey = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -103,12 +103,16 @@ public class Player extends Entity {
                 gamePanel.playSoundEffect(objectLabel.getAudioIndex());
                 hasKey++;
                 gamePanel.objects[index] = null;
+                gamePanel.ui.showMessage("You get a key!");
             }
             case DOOR -> {
                 if (hasKey > 0) {
                     gamePanel.playSoundEffect(objectLabel.getAudioIndex());
                     gamePanel.objects[index] = null;
                     hasKey--;
+                    gamePanel.ui.showMessage("You opened the door!");
+                } else {
+                    gamePanel.ui.showMessage("You need a key!");
                 }
             }
             case BOOT -> {

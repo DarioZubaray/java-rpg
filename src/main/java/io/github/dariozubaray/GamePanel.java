@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileManager;
     Music music;
     Sound sound;
+    public UI ui;
     public CollisionChecker collisionChecker;
     public SuperObject[] objects;
     public AssetSetter assetSetter;
@@ -50,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.tileManager = new TileManager(this);
         music = new Music();
         sound = new Sound();
+        ui = new UI(this);
         this.collisionChecker = new CollisionChecker(this);
         this.objects = new SuperObject[10];
         this.assetSetter = new AssetSetter(this);
@@ -117,6 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         this.player.draw(g2);
+        this.ui.draw(g2);
         g2.dispose();
     }
 
