@@ -25,25 +25,25 @@ public class TileManager {
 
     public void getTilesImage() {
         this.tiles[0] = new Tile();
-        this.tiles[0].image = ImageLoader.loadSprite("/tiles/grass.png");
+        this.tiles[0].image = ImageLoader.loadSprite("/tiles/grass.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
 
         this.tiles[1] = new Tile();
-        this.tiles[1].image = ImageLoader.loadSprite("/tiles/wall.png");
+        this.tiles[1].image = ImageLoader.loadSprite("/tiles/wall.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         this.tiles[1].collision = true;
 
         this.tiles[2] = new Tile();
-        this.tiles[2].image = ImageLoader.loadSprite("/tiles/water.png");
+        this.tiles[2].image = ImageLoader.loadSprite("/tiles/water.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         this.tiles[2].collision = true;
 
         this.tiles[3] = new Tile();
-        this.tiles[3].image = ImageLoader.loadSprite("/tiles/earth.png");
+        this.tiles[3].image = ImageLoader.loadSprite("/tiles/earth.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
 
         this.tiles[4] = new Tile();
-        this.tiles[4].image = ImageLoader.loadSprite("/tiles/tree.png");
+        this.tiles[4].image = ImageLoader.loadSprite("/tiles/tree.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         this.tiles[4].collision = true;
 
         this.tiles[5] = new Tile();
-        this.tiles[5].image = ImageLoader.loadSprite("/tiles/sand.png");
+        this.tiles[5].image = ImageLoader.loadSprite("/tiles/sand.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 
     public void loadMap() {
@@ -95,7 +95,7 @@ public class TileManager {
                     (worldY - gamePanel.TILE_SIZE < gamePanel.player.worldY + gamePanel.player.SCREEN_Y);
 
             if (isWithinXBounds && isWithinYBounds) {
-                g2.drawImage(image, screenX, screenY, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, null);
+                g2.drawImage(image, screenX, screenY, null);
             }
             worldCol++;
 

@@ -48,14 +48,14 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        up1 = ImageLoader.loadSprite("/player/boy_up_1.png");
-        up2 = ImageLoader.loadSprite("/player/boy_up_2.png");
-        down1 = ImageLoader.loadSprite("/player/boy_down_1.png");
-        down2 = ImageLoader.loadSprite("/player/boy_down_2.png");
-        right1 = ImageLoader.loadSprite("/player/boy_right_1.png");
-        right2 = ImageLoader.loadSprite("/player/boy_right_2.png");
-        left1 = ImageLoader.loadSprite("/player/boy_left_1.png");
-        left2 = ImageLoader.loadSprite("/player/boy_left_2.png");
+        up1 = ImageLoader.loadSprite("/player/boy_up_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        up2 = ImageLoader.loadSprite("/player/boy_up_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        down1 = ImageLoader.loadSprite("/player/boy_down_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        down2 = ImageLoader.loadSprite("/player/boy_down_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        right1 = ImageLoader.loadSprite("/player/boy_right_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        right2 = ImageLoader.loadSprite("/player/boy_right_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        left1 = ImageLoader.loadSprite("/player/boy_left_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        left2 = ImageLoader.loadSprite("/player/boy_left_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 
     public void update() {
@@ -170,7 +170,7 @@ public class Player extends Entity {
             }
         }
 
-        g2.drawImage(image, this.SCREEN_X, this.SCREEN_Y, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, null);
+        g2.drawImage(image, this.SCREEN_X, this.SCREEN_Y, null);
         if (keyHandler.debugMode) {
             g2.setColor(Color.RED);
             g2.drawRect(this.SCREEN_X + solidArea.x, this.SCREEN_Y + solidArea.y, solidArea.width, solidArea.height);

@@ -25,7 +25,7 @@ public class SuperObject {
                 (worldY - gamePanel.TILE_SIZE < gamePanel.player.worldY + gamePanel.player.SCREEN_Y);
 
         if (isWithinXBounds && isWithinYBounds) {
-            g2.drawImage(image, screenX, screenY, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, null);
+            g2.drawImage(image, screenX, screenY, null);
         }
     }
 }

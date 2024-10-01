@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Arrays;
 import java.util.Objects;
 import javax.swing.JPanel;
 
@@ -107,19 +108,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
+
+        long drawStart = 0;
+        if(keyHandler.debugMode) {
+            drawStart = System.nanoTime();
+        }
 
         this.tileManager.draw(g2);
 
-        for (SuperObject object : objects) {
-            if (Objects.nonNull(object)) {
-                object.draw(g2, this);
-            }
-        }
+        Arrays.stream(objects).filter(Objects::nonNull).forEach(object -> object.draw(g2, this));
 
         this.player.draw(g2);
         this.ui.draw(g2);
+        if(keyHandler.debugMode) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.RED);
+            g2.drawString("DrawTime: " + passed, 400, 550);
+            System.out.println("DrawTime: " + passed);
+        }
         g2.dispose();
     }
 
