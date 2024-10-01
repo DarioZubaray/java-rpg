@@ -128,7 +128,6 @@ public class CollisionChecker {
                 gamePanel.objects[i].solidArea.y = gamePanel.objects[i].solidAreaDefaultY;
             }
         }
-
         return index;
     }
 }

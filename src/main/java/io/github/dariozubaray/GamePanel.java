@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    final int ORIGINAL_TILE_SIZE = 16;
-    final int SCALE = 3;
+    public final int ORIGINAL_TILE_SIZE = 16;
+    public final int SCALE = 3;
 
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
     public final int MAX_SCREEN_COL = 16;
@@ -25,7 +25,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int MAX_WORLD_COL = 50;
     public final int MAX_WORLD_ROW = 50;
 
-    final int FPS = 60;
+    public final int FPS = 60;
+    public int drawnFrames;
 
     Thread gameThread;
     KeyHandler keyHandler;
@@ -51,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.tileManager = new TileManager(this);
         music = new Music();
         sound = new Sound();
-        ui = new UI(this);
+        ui = new UI(this, keyHandler);
         this.collisionChecker = new CollisionChecker(this);
         this.objects = new SuperObject[10];
         this.assetSetter = new AssetSetter(this);
@@ -70,7 +71,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-
         double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+                drawnFrames = drawCount;
                 drawCount = 0;
                 timer = 0;
             }

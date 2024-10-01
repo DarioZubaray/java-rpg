@@ -5,6 +5,7 @@ import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
 import io.github.dariozubaray.object.ObjectLabel;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,8 @@ public class Player extends Entity {
     public final int SCREEN_X;
     public final int SCREEN_Y;
     public int hasKey = 0;
+
+    int standCounter = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -56,44 +59,33 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed) {
-
-            if (keyHandler.upPressed) {
-                this.direction = EntityDirection.UP;
-            } else if (keyHandler.downPressed) {
-                this.direction = EntityDirection.DOWN;
-            } else if (keyHandler.rightPressed) {
-                this.direction = EntityDirection.RIGHT;
-            } else {
-                this.direction = EntityDirection.LEFT;
-            }
-
+        if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed) {
+            setDirection();
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
             int objectIndex = gamePanel.collisionChecker.checkObject(this, true);
             pickUpObject(objectIndex);
 
-            if (!collisionOn) {
-                switch (this.direction) {
-                    case UP -> this.worldY -= speed;
-                    case DOWN -> this.worldY += speed;
-                    case LEFT -> this.worldX -= speed;
-                    case RIGHT -> this.worldX += speed;
-                }
-            }
-
-            spriteCounter++;
-            if (spriteCounter > 15) {
-                if(spriteNumber == 1) spriteNumber = 2;
-                else if (spriteNumber == 2) spriteNumber = 1;
-
-                spriteCounter = 0;
-            }
-
+            movePlayer();
+            invertSprites();
+        } else {
+            setStandUp();
         }
     }
 
-    public void pickUpObject(int index) {
+    private void setDirection() {
+        if (keyHandler.upPressed) {
+            this.direction = EntityDirection.UP;
+        } else if (keyHandler.downPressed) {
+            this.direction = EntityDirection.DOWN;
+        } else if (keyHandler.rightPressed) {
+            this.direction = EntityDirection.RIGHT;
+        } else {
+            this.direction = EntityDirection.LEFT;
+        }
+    }
+
+    private void pickUpObject(int index) {
         if (index == -1) {
             return;
         }
@@ -126,7 +118,35 @@ public class Player extends Entity {
                 gamePanel.playSoundEffect(3);
             }
         }
+    }
 
+    private void setStandUp() {
+        standCounter++;
+        if (standCounter >= 60) {
+            standCounter = 0;
+            spriteNumber = 1;
+        }
+    }
+
+    private void movePlayer() {
+        if (!collisionOn) {
+            switch (this.direction) {
+                case UP -> this.worldY -= speed;
+                case DOWN -> this.worldY += speed;
+                case LEFT -> this.worldX -= speed;
+                case RIGHT -> this.worldX += speed;
+            }
+        }
+    }
+
+    private void invertSprites() {
+        spriteCounter++;
+        if (spriteCounter > 15) {
+            if (spriteNumber == 1) spriteNumber = 2;
+            else if (spriteNumber == 2) spriteNumber = 1;
+
+            spriteCounter = 0;
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -151,5 +171,9 @@ public class Player extends Entity {
         }
 
         g2.drawImage(image, this.SCREEN_X, this.SCREEN_Y, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, null);
+        if (keyHandler.debugMode) {
+            g2.setColor(Color.RED);
+            g2.drawRect(this.SCREEN_X + solidArea.x, this.SCREEN_Y + solidArea.y, solidArea.width, solidArea.height);
+        }
     }
 }

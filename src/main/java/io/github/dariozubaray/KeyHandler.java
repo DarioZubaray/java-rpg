@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 public class KeyHandler implements KeyListener {
 
     public boolean upPressed, downPressed, rightPressed, leftPressed;
+    public boolean debugMode;
 
     @Override
     public void keyTyped(KeyEvent e) {}
@@ -24,6 +25,10 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_A) {
             leftPressed = true;
+        }
+
+        if(code == KeyEvent.VK_F3) {
+            debugMode = !debugMode;
         }
     }
 
