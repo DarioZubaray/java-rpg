@@ -29,6 +29,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int FPS = 60;
     public int drawnFrames;
 
+    public int gameState;
+    public int gameStarted = 0;
+    public int pausedGame = 1;
+
     Thread gameThread;
     KeyHandler keyHandler;
     TileManager tileManager;
@@ -46,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
-        this.keyHandler = new KeyHandler();
+        this.keyHandler = new KeyHandler(this);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
@@ -63,6 +67,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         assetSetter.setObject();
         playMusic(MAIN_MUSIC_INDEX);
+
+        this.gameState = this.gameStarted;
     }
 
     public void startGameThread() {
@@ -121,12 +127,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.player.draw(g2);
         this.ui.draw(g2);
-        if(keyHandler.debugMode) {
+        if(keyHandler.debugMode && gameState == gameStarted) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
-            g2.setColor(Color.RED);
+            g2.setColor(Color.WHITE);
             g2.drawString("DrawTime: " + passed, 400, 550);
-            System.out.println("DrawTime: " + passed);
         }
         g2.dispose();
     }
