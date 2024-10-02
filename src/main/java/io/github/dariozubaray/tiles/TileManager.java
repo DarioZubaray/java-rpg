@@ -17,33 +17,66 @@ public class TileManager {
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tiles = new Tile[10];
-        mapTileNum = new int[gamePanel.MAX_WORLD_COL][gamePanel.MAX_WORLD_ROW];
+        this.tiles = new Tile[50];
+        this.mapTileNum = new int[gamePanel.MAX_WORLD_COL][gamePanel.MAX_WORLD_ROW];
         getTilesImage();
         loadMap();
     }
 
     public void getTilesImage() {
-        this.tiles[0] = new Tile();
-        this.tiles[0].image = ImageLoader.loadSprite("/tiles/grass.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        setupTiles(0, "grass00", false);
+        setupTiles(1, "grass00", false);
+        setupTiles(2, "grass00", false);
+        setupTiles(3, "grass00", false);
+        setupTiles(4, "grass00", false);
+        setupTiles(5, "grass00", false);
+        setupTiles(6, "grass00", false);
+        setupTiles(7, "grass00", false);
+        setupTiles(8, "grass00", false);
+        setupTiles(9, "grass00", false);
 
-        this.tiles[1] = new Tile();
-        this.tiles[1].image = ImageLoader.loadSprite("/tiles/wall.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
-        this.tiles[1].collision = true;
+        setupTiles(10, "grass00", false);
+        setupTiles(11, "grass01", false);
+        setupTiles(12, "water00", true);
+        setupTiles(13, "water01", true);
+        setupTiles(14, "water02", true);
+        setupTiles(15, "water03", true);
+        setupTiles(16, "water04", true);
+        setupTiles(17, "water05", true);
+        setupTiles(18, "water06", true);
+        setupTiles(19, "water07", true);
 
-        this.tiles[2] = new Tile();
-        this.tiles[2].image = ImageLoader.loadSprite("/tiles/water.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
-        this.tiles[2].collision = true;
+        setupTiles(20, "water08", true);
+        setupTiles(21, "water09", true);
+        setupTiles(22, "water10", true);
+        setupTiles(23, "water11", true);
+        setupTiles(24, "water12", true);
+        setupTiles(25, "water13", true);
+        setupTiles(26, "road00", false);
+        setupTiles(27, "road01", false);
+        setupTiles(28, "road02", false);
+        setupTiles(29, "road03", false);
 
-        this.tiles[3] = new Tile();
-        this.tiles[3].image = ImageLoader.loadSprite("/tiles/earth.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        setupTiles(30, "road04", false);
+        setupTiles(31, "road05", false);
+        setupTiles(32, "road06", false);
+        setupTiles(33, "road07", false);
+        setupTiles(34, "road08", false);
+        setupTiles(35, "road09", false);
+        setupTiles(36, "road10", false);
+        setupTiles(37, "road11", false);
+        setupTiles(38, "road12", false);
+        setupTiles(39, "earth", false);
 
-        this.tiles[4] = new Tile();
-        this.tiles[4].image = ImageLoader.loadSprite("/tiles/tree.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
-        this.tiles[4].collision = true;
 
-        this.tiles[5] = new Tile();
-        this.tiles[5].image = ImageLoader.loadSprite("/tiles/sand.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        setupTiles(40, "wall", true);
+        setupTiles(41, "tree", true);
+    }
+
+    public void setupTiles(int index, String name, boolean collisionable){
+        this.tiles[index] = new Tile();
+        this.tiles[index].image = ImageLoader.loadSprite("/tiles/"+name+".png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.tiles[index].collision = collisionable;
     }
 
     public void loadMap() {
@@ -51,7 +84,7 @@ public class TileManager {
         int col = 0;
         int row = 0;
 
-        try (InputStream is = getClass().getResourceAsStream("/maps/world01.txt");
+        try (InputStream is = getClass().getResourceAsStream("/maps/world01-v2.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 
             while (col < gamePanel.MAX_WORLD_COL && row < gamePanel.MAX_WORLD_ROW) {
