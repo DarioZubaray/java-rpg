@@ -24,16 +24,16 @@ public class TileManager {
     }
 
     public void getTilesImage() {
-        setupTiles(0, "grass00", false);
-        setupTiles(1, "grass00", false);
-        setupTiles(2, "grass00", false);
-        setupTiles(3, "grass00", false);
-        setupTiles(4, "grass00", false);
-        setupTiles(5, "grass00", false);
-        setupTiles(6, "grass00", false);
-        setupTiles(7, "grass00", false);
-        setupTiles(8, "grass00", false);
-        setupTiles(9, "grass00", false);
+        setupTiles(0, "placeholder", false);
+        setupTiles(1, "placeholder", false);
+        setupTiles(2, "placeholder", false);
+        setupTiles(3, "placeholder", false);
+        setupTiles(4, "placeholder", false);
+        setupTiles(5, "placeholder", false);
+        setupTiles(6, "placeholder", false);
+        setupTiles(7, "placeholder", false);
+        setupTiles(8, "placeholder", false);
+        setupTiles(9, "placeholder", false);
 
         setupTiles(10, "grass00", false);
         setupTiles(11, "grass01", false);
@@ -67,7 +67,6 @@ public class TileManager {
         setupTiles(37, "road11", false);
         setupTiles(38, "road12", false);
         setupTiles(39, "earth", false);
-
 
         setupTiles(40, "wall", true);
         setupTiles(41, "tree", true);
