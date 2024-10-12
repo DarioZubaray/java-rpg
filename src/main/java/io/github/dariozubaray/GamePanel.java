@@ -1,6 +1,7 @@
 package io.github.dariozubaray;
 
 import static io.github.dariozubaray.Music.MAIN_MUSIC_INDEX;
+import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.Player;
 import io.github.dariozubaray.object.SuperObject;
 import io.github.dariozubaray.tiles.TileManager;
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui;
     public CollisionChecker collisionChecker;
     public SuperObject[] objects;
+    public Entity[] npcs;
     public AssetSetter assetSetter;
     public Player player;
 
@@ -62,12 +64,14 @@ public class GamePanel extends JPanel implements Runnable {
         ui = new UI(this, keyHandler);
         this.collisionChecker = new CollisionChecker(this);
         this.objects = new SuperObject[10];
+        this.npcs = new Entity[10];
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
     }
 
     public void setupGame() {
         assetSetter.setObject();
+        assetSetter.setNpc();
         playMusic(MAIN_MUSIC_INDEX);
 
         this.gameState = this.gameStarted;
@@ -126,6 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.tileManager.draw(g2);
 
         Arrays.stream(objects).filter(Objects::nonNull).forEach(object -> object.draw(g2, this));
+        Arrays.stream(npcs).filter(Objects::nonNull).forEach(object -> object.draw(g2));
 
         this.player.draw(g2);
         this.ui.draw(g2);

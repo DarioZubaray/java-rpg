@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
 
-    GamePanel gamePanel;
     KeyHandler keyHandler;
 
     public final int SCREEN_X;
@@ -22,7 +21,7 @@ public class Player extends Entity {
     int standCounter = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        this.gamePanel = gamePanel;
+        super(gamePanel);
         this.keyHandler = keyHandler;
 
         SCREEN_X = (gamePanel.SCREEN_WIDTH /2) - (gamePanel.TILE_SIZE /2);
