@@ -129,7 +129,8 @@ public class Player extends Entity {
             return;
         }
 
-        System.out.println("NPC is being hiting!!");
+        gamePanel.gameState = gamePanel.dialogueState;
+        gamePanel.npcs[index].speak();
     }
 
     private void setStandUp() {

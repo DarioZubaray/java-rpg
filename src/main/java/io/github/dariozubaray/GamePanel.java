@@ -33,8 +33,9 @@ public class GamePanel extends JPanel implements Runnable {
     public int drawnFrames;
 
     public int gameState;
-    public int gameStarted = 0;
-    public int pausedGame = 1;
+    public int playState = 0;
+    public int pauseState = 1;
+    public int dialogueState = 2;
 
     Thread gameThread;
     KeyHandler keyHandler;
@@ -74,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setNpc();
         playMusic(MAIN_MUSIC_INDEX);
 
-        this.gameState = this.gameStarted;
+        this.gameState = this.playState;
     }
 
     public void startGameThread() {
@@ -115,10 +116,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if(gameState == gameStarted) {
+        if(gameState == playState) {
             player.update();
 
-            Arrays.stream(npcs).filter(Objects::nonNull).forEach(npc -> npc.update());
+            Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
         }
     }
 
@@ -138,7 +139,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.player.draw(g2);
         this.ui.draw(g2);
-        if(keyHandler.debugMode && gameState == gameStarted) {
+        if(keyHandler.debugMode && gameState == playState) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
             g2.setColor(Color.WHITE);

@@ -1,5 +1,6 @@
 package io.github.dariozubaray;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -15,6 +16,7 @@ public class UI {
     public boolean gameFinished;
     double playTime;
     DecimalFormat decimalFormat;
+    public String currentDialogue;
 
     public UI(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -32,9 +34,13 @@ public class UI {
         g2.setFont(arial40Plain);
         g2.setColor(Color.WHITE);
 
-        if(gamePanel.gameState == gamePanel.pausedGame) {
-            String pausedText = "P A U S E D";
-            drawCenteredText(g2, pausedText, 0);
+        if(gamePanel.gameState == gamePanel.pauseState) {
+            drawPauseScreen(g2);
+            return;
+        }
+
+        if(gamePanel.gameState == gamePanel.dialogueState) {
+            drawDialogueScreen(g2);
             return;
         }
 
@@ -57,5 +63,34 @@ public class UI {
 
     private void drawText(Graphics2D g2, String text, int x, int y) {
         g2.drawString(text, x, y);
+    }
+
+    private void drawPauseScreen(Graphics2D g2) {
+        String pauseText = "P A U S E D";
+        drawCenteredText(g2, pauseText, 0);
+    }
+
+    private void drawDialogueScreen(Graphics2D g2) {
+        int x = gamePanel.TILE_SIZE * 2;
+        int y = gamePanel.TILE_SIZE / 2;
+        int width = gamePanel.SCREEN_WIDTH - (gamePanel.TILE_SIZE * 4);
+        int height = gamePanel.TILE_SIZE * 4;
+        drawSubWindow(g2, x, y, width, height);
+
+        x += gamePanel.TILE_SIZE;
+        y += gamePanel.TILE_SIZE;
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32));
+        g2.drawString(currentDialogue, x, y);
+    }
+
+    private void drawSubWindow(Graphics2D g2, int x, int y, int width, int height) {
+        Color background = new Color(0, 0, 0,180);
+        g2.setColor(background);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        Color whiteBorder = new Color(255, 255, 255);
+        g2.setColor(whiteBorder);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
     }
 }

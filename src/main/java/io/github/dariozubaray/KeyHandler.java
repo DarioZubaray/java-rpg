@@ -21,10 +21,16 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(code == KeyEvent.VK_ESCAPE) {
-            if(gamePanel.gameState == gamePanel.gameStarted) gamePanel.gameState = gamePanel.pausedGame;
-            else gamePanel.gameState = gamePanel.gameStarted;
+            if(gamePanel.gameState == gamePanel.playState) gamePanel.gameState = gamePanel.pauseState;
+            else gamePanel.gameState = gamePanel.playState;
         }
-        if(gamePanel.gameState == gamePanel.pausedGame) return;
+        if(gamePanel.gameState == gamePanel.pauseState) return;
+
+        if(gamePanel.gameState == gamePanel.dialogueState) {
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.gameState = gamePanel.playState;
+            }
+        }
 
         if(code == KeyEvent.VK_W) {
             upPressed = true;

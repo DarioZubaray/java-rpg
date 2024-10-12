@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class NPC_OldMan extends Entity {
 
+    int maxDialogueIndex;
+
     public NPC_OldMan(GamePanel gamePanel) {
         super(gamePanel);
 
@@ -13,6 +15,15 @@ public class NPC_OldMan extends Entity {
         this.speed = 1;
 
         getOldManImage();
+        serDialogue();
+    }
+
+    public void serDialogue() {
+        dialogues[0] = "Hello, lad.";
+        dialogues[1] = "So you've come to this island to find the treasure?.";
+        dialogues[2] = "I used to be a great wizard but now... I'm a bit too old for taking an adventure.";
+        dialogues[3] = "Well, good luck on you.";
+        maxDialogueIndex = 3;
     }
 
     @Override
@@ -32,11 +43,26 @@ public class NPC_OldMan extends Entity {
             if (i > 50 && i <= 75) {
                 this.direction = EntityDirection.LEFT;
             }
-            if (i > 75 && i <= 100) {
+            if (i > 75) {
                 this.direction = EntityDirection.RIGHT;
             }
 
             actionLockCounter = 0;
+        }
+    }
+
+    @Override
+    public void speak() {
+        gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
+        if (dialogueIndex < maxDialogueIndex) {
+            dialogueIndex++;
+        }
+
+        switch (gamePanel.player.direction) {
+            case UP -> direction = EntityDirection.DOWN;
+            case DOWN -> direction = EntityDirection.UP;
+            case LEFT -> direction = EntityDirection.RIGHT;
+            case RIGHT -> direction = EntityDirection.LEFT;
         }
     }
 

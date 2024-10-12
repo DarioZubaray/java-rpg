@@ -17,13 +17,18 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn;
     public int actionLockCounter;
+    String[] dialogues;
+    int dialogueIndex;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.solidArea = new Rectangle(0, 0, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.dialogues = new String[20];
     }
 
     public void setAction() {}
+
+    public void speak() {}
 
     public void update() {
         setAction();
