@@ -121,6 +121,14 @@ public class TileManager {
             int screenX = worldX - gamePanel.player.worldX + gamePanel.player.SCREEN_X;
             int screenY = worldY - gamePanel.player.worldY + gamePanel.player.SCREEN_Y;
 
+            //Stop moving camera at the edge
+            if(gamePanel.player.SCREEN_X > gamePanel.player.worldX) screenX = worldX;
+            if(gamePanel.player.SCREEN_Y > gamePanel.player.worldY) screenY = worldY;
+            int rightOffset = gamePanel.SCREEN_WIDTH - gamePanel.player.SCREEN_X;
+            if(rightOffset > gamePanel.WORLD_WIDTH - gamePanel.player.worldX) screenX = gamePanel.SCREEN_WIDTH - gamePanel.WORLD_WIDTH - worldX;
+            int bottomOffset = gamePanel.SCREEN_HEIGHT - gamePanel.player.SCREEN_Y;
+            if(bottomOffset > gamePanel.WORLD_HEIGHT - gamePanel.player.worldY) screenY = gamePanel.SCREEN_HEIGHT - gamePanel.WORLD_HEIGHT - worldY;
+
             boolean isWithinXBounds = (worldX + gamePanel.TILE_SIZE > gamePanel.player.worldX - gamePanel.player.SCREEN_X) &&
                     (worldX - gamePanel.TILE_SIZE < gamePanel.player.worldX + gamePanel.player.SCREEN_X);
             boolean isWithinYBounds = (worldY + gamePanel.TILE_SIZE > gamePanel.player.worldY - gamePanel.player.SCREEN_Y) &&
@@ -128,7 +136,13 @@ public class TileManager {
 
             if (isWithinXBounds && isWithinYBounds) {
                 g2.drawImage(image, screenX, screenY, null);
+            } else if(gamePanel.player.SCREEN_X > gamePanel.player.worldX ||
+                    gamePanel.player.SCREEN_Y > gamePanel.player.worldY ||
+                    rightOffset > gamePanel.WORLD_WIDTH - gamePanel.player.worldX ||
+                    bottomOffset > gamePanel.WORLD_HEIGHT - gamePanel.player.worldY) {
+                g2.drawImage(image, screenX, screenY, null);
             }
+
             worldCol++;
 
             if (worldCol  == gamePanel.MAX_WORLD_COL) {

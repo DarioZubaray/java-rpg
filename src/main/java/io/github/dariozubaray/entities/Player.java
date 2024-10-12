@@ -169,8 +169,16 @@ public class Player extends Entity {
                 if (this.spriteNumber == 2) image = left2;
             }
         }
+        int x = SCREEN_X, y = SCREEN_Y;
+        if(SCREEN_X > worldX) x = worldX;
+        if(SCREEN_Y > worldY) y = worldY;
 
-        g2.drawImage(image, this.SCREEN_X, this.SCREEN_Y, null);
+        int rightOffset = gamePanel.SCREEN_WIDTH - SCREEN_X;
+        if(rightOffset > gamePanel.WORLD_WIDTH - worldX) x = gamePanel.SCREEN_WIDTH - gamePanel.WORLD_WIDTH - worldX;
+        int bottomOffset = gamePanel.SCREEN_HEIGHT - SCREEN_Y;
+        if(bottomOffset > gamePanel.WORLD_HEIGHT - worldY) y = gamePanel.SCREEN_HEIGHT - gamePanel.WORLD_HEIGHT - worldY;
+
+        g2.drawImage(image, x, y, null);
         if (keyHandler.debugMode) {
             g2.setColor(Color.RED);
             g2.drawRect(this.SCREEN_X + solidArea.x, this.SCREEN_Y + solidArea.y, solidArea.width, solidArea.height);

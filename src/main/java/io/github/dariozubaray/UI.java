@@ -1,7 +1,5 @@
 package io.github.dariozubaray;
 
-import io.github.dariozubaray.object.OBJ_Boot;
-import io.github.dariozubaray.object.OBJ_Key;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
