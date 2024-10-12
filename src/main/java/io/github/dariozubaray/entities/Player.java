@@ -57,13 +57,18 @@ public class Player extends Entity {
         left2 = ImageLoader.loadSprite("/player/boy_left_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 
+    @Override
     public void update() {
         if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed) {
             setDirection();
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
+
             int objectIndex = gamePanel.collisionChecker.checkObject(this, true);
             pickUpObject(objectIndex);
+
+            int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
+            interactNpc(npcIndex);
 
             movePlayer();
             invertSprites();
@@ -119,6 +124,14 @@ public class Player extends Entity {
         }
     }
 
+    private void interactNpc(int index) {
+        if (index == -1) {
+            return;
+        }
+
+        System.out.println("NPC is being hiting!!");
+    }
+
     private void setStandUp() {
         standCounter++;
         if (standCounter >= 60) {
@@ -148,6 +161,7 @@ public class Player extends Entity {
         }
     }
 
+    @Override
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {

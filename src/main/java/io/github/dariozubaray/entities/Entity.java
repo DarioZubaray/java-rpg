@@ -16,10 +16,45 @@ public class Entity {
     public Rectangle solidArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn;
+    public int actionLockCounter;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.solidArea = new Rectangle(0, 0, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+    }
+
+    public void setAction() {}
+
+    public void update() {
+        setAction();
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+        gamePanel.collisionChecker.checkObject(this, false);
+        gamePanel.collisionChecker.checkPlayer(this);
+
+        moveNPC();
+        invertSprites();
+    }
+
+    private void moveNPC() {
+        if (!collisionOn) {
+            switch (this.direction) {
+                case UP -> this.worldY -= speed;
+                case DOWN -> this.worldY += speed;
+                case LEFT -> this.worldX -= speed;
+                case RIGHT -> this.worldX += speed;
+            }
+        }
+    }
+
+    private void invertSprites() {
+        spriteCounter++;
+        if (spriteCounter > 15) {
+            if (spriteNumber == 1) spriteNumber = 2;
+            else if (spriteNumber == 2) spriteNumber = 1;
+
+            spriteCounter = 0;
+        }
     }
 
     public void draw(Graphics2D g2) {

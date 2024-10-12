@@ -2,6 +2,7 @@ package io.github.dariozubaray.entities;
 
 import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.ImageLoader;
+import java.util.Random;
 
 public class NPC_OldMan extends Entity {
 
@@ -12,6 +13,31 @@ public class NPC_OldMan extends Entity {
         this.speed = 1;
 
         getOldManImage();
+    }
+
+    @Override
+    public void setAction() {
+        actionLockCounter++;
+
+        if(actionLockCounter == 120) {
+            Random random = new Random();
+            int i = random.nextInt(100) + 1;
+
+            if (i <= 25) {
+                this.direction = EntityDirection.DOWN;
+            }
+            if (i > 25 && i <= 50) {
+                this.direction = EntityDirection.UP;
+            }
+            if (i > 50 && i <= 75) {
+                this.direction = EntityDirection.LEFT;
+            }
+            if (i > 75 && i <= 100) {
+                this.direction = EntityDirection.RIGHT;
+            }
+
+            actionLockCounter = 0;
+        }
     }
 
     public void getOldManImage() {

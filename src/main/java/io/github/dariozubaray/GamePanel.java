@@ -115,7 +115,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        if(gameState == gameStarted) {
+            player.update();
+
+            Arrays.stream(npcs).filter(Objects::nonNull).forEach(npc -> npc.update());
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -130,7 +134,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.tileManager.draw(g2);
 
         Arrays.stream(objects).filter(Objects::nonNull).forEach(object -> object.draw(g2, this));
-        Arrays.stream(npcs).filter(Objects::nonNull).forEach(object -> object.draw(g2));
+        Arrays.stream(npcs).filter(Objects::nonNull).forEach(npc -> npc.draw(g2));
 
         this.player.draw(g2);
         this.ui.draw(g2);
