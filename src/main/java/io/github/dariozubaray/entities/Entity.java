@@ -19,6 +19,7 @@ public class Entity {
     public int actionLockCounter;
     String[] dialogues;
     int dialogueIndex;
+    int maxDialogueIndex;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -28,7 +29,19 @@ public class Entity {
 
     public void setAction() {}
 
-    public void speak() {}
+    public void speak() {
+        gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
+        if (dialogueIndex < maxDialogueIndex) {
+            dialogueIndex++;
+        }
+
+        switch (gamePanel.player.direction) {
+            case UP -> direction = EntityDirection.DOWN;
+            case DOWN -> direction = EntityDirection.UP;
+            case LEFT -> direction = EntityDirection.RIGHT;
+            case RIGHT -> direction = EntityDirection.LEFT;
+        }
+    }
 
     public void update() {
         setAction();

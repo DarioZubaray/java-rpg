@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int dialogueState = 2;
 
     Thread gameThread;
-    KeyHandler keyHandler;
+    public KeyHandler keyHandler;
     TileManager tileManager;
     Music music;
     Sound sound;

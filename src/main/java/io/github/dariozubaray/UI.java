@@ -79,8 +79,11 @@ public class UI {
 
         x += gamePanel.TILE_SIZE;
         y += gamePanel.TILE_SIZE;
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32));
-        g2.drawString(currentDialogue, x, y);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+        for(String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 40;
+        }
     }
 
     private void drawSubWindow(Graphics2D g2, int x, int y, int width, int height) {

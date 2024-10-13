@@ -7,6 +7,7 @@ public class KeyHandler implements KeyListener {
 
     GamePanel gamePanel;
     public boolean upPressed, downPressed, rightPressed, leftPressed;
+    public boolean enterPressed;
     public boolean debugMode;
 
     public KeyHandler(GamePanel gamePanel) {
@@ -30,6 +31,7 @@ public class KeyHandler implements KeyListener {
             if(code == KeyEvent.VK_ENTER) {
                 gamePanel.gameState = gamePanel.playState;
             }
+            return;
         }
 
         if(code == KeyEvent.VK_W) {
@@ -43,6 +45,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_A) {
             leftPressed = true;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
         }
 
         if(code == KeyEvent.VK_F3) {

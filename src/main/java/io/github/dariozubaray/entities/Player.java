@@ -59,7 +59,8 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed) {
+        if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed ||
+                keyHandler.leftPressed || keyHandler.enterPressed) {
             setDirection();
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
@@ -129,8 +130,13 @@ public class Player extends Entity {
             return;
         }
 
-        gamePanel.gameState = gamePanel.dialogueState;
-        gamePanel.npcs[index].speak();
+        if(gamePanel.keyHandler.enterPressed) {
+            gamePanel.gameState = gamePanel.dialogueState;
+            gamePanel.npcs[index].speak();
+
+            gamePanel.keyHandler.enterPressed = false;
+        }
+
     }
 
     private void setStandUp() {
