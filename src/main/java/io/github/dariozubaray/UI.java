@@ -10,8 +10,8 @@ public class UI {
 
     GamePanel gamePanel;
     KeyHandler keyHandler;
-    Font arial40Plain;
-    Font arial80b;
+    Font purisaBold;
+    Font maruMonica;
     public String message;
     public boolean gameFinished;
     double playTime;
@@ -21,8 +21,8 @@ public class UI {
     public UI(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
-        this.arial40Plain = new Font("Arial", Font.PLAIN, 40);
-        this.arial80b = new Font("Arial", Font.BOLD, 80);
+        this.maruMonica = FontLoader.loadFont(FontLoader.MARU_MONICA);
+        this.purisaBold = FontLoader.loadFont(FontLoader.PURISA_BOLD);
         decimalFormat = new DecimalFormat("#00.00");
     }
 
@@ -31,10 +31,12 @@ public class UI {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setFont(arial40Plain);
+        g2.setFont(maruMonica);
         g2.setColor(Color.WHITE);
 
         if(gamePanel.gameState == gamePanel.pauseState) {
+            g2.setFont(purisaBold);
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 60F));
             drawPauseScreen(g2);
             return;
         }
@@ -45,6 +47,8 @@ public class UI {
         }
 
         if(keyHandler.debugMode) {
+            g2.setFont(purisaBold);
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 25F));
             drawText(g2, "Debug Mode", gamePanel.TILE_SIZE * 10 + 36, gamePanel.TILE_SIZE);
 
             playTime += (double) 1/60;
