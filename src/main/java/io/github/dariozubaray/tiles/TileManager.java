@@ -124,10 +124,11 @@ public class TileManager {
             //Stop moving camera at the edge
             if(gamePanel.player.SCREEN_X > gamePanel.player.worldX) screenX = worldX;
             if(gamePanel.player.SCREEN_Y > gamePanel.player.worldY) screenY = worldY;
+
             int rightOffset = gamePanel.SCREEN_WIDTH - gamePanel.player.SCREEN_X;
-            if(rightOffset > gamePanel.WORLD_WIDTH - gamePanel.player.worldX) screenX = gamePanel.SCREEN_WIDTH - gamePanel.WORLD_WIDTH - worldX;
+            if(rightOffset > gamePanel.WORLD_WIDTH - gamePanel.player.worldX) screenX = gamePanel.SCREEN_WIDTH - (gamePanel.WORLD_WIDTH - worldX);
             int bottomOffset = gamePanel.SCREEN_HEIGHT - gamePanel.player.SCREEN_Y;
-            if(bottomOffset > gamePanel.WORLD_HEIGHT - gamePanel.player.worldY) screenY = gamePanel.SCREEN_HEIGHT - gamePanel.WORLD_HEIGHT - worldY;
+            if(bottomOffset > gamePanel.WORLD_HEIGHT - gamePanel.player.worldY) screenY = gamePanel.SCREEN_HEIGHT - (gamePanel.WORLD_HEIGHT - worldY);
 
             boolean isWithinXBounds = (worldX + gamePanel.TILE_SIZE > gamePanel.player.worldX - gamePanel.player.SCREEN_X) &&
                     (worldX - gamePanel.TILE_SIZE < gamePanel.player.worldX + gamePanel.player.SCREEN_X);

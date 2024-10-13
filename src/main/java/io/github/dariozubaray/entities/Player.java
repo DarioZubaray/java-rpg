@@ -194,9 +194,9 @@ public class Player extends Entity {
         if(SCREEN_Y > worldY) y = worldY;
 
         int rightOffset = gamePanel.SCREEN_WIDTH - SCREEN_X;
-        if(rightOffset > gamePanel.WORLD_WIDTH - worldX) x = gamePanel.SCREEN_WIDTH - gamePanel.WORLD_WIDTH - worldX;
+        if(rightOffset > gamePanel.WORLD_WIDTH - worldX) x = gamePanel.SCREEN_WIDTH - (gamePanel.WORLD_WIDTH - worldX);
         int bottomOffset = gamePanel.SCREEN_HEIGHT - SCREEN_Y;
-        if(bottomOffset > gamePanel.WORLD_HEIGHT - worldY) y = gamePanel.SCREEN_HEIGHT - gamePanel.WORLD_HEIGHT - worldY;
+        if(bottomOffset > gamePanel.WORLD_HEIGHT - worldY) y = gamePanel.SCREEN_HEIGHT - (gamePanel.WORLD_HEIGHT - worldY);
 
         g2.drawImage(image, x, y, null);
         if (keyHandler.debugMode) {
