@@ -4,12 +4,14 @@ import javax.swing.JFrame;
 
 public class MainLauncher {
 
+    public static final String GAME_TITLE = "JavaRPG - 2D Adventure";
+
     public static void main(String[] args) {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        System.out.println("JavaRPG - 2D Adventure");
-        window.setTitle("JavaRPG - 2D Adventure");
+        System.out.println(GAME_TITLE);
+        window.setTitle(GAME_TITLE);
 
         GamePanel gamepanel = new GamePanel();
         window.add(gamepanel);

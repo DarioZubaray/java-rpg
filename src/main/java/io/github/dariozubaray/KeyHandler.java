@@ -1,5 +1,6 @@
 package io.github.dariozubaray;
 
+import static io.github.dariozubaray.Music.MAIN_MUSIC_INDEX;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -21,15 +22,39 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_ESCAPE) {
-            if(gamePanel.gameState == gamePanel.playState) gamePanel.gameState = gamePanel.pauseState;
-            else gamePanel.gameState = gamePanel.playState;
-        }
-        if(gamePanel.gameState == gamePanel.pauseState) return;
-
-        if(gamePanel.gameState == gamePanel.dialogueState) {
+        if(gamePanel.gameState == GameState.TITLE) {
+            if(code == KeyEvent.VK_W) {
+                gamePanel.ui.commandNumber--;
+                if(gamePanel.ui.commandNumber < 0) gamePanel.ui.commandNumber = 2;
+            }
+            if(code == KeyEvent.VK_S) {
+                gamePanel.ui.commandNumber++;
+                if(gamePanel.ui.commandNumber > 2) gamePanel.ui.commandNumber = 0;
+            }
             if(code == KeyEvent.VK_ENTER) {
-                gamePanel.gameState = gamePanel.playState;
+                if(gamePanel.ui.commandNumber == 0) {
+                    gamePanel.gameState = GameState.PLAY;
+                    gamePanel.playMusic(MAIN_MUSIC_INDEX);
+                }
+                if(gamePanel.ui.commandNumber == 1) {
+                    System.out.println("Not implemented yet ");
+                }
+                if(gamePanel.ui.commandNumber == 2) {
+                    System.exit(0);
+                }
+            }
+            return;
+        }
+
+        if(code == KeyEvent.VK_ESCAPE) {
+            if(gamePanel.gameState == GameState.PLAY) gamePanel.gameState = GameState.PAUSE;
+            else gamePanel.gameState = GameState.PLAY;
+        }
+        if(gamePanel.gameState == GameState.PAUSE) return;
+
+        if(gamePanel.gameState == GameState.DIALOGUE) {
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.gameState = GameState.PLAY;
             }
             return;
         }

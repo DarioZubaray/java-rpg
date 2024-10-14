@@ -1,6 +1,7 @@
 package io.github.dariozubaray.entities;
 
 import io.github.dariozubaray.GamePanel;
+import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
@@ -131,7 +132,7 @@ public class Player extends Entity {
         }
 
         if(gamePanel.keyHandler.enterPressed) {
-            gamePanel.gameState = gamePanel.dialogueState;
+            gamePanel.gameState = GameState.DIALOGUE;
             gamePanel.npcs[index].speak();
 
             gamePanel.keyHandler.enterPressed = false;

@@ -1,6 +1,5 @@
 package io.github.dariozubaray;
 
-import static io.github.dariozubaray.Music.MAIN_MUSIC_INDEX;
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.Player;
 import io.github.dariozubaray.object.SuperObject;
@@ -32,10 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int FPS = 60;
     public int drawnFrames;
 
-    public int gameState;
-    public int playState = 0;
-    public int pauseState = 1;
-    public int dialogueState = 2;
+    public GameState gameState;
 
     Thread gameThread;
     public KeyHandler keyHandler;
@@ -68,14 +64,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.npcs = new Entity[10];
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
+        this.gameState = GameState.TITLE;
     }
 
     public void setupGame() {
         assetSetter.setObject();
         assetSetter.setNpc();
-        playMusic(MAIN_MUSIC_INDEX);
-
-        this.gameState = this.playState;
     }
 
     public void startGameThread() {
@@ -85,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = 1_000_000_000.0 /FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -116,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if(gameState == playState) {
+        if(gameState == GameState.PLAY) {
             player.update();
 
             Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
@@ -126,6 +120,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        if(gameState == GameState.TITLE) {
+            this.ui.draw(g2);
+            return;
+        }
 
         long drawStart = 0;
         if(keyHandler.debugMode) {
@@ -139,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.player.draw(g2);
         this.ui.draw(g2);
-        if(keyHandler.debugMode && gameState == playState) {
+        if(keyHandler.debugMode && gameState == GameState.PLAY) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
             g2.setColor(Color.WHITE);
