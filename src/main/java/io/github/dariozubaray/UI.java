@@ -76,16 +76,38 @@ public class UI {
     }
 
     private void drawTitleScreen(Graphics2D g2) {
-        // Background
+        setBackgroundTitleScreen(g2);
+        setTitleTitleScreen(g2);
+        setImageTitleScreen(g2);
+        setMenuTitleScreen(g2);
+    }
+
+    private void setBackgroundTitleScreen(Graphics2D g2) {
         g2.setColor(new Color(70,120,80));
         g2.fillRect(0, 0, gamePanel.WORLD_WIDTH, gamePanel.WORLD_HEIGHT);
+    }
 
-        // Title
+    private void setTitleTitleScreen(Graphics2D g2) {
         String[] title = MainLauncher.GAME_TITLE.split(" - ");
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 96F));
         drawTitleName(g2, title, true);
+    }
 
-        // Image
+    private void drawTitleName(Graphics2D g2, String[] titleParts, boolean shadows) {
+        int y = 0;
+        for(String title : titleParts) {
+            int x = getXForCenteredText(g2, title);
+            y += gamePanel.TILE_SIZE * 2;
+            if(shadows) {
+                g2.setColor(Color.BLACK);
+                g2.drawString(title, x + 5, y + 5);
+            }
+            g2.setColor(Color.WHITE);
+            g2.drawString(title, x, y);
+        }
+    }
+
+    private void setImageTitleScreen(Graphics2D g2) {
         int x = gamePanel.SCREEN_WIDTH / 2 - (gamePanel.TILE_SIZE*2)/2;
         int y = gamePanel.TILE_SIZE * 5;
 
@@ -101,12 +123,13 @@ public class UI {
             titleImageCounter = 0;
         }
         g2.drawImage(image, x, y, gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE * 2, null);
+    }
 
-        // Menu
+    private void setMenuTitleScreen(Graphics2D g2) {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
         String text = "New Game";
-        x = getXForCenteredText(g2, text);
-        y += gamePanel.TILE_SIZE*4;
+        int x = getXForCenteredText(g2, text);
+        int y = gamePanel.TILE_SIZE * 9;
         g2.drawString(text, x, y);
         if(commandNumber == 0) g2.drawString(">", x-gamePanel.TILE_SIZE, y);
 
@@ -121,20 +144,6 @@ public class UI {
         y += gamePanel.TILE_SIZE;
         g2.drawString(text, x, y);
         if(commandNumber == 2) g2.drawString(">", x-gamePanel.TILE_SIZE, y);
-    }
-
-    private void drawTitleName(Graphics2D g2, String[] titleParts, boolean shadows) {
-        int y = 0;
-        for(String title : titleParts) {
-            int x = getXForCenteredText(g2, title);
-            y += gamePanel.TILE_SIZE * 2;
-            if(shadows) {
-                g2.setColor(Color.BLACK);
-                g2.drawString(title, x + 5, y + 5);
-            }
-            g2.setColor(Color.WHITE);
-            g2.drawString(title, x, y);
-        }
     }
 
     private void drawPauseScreen(Graphics2D g2) {
