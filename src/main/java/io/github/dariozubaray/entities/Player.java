@@ -118,6 +118,7 @@ public class Player extends Entity {
 
     private void interactNpc(int index) {
         if (index == -1) {
+            gamePanel.keyHandler.enterPressed = false;
             return;
         }
 
@@ -127,7 +128,6 @@ public class Player extends Entity {
 
             gamePanel.keyHandler.enterPressed = false;
         }
-
     }
 
     private void setStandUp() {
