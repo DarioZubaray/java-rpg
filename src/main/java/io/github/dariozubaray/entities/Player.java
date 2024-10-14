@@ -60,9 +60,8 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed ||
-                keyHandler.leftPressed || keyHandler.enterPressed) {
-            setDirection();
+        boolean isPlayerMoving = keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed;
+        if (isPlayerMoving || keyHandler.enterPressed) {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
@@ -72,22 +71,13 @@ public class Player extends Entity {
             int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
             interactNpc(npcIndex);
 
-            movePlayer();
-            invertSprites();
+            if(isPlayerMoving) {
+                setDirection();
+                movePlayer();
+                invertSprites();
+            }
         } else {
             setStandUp();
-        }
-    }
-
-    private void setDirection() {
-        if (keyHandler.upPressed) {
-            this.direction = EntityDirection.UP;
-        } else if (keyHandler.downPressed) {
-            this.direction = EntityDirection.DOWN;
-        } else if (keyHandler.rightPressed) {
-            this.direction = EntityDirection.RIGHT;
-        } else {
-            this.direction = EntityDirection.LEFT;
         }
     }
 
@@ -145,6 +135,18 @@ public class Player extends Entity {
         if (standCounter >= 60) {
             standCounter = 0;
             spriteNumber = 1;
+        }
+    }
+
+    private void setDirection() {
+        if (keyHandler.upPressed) {
+            this.direction = EntityDirection.UP;
+        } else if (keyHandler.downPressed) {
+            this.direction = EntityDirection.DOWN;
+        } else if (keyHandler.rightPressed) {
+            this.direction = EntityDirection.RIGHT;
+        } else if(keyHandler.leftPressed) {
+            this.direction = EntityDirection.LEFT;
         }
     }
 
