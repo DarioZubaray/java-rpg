@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 
 public class UI {
 
+    Graphics2D g2;
     GamePanel gamePanel;
     KeyHandler keyHandler;
     Font purisaBold;
@@ -34,69 +35,70 @@ public class UI {
     }
 
     public void draw(Graphics2D g2) {
+        this.g2 = g2;
         g2.setFont(maruMonica);
         g2.setColor(Color.WHITE);
 
         if(gamePanel.gameState == GameState.TITLE) {
-            drawTitleScreen(g2);
+            drawTitleScreen();
             return;
         }
 
         if(gamePanel.gameState == GameState.PAUSE) {
             g2.setFont(purisaBold);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 60F));
-            drawPauseScreen(g2);
+            drawPauseScreen();
             return;
         }
 
         if(gamePanel.gameState == GameState.DIALOGUE) {
-            drawDialogueScreen(g2);
+            drawDialogueScreen();
             return;
         }
 
         if(keyHandler.debugMode) {
             g2.setFont(purisaBold);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 25F));
-            drawText(g2, "Debug Mode", gamePanel.TILE_SIZE * 10 + 36, gamePanel.TILE_SIZE);
+            drawText("Debug Mode", gamePanel.TILE_SIZE * 10 + 36, gamePanel.TILE_SIZE);
 
             playTime += (double) 1/60;
             g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.TILE_SIZE * 11, gamePanel.TILE_SIZE * 2);
 
-            drawText(g2, "FPS: " + gamePanel.drawnFrames, gamePanel.TILE_SIZE * 12 + 18, gamePanel.TILE_SIZE * 10 + 20);
+            drawText("FPS: " + gamePanel.drawnFrames, gamePanel.TILE_SIZE * 12 + 18, gamePanel.TILE_SIZE * 10 + 20);
         }
     }
 
-    private int getXForCenteredText(Graphics2D g2, String text) {
+    private int getXForCenteredText(String text) {
         int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gamePanel.SCREEN_WIDTH / 2 - textLength / 2;
     }
 
-    private void drawText(Graphics2D g2, String text, int x, int y) {
+    private void drawText(String text, int x, int y) {
         g2.drawString(text, x, y);
     }
 
-    private void drawTitleScreen(Graphics2D g2) {
-        setBackgroundTitleScreen(g2);
-        setTitleTitleScreen(g2);
-        setImageTitleScreen(g2);
-        setMenuTitleScreen(g2);
+    private void drawTitleScreen() {
+        setBackgroundTitleScreen();
+        setTitleTitleScreen();
+        setImageTitleScreen();
+        setMenuTitleScreen();
     }
 
-    private void setBackgroundTitleScreen(Graphics2D g2) {
+    private void setBackgroundTitleScreen() {
         g2.setColor(new Color(70,120,80));
         g2.fillRect(0, 0, gamePanel.WORLD_WIDTH, gamePanel.WORLD_HEIGHT);
     }
 
-    private void setTitleTitleScreen(Graphics2D g2) {
+    private void setTitleTitleScreen() {
         String[] title = MainLauncher.GAME_TITLE.split(" - ");
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 96F));
-        drawTitleName(g2, title, true);
+        drawTitleName(title, true);
     }
 
-    private void drawTitleName(Graphics2D g2, String[] titleParts, boolean shadows) {
+    private void drawTitleName(String[] titleParts, boolean shadows) {
         int y = 0;
         for(String title : titleParts) {
-            int x = getXForCenteredText(g2, title);
+            int x = getXForCenteredText(title);
             y += gamePanel.TILE_SIZE * 2;
             if(shadows) {
                 g2.setColor(Color.BLACK);
@@ -107,7 +109,7 @@ public class UI {
         }
     }
 
-    private void setImageTitleScreen(Graphics2D g2) {
+    private void setImageTitleScreen() {
         int x = gamePanel.SCREEN_WIDTH / 2 - (gamePanel.TILE_SIZE*2)/2;
         int y = gamePanel.TILE_SIZE * 5;
 
@@ -125,44 +127,44 @@ public class UI {
         g2.drawImage(image, x, y, gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE * 2, null);
     }
 
-    private void setMenuTitleScreen(Graphics2D g2) {
+    private void setMenuTitleScreen() {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
         String text = "New Game";
-        int x = getXForCenteredText(g2, text);
+        int x = getXForCenteredText(text);
         int y = gamePanel.TILE_SIZE * 9;
         g2.drawString(text, x, y);
         if(commandNumber == 0) g2.drawString(">", x-gamePanel.TILE_SIZE, y);
 
         text = "Load Game";
-        x = getXForCenteredText(g2, text);
+        x = getXForCenteredText(text);
         y += gamePanel.TILE_SIZE;
         g2.drawString(text, x, y);
         if(commandNumber == 1) g2.drawString(">", x-gamePanel.TILE_SIZE, y);
 
         text = "Quit";
-        x = getXForCenteredText(g2, text);
+        x = getXForCenteredText(text);
         y += gamePanel.TILE_SIZE;
         g2.drawString(text, x, y);
         if(commandNumber == 2) g2.drawString(">", x-gamePanel.TILE_SIZE, y);
     }
 
-    private void drawPauseScreen(Graphics2D g2) {
+    private void drawPauseScreen() {
         String pauseText = "P A U S E D";
-        drawCenteredText(g2, pauseText, 0);
+        drawCenteredText(pauseText, 0);
     }
 
-    private void drawCenteredText(Graphics2D g2, String text, int yOffset) {
-        int x = getXForCenteredText(g2, text);
+    private void drawCenteredText(String text, int yOffset) {
+        int x = getXForCenteredText(text);
         int y = gamePanel.SCREEN_HEIGHT / 2 + yOffset;
         g2.drawString(text, x, y);
     }
 
-    private void drawDialogueScreen(Graphics2D g2) {
+    private void drawDialogueScreen() {
         int x = gamePanel.TILE_SIZE * 2;
         int y = gamePanel.TILE_SIZE / 2;
         int width = gamePanel.SCREEN_WIDTH - (gamePanel.TILE_SIZE * 4);
         int height = gamePanel.TILE_SIZE * 4;
-        drawSubWindow(g2, x, y, width, height);
+        drawSubWindow(x, y, width, height);
 
         x += gamePanel.TILE_SIZE;
         y += gamePanel.TILE_SIZE;
@@ -173,7 +175,7 @@ public class UI {
         }
     }
 
-    private void drawSubWindow(Graphics2D g2, int x, int y, int width, int height) {
+    private void drawSubWindow(int x, int y, int width, int height) {
         Color background = new Color(0, 0, 0,180);
         g2.setColor(background);
         g2.fillRoundRect(x, y, width, height, 35, 35);
