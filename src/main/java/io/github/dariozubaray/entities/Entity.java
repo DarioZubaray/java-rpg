@@ -21,6 +21,9 @@ public class Entity {
     int dialogueIndex;
     int maxDialogueIndex;
 
+    public int maxLife;
+    public int life;
+
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.solidArea = new Rectangle(0, 0, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);

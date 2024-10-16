@@ -45,6 +45,8 @@ public class Player extends Entity {
         this.worldY = gamePanel.TILE_SIZE * 21;
         this.speed = 4;
         this.direction = EntityDirection.DOWN;
+        this.maxLife = 6;
+        this.life = maxLife;
     }
 
     public void getPlayerImage() {

@@ -64,7 +64,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.npcs = new Entity[10];
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
-        this.gameState = GameState.TITLE;
+//        this.gameState = GameState.TITLE;
+        this.gameState = GameState.PLAY;
     }
 
     public void setupGame() {

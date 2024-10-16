@@ -4,7 +4,8 @@ public enum ObjectLabel {
     CHEST("Chest", 3),
     DOOR("Door", 2),
     KEY("Key", 0),
-    BOOT("Boot", 1);
+    BOOT("Boot", 1),
+    HEART("Heart", -1);
 
     private final String name;
     private final int audioIndex;

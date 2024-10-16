@@ -1,5 +1,7 @@
 package io.github.dariozubaray;
 
+import io.github.dariozubaray.object.OBJ_Heart;
+import io.github.dariozubaray.object.SuperObject;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,6 +16,7 @@ public class UI {
     KeyHandler keyHandler;
     Font purisaBold;
     Font maruMonica;
+    BufferedImage heartFull, heartHalf, heartBlank;
     int titleImageCounter;
     public int commandNumber = 0;
     public String message;
@@ -28,6 +31,11 @@ public class UI {
         this.maruMonica = FontLoader.loadFont(FontLoader.MARU_MONICA);
         this.purisaBold = FontLoader.loadFont(FontLoader.PURISA_BOLD);
         decimalFormat = new DecimalFormat("#00.00");
+
+        SuperObject heart = new OBJ_Heart(gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        heartFull = heart.image;
+        heartHalf = heart.image2;
+        heartBlank = heart.image3;
     }
 
     public void showMessage(String text) {
@@ -40,6 +48,7 @@ public class UI {
         g2.setColor(Color.WHITE);
 
         if(gamePanel.gameState == GameState.TITLE) {
+            drawPlayerLife();
             drawTitleScreen();
             return;
         }
@@ -47,6 +56,7 @@ public class UI {
         if(gamePanel.gameState == GameState.PAUSE) {
             g2.setFont(purisaBold);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 60F));
+            drawPlayerLife();
             drawPauseScreen();
             return;
         }
@@ -55,6 +65,8 @@ public class UI {
             drawDialogueScreen();
             return;
         }
+
+        drawPlayerLife();
 
         if(keyHandler.debugMode) {
             g2.setFont(purisaBold);
@@ -65,6 +77,30 @@ public class UI {
             g2.drawString("Time: " + decimalFormat.format(playTime), gamePanel.TILE_SIZE * 11, gamePanel.TILE_SIZE * 2);
 
             drawText("FPS: " + gamePanel.drawnFrames, gamePanel.TILE_SIZE * 12 + 18, gamePanel.TILE_SIZE * 10 + 20);
+        }
+    }
+
+    private void drawPlayerLife() {
+        int fullH = gamePanel.player.life/2;
+        int halfH = gamePanel.player.life % 2;
+        int remainingH = (gamePanel.player.maxLife/2) - (fullH + halfH);
+
+        int x = gamePanel.TILE_SIZE/2;
+        int y = gamePanel.TILE_SIZE/2;
+
+        for (int i = 0; i < fullH; i++) {
+            g2.drawImage(this.heartFull, x, y, null);
+            x += gamePanel.TILE_SIZE;
+        }
+
+        if (halfH > 0) {
+            g2.drawImage(this.heartHalf, x, y, null);
+            x += gamePanel.TILE_SIZE;
+        }
+
+        for (int i = 0; i < remainingH; i++) {
+            g2.drawImage(this.heartBlank, x, y, null);
+            x += gamePanel.TILE_SIZE;
         }
     }
 
