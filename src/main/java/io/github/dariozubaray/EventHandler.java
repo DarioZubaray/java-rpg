@@ -25,6 +25,7 @@ public class EventHandler {
     public void checkEvent() {
         if (hit(27, 17, EntityDirection.RIGHT)) damagePit(GameState.DIALOGUE);
         if(hit(23, 12, EntityDirection.UP)) healingPool(GameState.DIALOGUE);
+        if(hit(19, 17, EntityDirection.LEFT)) teleport(GameState.DIALOGUE);
     }
 
     public boolean hit(int eventCol, int eventRaw, EntityDirection direction) {
@@ -60,5 +61,12 @@ public class EventHandler {
             this.gamepanel.ui.currentDialogue = "You drink he water.\nYour life has been recovered.";
             this.gamepanel.player.life = this.gamepanel.player.maxLife;
         }
+    }
+
+    public void teleport(GameState gameState) {
+        gamepanel.gameState = gameState;
+        this.gamepanel.ui.currentDialogue = "Teleport!";
+        this.gamepanel.player.worldX = gamepanel.TILE_SIZE * 38;
+        this.gamepanel.player.worldY = gamepanel.TILE_SIZE * 9;
     }
 }
