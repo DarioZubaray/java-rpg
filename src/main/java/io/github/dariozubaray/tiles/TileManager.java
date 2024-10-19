@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class TileManager {
 
@@ -70,6 +71,7 @@ public class TileManager {
 
         setupTiles(40, "wall", true);
         setupTiles(41, "tree", true);
+        setupTiles(42, "hole", false);
     }
 
     public void setupTiles(int index, String name, boolean collisionable){
@@ -84,7 +86,7 @@ public class TileManager {
         int row = 0;
 
         try (InputStream is = getClass().getResourceAsStream("/maps/world01-v2.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)))) {
 
             while (col < gamePanel.MAX_WORLD_COL && row < gamePanel.MAX_WORLD_ROW) {
                 line = br.readLine();

@@ -81,24 +81,27 @@ public class UI {
     }
 
     private void drawPlayerLife() {
-        int fullH = gamePanel.player.life/2;
-        int halfH = gamePanel.player.life % 2;
-        int remainingH = (gamePanel.player.maxLife/2) - (fullH + halfH);
+        int fullLife = 0, halfLife = 0;
+        if(gamePanel.player.life >= 0) {
+            fullLife = gamePanel.player.life/2;
+            halfLife = gamePanel.player.life % 2;
+        }
+        int remainingLife = (gamePanel.player.maxLife/2) - (fullLife + halfLife);
 
         int x = gamePanel.TILE_SIZE/2;
         int y = gamePanel.TILE_SIZE/2;
 
-        for (int i = 0; i < fullH; i++) {
+        for (int i = 0; i < fullLife; i++) {
             g2.drawImage(this.heartFull, x, y, null);
             x += gamePanel.TILE_SIZE;
         }
 
-        if (halfH > 0) {
+        if (halfLife > 0) {
             g2.drawImage(this.heartHalf, x, y, null);
             x += gamePanel.TILE_SIZE;
         }
 
-        for (int i = 0; i < remainingH; i++) {
+        for (int i = 0; i < remainingLife; i++) {
             g2.drawImage(this.heartBlank, x, y, null);
             x += gamePanel.TILE_SIZE;
         }

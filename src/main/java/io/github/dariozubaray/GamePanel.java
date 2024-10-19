@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;
     public KeyHandler keyHandler;
+    public EventHandler eventHandler;
     TileManager tileManager;
     Music music;
     Sound sound;
@@ -53,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.keyHandler = new KeyHandler(this);
         this.addKeyListener(keyHandler);
+        this.eventHandler =  new EventHandler(this);
         this.setFocusable(true);
 
         this.tileManager = new TileManager(this);

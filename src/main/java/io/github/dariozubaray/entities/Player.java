@@ -76,8 +76,10 @@ public class Player extends Entity {
             if(isPlayerMoving) {
                 setDirection();
                 movePlayer();
-                invertSprites();
             }
+            gamePanel.eventHandler.checkEvent();
+            invertSprites();
+            gamePanel.keyHandler.enterPressed = false;
         } else {
             setStandUp();
         }
@@ -120,15 +122,12 @@ public class Player extends Entity {
 
     private void interactNpc(int index) {
         if (index == -1) {
-            gamePanel.keyHandler.enterPressed = false;
             return;
         }
 
         if(gamePanel.keyHandler.enterPressed) {
             gamePanel.gameState = GameState.DIALOGUE;
             gamePanel.npcs[index].speak();
-
-            gamePanel.keyHandler.enterPressed = false;
         }
     }
 
