@@ -1,61 +1,84 @@
 package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.EntityDirection;
-import java.awt.Rectangle;
 
 public class EventHandler {
 
     GamePanel gamepanel;
-    Rectangle eventRect;
-    int eventRectDefaultX, eventRectDefaultY;
+    EventRect[][] eventRect;
+    int previousEventX, previousEventY;
+    boolean canActiveFallPitEvent;
 
     public EventHandler(GamePanel gamepanel) {
         this.gamepanel = gamepanel;
+        this.canActiveFallPitEvent = true;
+        this.eventRect = new EventRect[gamepanel.MAX_WORLD_COL][gamepanel.MAX_WORLD_ROW];
 
-        this.eventRect = new Rectangle();
-        this.eventRect.x = 23;
-        this.eventRect.y = 23;
-        this.eventRect.width = 2;
-        this.eventRect.height = 2;
+        int col = 0, row = 0;
+        while(col < gamepanel.MAX_WORLD_COL && row < gamepanel.MAX_WORLD_ROW) {
 
-        this.eventRectDefaultX = this.eventRect.x;
-        this.eventRectDefaultY = this.eventRect.y;
+            this.eventRect[col][row] = new EventRect();
+
+            col++;
+            if(col == gamepanel.MAX_WORLD_COL) {
+                col = 0;
+                row++;
+            }
+        }
     }
 
     public void checkEvent() {
-        if (hit(27, 17, EntityDirection.RIGHT)) damagePit(GameState.DIALOGUE);
-        if(hit(23, 12, EntityDirection.UP)) healingPool(GameState.DIALOGUE);
-        if(hit(19, 17, EntityDirection.LEFT)) teleport(GameState.DIALOGUE);
+        checkPlayerDistance();
+        if(canActiveFallPitEvent) {
+            if (hit(27, 17, EntityDirection.RIGHT)) damagePit(27, 16, GameState.DIALOGUE);
+        }
+        if (hit(23, 12, EntityDirection.UP)) healingPool(23, 12, GameState.DIALOGUE);
+        if (hit(19, 17, EntityDirection.LEFT)) teleport(GameState.DIALOGUE);
     }
 
-    public boolean hit(int eventCol, int eventRaw, EntityDirection direction) {
+    private void checkPlayerDistance() {
+        int xDistance = Math.abs(gamepanel.player.worldX - previousEventX);
+        int yDistance = Math.abs(gamepanel.player.worldY - previousEventY);
+        int distance = Math.max(xDistance, yDistance);
+        if (distance > gamepanel.TILE_SIZE) {
+            this.canActiveFallPitEvent = true;
+        }
+    }
+
+    public boolean hit(int eventCol, int eventRow, EntityDirection direction) {
         boolean hit = false;
 
         this.gamepanel.player.solidArea.x = this.gamepanel.player.worldX + this.gamepanel.player.solidArea.x;
         this.gamepanel.player.solidArea.y = this.gamepanel.player.worldY + this.gamepanel.player.solidArea.y;
-        this.eventRect.x = eventCol * this.gamepanel.TILE_SIZE + this.eventRect.x;
-        this.eventRect.y = eventRaw * this.gamepanel.TILE_SIZE + this.eventRect.y;
+        this.eventRect[eventCol][eventRow].x = eventCol * this.gamepanel.TILE_SIZE + this.eventRect[eventCol][eventRow].x;
+        this.eventRect[eventCol][eventRow].y = eventRow * this.gamepanel.TILE_SIZE + this.eventRect[eventCol][eventRow].y;
 
-        if (this.gamepanel.player.solidArea.intersects(this.eventRect)) {
+        if (this.gamepanel.player.solidArea.intersects(this.eventRect[eventCol][eventRow]) &&
+                !eventRect[eventCol][eventRow].eventDone) {
             if (this.gamepanel.player.direction.equals(direction) || this.gamepanel.player.direction.equals(EntityDirection.ANY)) {
                 hit = true;
+
+                previousEventX = gamepanel.player.worldX;
+                previousEventY = gamepanel.player.worldY;
             }
         }
 
         this.gamepanel.player.solidArea.x = gamepanel.player.solidAreaDefaultX;
         this.gamepanel.player.solidArea.y = gamepanel.player.solidAreaDefaultY;
-        this.eventRect.x = eventRectDefaultX;
-        this.eventRect.y = eventRectDefaultY;
+        this.eventRect[eventCol][eventRow].x = this.eventRect[eventCol][eventRow].eventRectDefaultX;
+        this.eventRect[eventCol][eventRow].y = this.eventRect[eventCol][eventRow].eventRectDefaultY;
         return hit;
     }
 
-    public void damagePit(GameState gameState) {
+    public void damagePit(int eventCol, int eventRow, GameState gameState) {
         this.gamepanel.gameState = gameState;
         this.gamepanel.ui.currentDialogue = "You fall into a pit!";
         this.gamepanel.player.life -= 1;
+        //this.eventRect[eventCol][eventRow].eventDone = true;
+        this.canActiveFallPitEvent = false;
     }
 
-    public void healingPool(GameState gameState) {
+    public void healingPool(int col, int eventRow, GameState gameState) {
         if(gamepanel.keyHandler.enterPressed) {
             gamepanel.gameState = gameState;
             this.gamepanel.ui.currentDialogue = "You drink he water.\nYour life has been recovered.";
