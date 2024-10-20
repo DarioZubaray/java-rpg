@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+@Deprecated
 public class SuperObject {
 
     public BufferedImage image, image2, image3;

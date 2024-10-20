@@ -1,7 +1,7 @@
 package io.github.dariozubaray;
 
+import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.object.OBJ_Heart;
-import io.github.dariozubaray.object.SuperObject;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -32,8 +32,8 @@ public class UI {
         this.purisaBold = FontLoader.loadFont(FontLoader.PURISA_BOLD);
         decimalFormat = new DecimalFormat("#00.00");
 
-        SuperObject heart = new OBJ_Heart(gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
-        heartFull = heart.image;
+        Entity heart = new OBJ_Heart(gamePanel);
+        heartFull = heart.image1;
         heartHalf = heart.image2;
         heartBlank = heart.image3;
     }

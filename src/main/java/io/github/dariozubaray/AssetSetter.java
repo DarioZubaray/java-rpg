@@ -12,7 +12,7 @@ public class AssetSetter {
     }
 
     public void setObject() {
-        gamePanel.objects[0] = new OBJ_Boot(gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        gamePanel.objects[0] = new OBJ_Boot(this.gamePanel);
         gamePanel.objects[0].worldX = 36 * gamePanel.TILE_SIZE;
         gamePanel.objects[0].worldY = 41 * gamePanel.TILE_SIZE;
     }

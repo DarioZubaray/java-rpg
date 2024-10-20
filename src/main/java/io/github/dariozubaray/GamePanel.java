@@ -2,13 +2,16 @@ package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.Player;
-import io.github.dariozubaray.object.SuperObject;
 import io.github.dariozubaray.tiles.TileManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import javax.swing.JPanel;
 
@@ -41,7 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
     Sound sound;
     public UI ui;
     public CollisionChecker collisionChecker;
-    public SuperObject[] objects;
+    public Entity[] objects;
+    List<Entity> entityList;
     public Entity[] npcs;
     public AssetSetter assetSetter;
     public Player player;
@@ -62,7 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
         sound = new Sound();
         ui = new UI(this, keyHandler);
         this.collisionChecker = new CollisionChecker(this);
-        this.objects = new SuperObject[10];
+        this.objects = new Entity[10];
+        this.entityList = new ArrayList<>();
         this.npcs = new Entity[10];
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
@@ -136,10 +141,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.tileManager.draw(g2);
 
-        Arrays.stream(objects).filter(Objects::nonNull).forEach(object -> object.draw(g2, this));
-        Arrays.stream(npcs).filter(Objects::nonNull).forEach(npc -> npc.draw(g2));
+        entityList.add(player);
+        Arrays.stream(npcs).filter(Objects::nonNull).forEach(entityList::add);
+        Arrays.stream(objects).filter(Objects::nonNull).forEach(entityList::add);
+        entityList.sort(Comparator.comparingInt(e -> e.worldY));
+        entityList.forEach(e -> e.draw(g2));
+        entityList.clear();
 
-        this.player.draw(g2);
         this.ui.draw(g2);
         if(keyHandler.debugMode && gameState == GameState.PLAY) {
             long drawEnd = System.nanoTime();
