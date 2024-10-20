@@ -1,6 +1,7 @@
 package io.github.dariozubaray.object;
 
 import io.github.dariozubaray.GamePanel;
+import io.github.dariozubaray.entities.EntityLabel;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class SuperObject {
 
     public BufferedImage image, image2, image3;
-    public ObjectLabel name;
+    public EntityLabel name;
     public boolean collision;
     public int worldX, worldY;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);

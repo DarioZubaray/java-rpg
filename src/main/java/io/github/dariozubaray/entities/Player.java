@@ -5,7 +5,6 @@ import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
-import io.github.dariozubaray.object.ObjectLabel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -89,17 +88,17 @@ public class Player extends Entity {
         if (index == -1) {
             return;
         }
-        ObjectLabel objectLabel = gamePanel.objects[index].name;
-        switch (objectLabel) {
+        EntityLabel entityLabel = gamePanel.objects[index].name;
+        switch (entityLabel) {
             case KEY -> {
-                gamePanel.playSoundEffect(objectLabel.getAudioIndex());
+                gamePanel.playSoundEffect(entityLabel.getAudioIndex());
                 hasKey++;
                 gamePanel.objects[index] = null;
                 gamePanel.ui.showMessage("You get a key!");
             }
             case DOOR -> {
                 if (hasKey > 0) {
-                    gamePanel.playSoundEffect(objectLabel.getAudioIndex());
+                    gamePanel.playSoundEffect(entityLabel.getAudioIndex());
                     gamePanel.objects[index] = null;
                     hasKey--;
                     gamePanel.ui.showMessage("You opened the door!");
@@ -108,7 +107,7 @@ public class Player extends Entity {
                 }
             }
             case BOOT -> {
-                gamePanel.playSoundEffect(objectLabel.getAudioIndex());
+                gamePanel.playSoundEffect(entityLabel.getAudioIndex());
                 gamePanel.objects[index] = null;
                 speed += 2;
             }

@@ -72,7 +72,8 @@ public class TileManager {
         setupTiles(40, "wall", true);
         setupTiles(41, "tree", true);
         setupTiles(42, "hole", false);
-        setupTiles(43, "teleport", false);
+        setupTiles(43, "water14", true);
+        setupTiles(44, "teleport", false);
     }
 
     public void setupTiles(int index, String name, boolean collisionable){

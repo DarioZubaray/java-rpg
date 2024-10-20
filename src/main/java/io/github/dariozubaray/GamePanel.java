@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[] objects;
     List<Entity> entityList;
     public Entity[] npcs;
+    public Entity[] monsters;
     public AssetSetter assetSetter;
     public Player player;
 
@@ -69,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.objects = new Entity[10];
         this.entityList = new ArrayList<>();
         this.npcs = new Entity[10];
+        this.monsters = new Entity[20];
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
 //        this.gameState = GameState.TITLE;
@@ -78,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         assetSetter.setObject();
         assetSetter.setNpc();
+        assetSetter.setMonster();
     }
 
     public void startGameThread() {
@@ -122,6 +124,7 @@ public class GamePanel extends JPanel implements Runnable {
             player.update();
 
             Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
+            Arrays.stream(monsters).filter(Objects::nonNull).forEach(Entity::update);
         }
     }
 
@@ -144,6 +147,7 @@ public class GamePanel extends JPanel implements Runnable {
         entityList.add(player);
         Arrays.stream(npcs).filter(Objects::nonNull).forEach(entityList::add);
         Arrays.stream(objects).filter(Objects::nonNull).forEach(entityList::add);
+        Arrays.stream(monsters).filter(Objects::nonNull).forEach(entityList::add);
         entityList.sort(Comparator.comparingInt(e -> e.worldY));
         entityList.forEach(e -> e.draw(g2));
         entityList.clear();

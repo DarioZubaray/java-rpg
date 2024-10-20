@@ -1,13 +1,12 @@
 package io.github.dariozubaray.entities;
 
 import io.github.dariozubaray.GamePanel;
-import io.github.dariozubaray.object.ObjectLabel;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    GamePanel gamePanel;
+    public GamePanel gamePanel;
     public int worldX, worldY, speed;
 
     public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
@@ -27,7 +26,7 @@ public class Entity {
     public int life;
 
     public BufferedImage image1, image2, image3;
-    public ObjectLabel name;
+    public EntityLabel name;
     public boolean collision;
 
     public Entity(GamePanel gamePanel) {

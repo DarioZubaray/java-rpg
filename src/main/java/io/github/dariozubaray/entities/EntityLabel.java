@@ -1,16 +1,17 @@
-package io.github.dariozubaray.object;
+package io.github.dariozubaray.entities;
 
-public enum ObjectLabel {
+public enum EntityLabel {
     CHEST("Chest", 3),
     DOOR("Door", 2),
     KEY("Key", 0),
     BOOT("Boot", 1),
-    HEART("Heart", -1);
+    HEART("Heart", -1),
+    GREEN_SLIME("Green Slime", -1);
 
     private final String name;
     private final int audioIndex;
 
-    ObjectLabel(String name, int audioIndex) {
+    EntityLabel(String name, int audioIndex) {
         this.name = name;
         this.audioIndex = audioIndex;
     }
