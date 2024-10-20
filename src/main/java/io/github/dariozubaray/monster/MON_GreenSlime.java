@@ -12,6 +12,7 @@ public class MON_GreenSlime extends Entity {
     public MON_GreenSlime(GamePanel gamePanel) {
         super(gamePanel);
 
+        type = 2;
         name = EntityLabel.GREEN_SLIME;
         speed = 1;
         maxLife = 4;

@@ -18,6 +18,8 @@ public class Entity {
     public boolean collisionOn;
     public int actionLockCounter;
 
+    public boolean invincible;
+    public int invincibleCounter;
     String[] dialogues;
     int dialogueIndex;
     int maxDialogueIndex;
@@ -28,6 +30,7 @@ public class Entity {
     public BufferedImage image1, image2, image3;
     public EntityLabel name;
     public boolean collision;
+    public int type;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -58,7 +61,15 @@ public class Entity {
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
         gamePanel.collisionChecker.checkObject(this, false);
-        gamePanel.collisionChecker.checkPlayer(this);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
+        if(this.type == 2 && contactPlayer) {
+            if (!gamePanel.player.invincible) {
+                gamePanel.player.life -= 1;
+                gamePanel.player.invincible = true;
+            }
+        }
 
         moveNPC();
         invertSprites();

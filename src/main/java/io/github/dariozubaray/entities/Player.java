@@ -5,6 +5,7 @@ import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -72,6 +73,9 @@ public class Player extends Entity {
             int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
             interactNpc(npcIndex);
 
+            int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+            contactMonster(monsterIndex);
+
             if(isPlayerMoving) {
                 setDirection();
                 movePlayer();
@@ -81,6 +85,14 @@ public class Player extends Entity {
             gamePanel.keyHandler.enterPressed = false;
         } else {
             setStandUp();
+        }
+
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 120) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
         }
     }
 
@@ -127,6 +139,17 @@ public class Player extends Entity {
         if(gamePanel.keyHandler.enterPressed) {
             gamePanel.gameState = GameState.DIALOGUE;
             gamePanel.npcs[index].speak();
+        }
+    }
+
+    private void contactMonster(int monsterIndex) {
+        if(monsterIndex == -1) {
+            return;
+        }
+
+        if(!invincible) {
+            this.life -= 1;
+            invincible = true;
         }
     }
 
@@ -201,7 +224,16 @@ public class Player extends Entity {
         int bottomOffset = gamePanel.SCREEN_HEIGHT - SCREEN_Y;
         if(bottomOffset > gamePanel.WORLD_HEIGHT - worldY) y = gamePanel.SCREEN_HEIGHT - (gamePanel.WORLD_HEIGHT - worldY);
 
+        if(invincible) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
+
         g2.drawImage(image, x, y, null);
+
+        if(invincible) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
+
         if (keyHandler.debugMode) {
             g2.setColor(Color.RED);
             g2.drawRect(this.SCREEN_X + solidArea.x, this.SCREEN_Y + solidArea.y, solidArea.width, solidArea.height);
