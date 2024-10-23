@@ -36,6 +36,9 @@ public class Player extends Entity {
         this.solidArea.width = 32;
         this.solidArea.height = 32;
 
+        this.attackArea.width = 36;
+        this.attackArea.height = 36;
+
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
@@ -101,13 +104,7 @@ public class Player extends Entity {
             setStandUp();
         }
 
-        if (invincible) {
-            invincibleCounter++;
-            if (invincibleCounter > 120) {
-                invincible = false;
-                invincibleCounter = 0;
-            }
-        }
+        checkInvincibility();
     }
 
     private void attackingMode() {
@@ -118,11 +115,53 @@ public class Player extends Entity {
         }
         if (spriteCounter > 5 && spriteCounter <= 25) {
             spriteNumber = 2;
+
+            checkDamageMonster();
+
         }
         if(spriteCounter > 25) {
             spriteNumber = 1;
             spriteCounter = 0;
             attacking = false;
+        }
+    }
+
+    private void checkDamageMonster() {
+        int currentWorldX = worldX;
+        int currentWorldY = worldY;
+        int solidAreaWidth = solidArea.width;
+        int solidAreaHeight = solidArea.height;
+
+        switch (direction) {
+            case UP -> worldY -= attackArea.height;
+            case DOWN -> worldY += attackArea.height;
+            case LEFT -> worldX -= attackArea.width;
+            case RIGHT -> worldX += attackArea.width;
+        }
+        solidArea.width = attackArea.width;
+        solidArea.height = attackArea.height;
+
+        int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        damageMonster(monsterIndex);
+
+        worldX = currentWorldX;
+        worldY = currentWorldY;
+        solidArea.width = solidAreaWidth;
+        solidArea.height = solidAreaHeight;
+    }
+
+    private void damageMonster(int index) {
+        if (index == -1) {
+            return;
+        }
+
+        if(!gamePanel.monsters[index].invincible) {
+            gamePanel.monsters[index].life -= 1;
+            gamePanel.monsters[index].invincible = true;
+
+            if(gamePanel.monsters[index].life <= 0) {
+                gamePanel.monsters[index] = null;
+            }
         }
     }
 
@@ -189,6 +228,16 @@ public class Player extends Entity {
         if (standCounter >= 60) {
             standCounter = 0;
             spriteNumber = 1;
+        }
+    }
+
+    private void checkInvincibility() {
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 120) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package io.github.dariozubaray.entities;
 
 import io.github.dariozubaray.GamePanel;
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNumber = 1;
     public Rectangle solidArea;
+    public Rectangle attackArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn;
     public int actionLockCounter;
@@ -37,6 +39,7 @@ public class Entity {
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.solidArea = new Rectangle(0, 0, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.attackArea = new Rectangle(0, 0, 0, 0);
         this.dialogues = new String[20];
 
         this.direction = EntityDirection.ANY;
@@ -75,6 +78,7 @@ public class Entity {
 
         moveNPC();
         invertSprites();
+        checkInvincibility();
     }
 
     private void moveNPC() {
@@ -95,6 +99,16 @@ public class Entity {
             else if (spriteNumber == 2) spriteNumber = 1;
 
             spriteCounter = 0;
+        }
+    }
+
+    private void checkInvincibility() {
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 40) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
         }
     }
 
@@ -128,7 +142,9 @@ public class Entity {
                 }
                 case ANY -> image = image1;
             }
+            if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
             g2.drawImage(image, screenX, screenY, null);
+            if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
 }
