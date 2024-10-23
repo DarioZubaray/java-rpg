@@ -38,6 +38,7 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+        getPlayerAttackImage();
     }
 
     public void setDefaultValues() {
@@ -60,10 +61,23 @@ public class Player extends Entity {
         left2 = ImageLoader.loadSprite("/player/boy_left_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 
+    public void getPlayerAttackImage() {
+        attackUp1 = ImageLoader.loadSprite("/player/boy_attack_up_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+        attackUp2 = ImageLoader.loadSprite("/player/boy_attack_up_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+        attackDown1 = ImageLoader.loadSprite("/player/boy_attack_down_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+        attackDown2 = ImageLoader.loadSprite("/player/boy_attack_down_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+        attackRight1 = ImageLoader.loadSprite("/player/boy_attack_right_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+        attackRight2 = ImageLoader.loadSprite("/player/boy_attack_right_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+        attackLeft1 = ImageLoader.loadSprite("/player/boy_attack_left_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+        attackLeft2 = ImageLoader.loadSprite("/player/boy_attack_left_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+    }
+
     @Override
     public void update() {
         boolean isPlayerMoving = keyHandler.upPressed || keyHandler.downPressed || keyHandler.rightPressed || keyHandler.leftPressed;
-        if (isPlayerMoving || keyHandler.enterPressed) {
+        if(attacking) {
+            attackingMode();
+        } else if (isPlayerMoving || keyHandler.enterPressed) {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
@@ -93,6 +107,22 @@ public class Player extends Entity {
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+    }
+
+    private void attackingMode() {
+        spriteCounter++;
+
+        if(spriteCounter <= 5) {
+            spriteNumber = 1;
+        }
+        if (spriteCounter > 5 && spriteCounter <= 25) {
+            spriteNumber = 2;
+        }
+        if(spriteCounter > 25) {
+            spriteNumber = 1;
+            spriteCounter = 0;
+            attacking = false;
         }
     }
 
@@ -133,6 +163,7 @@ public class Player extends Entity {
 
     private void interactNpc(int index) {
         if (index == -1) {
+            attacking = gamePanel.keyHandler.enterPressed;
             return;
         }
 
@@ -174,7 +205,7 @@ public class Player extends Entity {
     }
 
     private void movePlayer() {
-        if (!collisionOn) {
+        if (!collisionOn && !gamePanel.keyHandler.enterPressed) {
             switch (this.direction) {
                 case UP -> this.worldY -= speed;
                 case DOWN -> this.worldY += speed;
@@ -197,42 +228,61 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
+        int tempScreenX = SCREEN_X;
+        int tempScreenY = SCREEN_Y;
+
         switch (direction) {
             case UP -> {
-                if (this.spriteNumber == 1) image = up1;
-                if (this.spriteNumber == 2) image = up2;
+                if (!attacking) {
+                    if (this.spriteNumber == 1) image = up1;
+                    if (this.spriteNumber == 2) image = up2;
+                } else {
+                    tempScreenY -= gamePanel.TILE_SIZE;
+                    if (this.spriteNumber == 1) image = attackUp1;
+                    if (this.spriteNumber == 2) image = attackUp2;
+                }
             }
             case DOWN -> {
-                if (this.spriteNumber == 1) image = down1;
-                if (this.spriteNumber == 2) image = down2;
+                if (!attacking) {
+                    if (this.spriteNumber == 1) image = down1;
+                    if (this.spriteNumber == 2) image = down2;
+                } else {
+                    if (this.spriteNumber == 1) image = attackDown1;
+                    if (this.spriteNumber == 2) image = attackDown2;
+                }
             }
             case RIGHT -> {
-                if (this.spriteNumber == 1) image = right1;
-                if (this.spriteNumber == 2) image = right2;
+                if (!attacking) {
+                    if (this.spriteNumber == 1) image = right1;
+                    if (this.spriteNumber == 2) image = right2;
+                } else {
+                    if (this.spriteNumber == 1) image = attackRight1;
+                    if (this.spriteNumber == 2) image = attackRight2;
+                }
             }
             case LEFT -> {
-                if (this.spriteNumber == 1) image = left1;
-                if (this.spriteNumber == 2) image = left2;
+                if (!attacking) {
+                    if (this.spriteNumber == 1) image = left1;
+                    if (this.spriteNumber == 2) image = left2;
+                } else {
+                    tempScreenX -= gamePanel.TILE_SIZE;
+                    if (this.spriteNumber == 1) image = attackLeft1;
+                    if (this.spriteNumber == 2) image = attackLeft2;
+                }
             }
         }
-        int x = SCREEN_X, y = SCREEN_Y;
+        int x = tempScreenX, y = tempScreenY;
         if(SCREEN_X > worldX) x = worldX;
         if(SCREEN_Y > worldY) y = worldY;
 
-        int rightOffset = gamePanel.SCREEN_WIDTH - SCREEN_X;
+        int rightOffset = gamePanel.SCREEN_WIDTH - tempScreenX;
         if(rightOffset > gamePanel.WORLD_WIDTH - worldX) x = gamePanel.SCREEN_WIDTH - (gamePanel.WORLD_WIDTH - worldX);
-        int bottomOffset = gamePanel.SCREEN_HEIGHT - SCREEN_Y;
+        int bottomOffset = gamePanel.SCREEN_HEIGHT - tempScreenY;
         if(bottomOffset > gamePanel.WORLD_HEIGHT - worldY) y = gamePanel.SCREEN_HEIGHT - (gamePanel.WORLD_HEIGHT - worldY);
 
-        if(invincible) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-        }
-
+        if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         g2.drawImage(image, x, y, null);
-
-        if(invincible) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        }
+        if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         if (keyHandler.debugMode) {
             g2.setColor(Color.RED);

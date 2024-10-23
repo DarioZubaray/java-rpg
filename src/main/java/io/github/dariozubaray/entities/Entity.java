@@ -10,6 +10,7 @@ public class Entity {
     public int worldX, worldY, speed;
 
     public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackRight1, attackRight2, attackLeft1, attackLeft2;
     public EntityDirection direction;
     public int spriteCounter = 0;
     public int spriteNumber = 1;
@@ -19,6 +20,7 @@ public class Entity {
     public int actionLockCounter;
 
     public boolean invincible;
+    public boolean attacking;
     public int invincibleCounter;
     String[] dialogues;
     int dialogueIndex;
