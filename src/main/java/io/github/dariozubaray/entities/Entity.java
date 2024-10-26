@@ -32,8 +32,8 @@ public class Entity {
 
     public int maxLife;
     public int life;
-    public int dyingCounter;
-    public boolean alive, dying;
+    public int dyingCounter, hpBarCounter;
+    public boolean alive, dying, hpBarOn;
 
     public BufferedImage image1, image2, image3;
     public EntityLabel name;
@@ -53,6 +53,8 @@ public class Entity {
     }
 
     public void setAction() {}
+
+    public void damageReaction() {}
 
     public void speak() {
         gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
@@ -151,9 +153,20 @@ public class Entity {
                 case ANY -> image = image1;
             }
 
-            if (type == 2 && maxLife != life) displayMonsterHPBar(g2, screenX, screenY);
+            if (type == 2 && hpBarOn) {
+                displayMonsterHPBar(g2, screenX, screenY);
+                hpBarCounter++;
+                if(hpBarCounter > 600) {
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
+            }
 
-            if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            if(invincible) {
+                hpBarOn = true;
+                hpBarCounter = 0;
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            }
             if(dying) dyingAnimation(g2);
 
             g2.drawImage(image, screenX, screenY, null);
@@ -164,31 +177,9 @@ public class Entity {
 
     public void dyingAnimation(Graphics2D g2) {
         dyingCounter++;
-        int intervalTime  = 5;
-        if(dyingCounter <= intervalTime) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-        }
-        if(dyingCounter > intervalTime && dyingCounter <= intervalTime * 2) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        }
-        if(dyingCounter > intervalTime * 2 && dyingCounter <= intervalTime * 3) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-        }
-        if(dyingCounter > intervalTime * 3 && dyingCounter <= intervalTime * 4) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        }
-        if(dyingCounter > intervalTime * 4 && dyingCounter <= intervalTime * 5) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-        }
-        if(dyingCounter > intervalTime * 5 && dyingCounter <= intervalTime * 6) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        }
-        if(dyingCounter > intervalTime * 6 && dyingCounter <= intervalTime * 7) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        }
-        if(dyingCounter > intervalTime * 7 && dyingCounter <= intervalTime * 8) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
-        }
+        int intervalTime = 5;
+        float opacity = (dyingCounter / intervalTime) % 2 == 0 ? 0f : 1f;
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
         if(dyingCounter > intervalTime * 8) {
             dying = false;

@@ -159,6 +159,7 @@ public class Player extends Entity {
             gamePanel.playSoundEffect(SoundLabel.HIT_MONSTER.getAudioIndex());
             gamePanel.monsters[index].life -= 1;
             gamePanel.monsters[index].invincible = true;
+            gamePanel.monsters[index].damageReaction();
 
             if(gamePanel.monsters[index].life <= 0) {
                 gamePanel.monsters[index].dying = true;
