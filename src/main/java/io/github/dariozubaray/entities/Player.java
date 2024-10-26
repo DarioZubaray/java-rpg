@@ -5,6 +5,7 @@ import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
+import io.github.dariozubaray.sound.SoundLabel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -117,7 +118,6 @@ public class Player extends Entity {
             spriteNumber = 2;
 
             checkDamageMonster();
-
         }
         if(spriteCounter > 25) {
             spriteNumber = 1;
@@ -156,11 +156,12 @@ public class Player extends Entity {
         }
 
         if(!gamePanel.monsters[index].invincible) {
+            gamePanel.playSoundEffect(SoundLabel.HIT_MONSTER.getAudioIndex());
             gamePanel.monsters[index].life -= 1;
             gamePanel.monsters[index].invincible = true;
 
             if(gamePanel.monsters[index].life <= 0) {
-                gamePanel.monsters[index] = null;
+                gamePanel.monsters[index].dying = true;
             }
         }
     }
@@ -172,14 +173,14 @@ public class Player extends Entity {
         EntityLabel entityLabel = gamePanel.objects[index].name;
         switch (entityLabel) {
             case KEY -> {
-                gamePanel.playSoundEffect(entityLabel.getAudioIndex());
+                gamePanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
                 hasKey++;
                 gamePanel.objects[index] = null;
                 gamePanel.ui.showMessage("You get a key!");
             }
             case DOOR -> {
                 if (hasKey > 0) {
-                    gamePanel.playSoundEffect(entityLabel.getAudioIndex());
+                    gamePanel.playSoundEffect(SoundLabel.UNLOCK.getAudioIndex());
                     gamePanel.objects[index] = null;
                     hasKey--;
                     gamePanel.ui.showMessage("You opened the door!");
@@ -188,14 +189,14 @@ public class Player extends Entity {
                 }
             }
             case BOOT -> {
-                gamePanel.playSoundEffect(entityLabel.getAudioIndex());
+                gamePanel.playSoundEffect(SoundLabel.POWER_UP.getAudioIndex());
                 gamePanel.objects[index] = null;
                 speed += 2;
             }
             case CHEST -> {
                 gamePanel.ui.gameFinished = true;
                 gamePanel.stopMusic();
-                gamePanel.playSoundEffect(3);
+                gamePanel.playSoundEffect(SoundLabel.FANFARE.getAudioIndex());
             }
         }
     }
@@ -203,6 +204,8 @@ public class Player extends Entity {
     private void interactNpc(int index) {
         if (index == -1) {
             attacking = gamePanel.keyHandler.enterPressed;
+            if (attacking) gamePanel.playSoundEffect(SoundLabel.SWING_WEAPON.getAudioIndex());
+
             return;
         }
 
@@ -218,6 +221,7 @@ public class Player extends Entity {
         }
 
         if(!invincible) {
+            gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
             this.life -= 1;
             invincible = true;
         }

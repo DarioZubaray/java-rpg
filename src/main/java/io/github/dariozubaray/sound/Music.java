@@ -1,4 +1,4 @@
-package io.github.dariozubaray;
+package io.github.dariozubaray.sound;
 
 import java.net.URL;
 import javax.sound.sampled.AudioInputStream;

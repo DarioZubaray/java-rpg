@@ -2,6 +2,8 @@ package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.Player;
+import io.github.dariozubaray.sound.Music;
+import io.github.dariozubaray.sound.Sound;
 import io.github.dariozubaray.tiles.TileManager;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -124,7 +126,12 @@ public class GamePanel extends JPanel implements Runnable {
             player.update();
 
             Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
-            Arrays.stream(monsters).filter(Objects::nonNull).forEach(Entity::update);
+            for (int i = 0; i < monsters.length; i++) {
+                if (monsters[i] != null) {
+                    if (monsters[i].alive && !monsters[i].dying) monsters[i].update();
+                    if (!monsters[i].alive) monsters[i] = null;
+                }
+            }
         }
     }
 

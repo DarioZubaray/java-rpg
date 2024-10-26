@@ -1,4 +1,4 @@
-package io.github.dariozubaray;
+package io.github.dariozubaray.sound;
 
 import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
@@ -11,10 +11,14 @@ public class Sound {
     URL[] soundURL = new URL[30];
 
     public Sound() {
-        soundURL[0] = getClass().getResource("/sound/coin.wav");
-        soundURL[1] = getClass().getResource("/sound/powerup.wav");
-        soundURL[2] = getClass().getResource("/sound/unlock.wav");
-        soundURL[3] = getClass().getResource("/sound/fanfare.wav");
+        soundURL[0] = getClass().getResource(SoundLabel.COIN.getPath());
+        soundURL[1] = getClass().getResource(SoundLabel.POWER_UP.getPath());
+        soundURL[2] = getClass().getResource(SoundLabel.UNLOCK.getPath());
+        soundURL[3] = getClass().getResource(SoundLabel.FANFARE.getPath());
+
+        soundURL[4] = getClass().getResource(SoundLabel.HIT_MONSTER.getPath());
+        soundURL[5] = getClass().getResource(SoundLabel.RECEIVE_DAMAGE.getPath());
+        soundURL[6] = getClass().getResource(SoundLabel.SWING_WEAPON.getPath());
     }
 
     public void setFile(int i) {

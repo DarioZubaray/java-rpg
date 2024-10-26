@@ -1,7 +1,9 @@
 package io.github.dariozubaray.entities;
 
 import io.github.dariozubaray.GamePanel;
+import io.github.dariozubaray.sound.SoundLabel;
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -30,6 +32,8 @@ public class Entity {
 
     public int maxLife;
     public int life;
+    public int dyingCounter;
+    public boolean alive, dying;
 
     public BufferedImage image1, image2, image3;
     public EntityLabel name;
@@ -43,6 +47,9 @@ public class Entity {
         this.dialogues = new String[20];
 
         this.direction = EntityDirection.ANY;
+        this.alive = true;
+        this.dying = false;
+        this.dyingCounter = 0;
     }
 
     public void setAction() {}
@@ -71,6 +78,7 @@ public class Entity {
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
         if(this.type == 2 && contactPlayer) {
             if (!gamePanel.player.invincible) {
+                gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
                 gamePanel.player.life -= 1;
                 gamePanel.player.invincible = true;
             }
@@ -142,9 +150,60 @@ public class Entity {
                 }
                 case ANY -> image = image1;
             }
+
+            if (type == 2 && maxLife != life) displayMonsterHPBar(g2, screenX, screenY);
+
             if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            if(dying) dyingAnimation(g2);
+
             g2.drawImage(image, screenX, screenY, null);
+
             if(invincible) g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
+    }
+
+    public void dyingAnimation(Graphics2D g2) {
+        dyingCounter++;
+        int intervalTime  = 5;
+        if(dyingCounter <= intervalTime) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+        }
+        if(dyingCounter > intervalTime && dyingCounter <= intervalTime * 2) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
+        if(dyingCounter > intervalTime * 2 && dyingCounter <= intervalTime * 3) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+        }
+        if(dyingCounter > intervalTime * 3 && dyingCounter <= intervalTime * 4) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
+        if(dyingCounter > intervalTime * 4 && dyingCounter <= intervalTime * 5) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+        }
+        if(dyingCounter > intervalTime * 5 && dyingCounter <= intervalTime * 6) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
+        if(dyingCounter > intervalTime * 6 && dyingCounter <= intervalTime * 7) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
+        if(dyingCounter > intervalTime * 7 && dyingCounter <= intervalTime * 8) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0f));
+        }
+
+        if(dyingCounter > intervalTime * 8) {
+            dying = false;
+            alive = false;
+        }
+    }
+
+    public void displayMonsterHPBar(Graphics2D g2, int screenX, int screenY) {
+        double oneScale = gamePanel.TILE_SIZE *1.0 / maxLife;
+        double hpBarValue = oneScale * life;
+
+        g2.setColor(new Color(35, 35, 35));
+        g2.fillRect(screenX - 1, screenY -16, gamePanel.TILE_SIZE + 2, 12);
+
+        g2.setColor(new Color(255, 0, 30));
+        g2.fillRect(screenX, screenY -15, (int) hpBarValue, 10);
     }
 }

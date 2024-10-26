@@ -1,6 +1,6 @@
 package io.github.dariozubaray;
 
-import static io.github.dariozubaray.Music.MAIN_MUSIC_INDEX;
+import static io.github.dariozubaray.sound.Music.MAIN_MUSIC_INDEX;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
