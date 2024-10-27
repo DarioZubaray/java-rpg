@@ -195,7 +195,7 @@ public class Player extends Entity {
 
             if(gamePanel.monsters[index].life <= 0) {
                 gamePanel.monsters[index].dying = true;
-                gamePanel.ui.addMessage("Killed the " + gamePanel.monsters[index].name + "!");
+                gamePanel.ui.addMessage("Killed the " + gamePanel.monsters[index].name.getName() + "!");
             }
         }
     }
@@ -225,6 +225,7 @@ public class Player extends Entity {
             case BOOT -> {
                 gamePanel.playSoundEffect(SoundLabel.POWER_UP.getAudioIndex());
                 gamePanel.objects[index] = null;
+                gamePanel.ui.addMessage("You got the speed boots!");
                 speed += 2;
             }
             case CHEST -> {

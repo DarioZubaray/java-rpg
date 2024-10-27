@@ -72,8 +72,10 @@ public class EventHandler {
     }
 
     public void damagePit(int eventCol, int eventRow, GameState gameState) {
-        this.gamepanel.gameState = gameState;
-        this.gamepanel.ui.currentDialogue = "You fall into a pit!";
+//        this.gamepanel.gameState = gameState;
+//        this.gamepanel.ui.currentDialogue = "You fall into a pit!";
+        this.gamepanel.ui.addMessage("You fall into a pit!");
+        this.gamepanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
         this.gamepanel.player.life -= 1;
         //this.eventRect[eventCol][eventRow].eventDone = true;
         this.canActiveFallPitEvent = false;
@@ -81,17 +83,21 @@ public class EventHandler {
 
     public void healingPool(int col, int eventRow, GameState gameState) {
         if(gamepanel.keyHandler.enterPressed) {
-            gamepanel.gameState = gameState;
+//            gamepanel.gameState = gameState;
+//            this.gamepanel.ui.currentDialogue = "You drink he water.\nYour life has been recovered.";
             gamepanel.player.attackCanceled = true;
             gamepanel.playSoundEffect(SoundLabel.POWER_UP.getAudioIndex());
-            this.gamepanel.ui.currentDialogue = "You drink he water.\nYour life has been recovered.";
+            this.gamepanel.ui.addMessage("You drink the water.");
+            this.gamepanel.ui.addMessage("Your life has been recovered.");
             this.gamepanel.player.life = this.gamepanel.player.maxLife;
         }
     }
 
     public void teleport(GameState gameState) {
-        gamepanel.gameState = gameState;
-        this.gamepanel.ui.currentDialogue = "Teleport!";
+//        gamepanel.gameState = gameState;
+//        this.gamepanel.ui.currentDialogue = "Teleported!";
+        this.gamepanel.ui.addMessage("Teleported!");
+        this.gamepanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
         this.gamepanel.player.worldX = gamepanel.TILE_SIZE * 38;
         this.gamepanel.player.worldY = gamepanel.TILE_SIZE * 9;
     }
