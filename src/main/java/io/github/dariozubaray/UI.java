@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UI {
 
@@ -19,7 +21,10 @@ public class UI {
     BufferedImage heartFull, heartHalf, heartBlank;
     int titleImageCounter;
     public int commandNumber = 0;
-    public String message;
+
+    List<String> messages;
+    List<Integer> messagesCounter;
+
     public boolean gameFinished;
     double playTime;
     DecimalFormat decimalFormat;
@@ -36,10 +41,14 @@ public class UI {
         heartFull = heart.image1;
         heartHalf = heart.image2;
         heartBlank = heart.image3;
+
+        this.messages = new ArrayList<>();
+        this.messagesCounter = new ArrayList<>();
     }
 
-    public void showMessage(String text) {
-        message = text;
+    public void addMessage(String text) {
+        messages.add(text);
+        messagesCounter.add(0);
     }
 
     public void draw(Graphics2D g2) {
@@ -72,6 +81,7 @@ public class UI {
         }
 
         drawPlayerLife();
+        drawMessages();
 
         if(keyHandler.debugMode) {
             g2.setFont(purisaBold);
@@ -84,6 +94,32 @@ public class UI {
             drawText("FPS: " + gamePanel.drawnFrames, gamePanel.TILE_SIZE * 12 + 18, gamePanel.TILE_SIZE * 10 + 20);
         }
     }
+
+    private void drawMessages() {
+        int messageX = gamePanel.TILE_SIZE;
+        int messageY = gamePanel.TILE_SIZE * 4;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32f));
+
+        int start = Math.max(0, messages.size() - 5);
+
+        for (int i = start; i < messages.size(); i++) {
+            String message = messages.get(i);
+            if (message != null) {
+                g2.setColor(Color.WHITE);
+                g2.drawString(message, messageX, messageY);
+                messageY += 50;
+            }
+        }
+
+        for (int i = messagesCounter.size() - 1; i >= 0; i--) {
+            messagesCounter.set(i, messagesCounter.get(i) + 1);
+            if (messagesCounter.get(i) > 180) {
+                messages.remove(i);
+                messagesCounter.remove(i);
+            }
+        }
+    }
+
 
     private void drawPlayerLife() {
         int fullLife = 0, halfLife = 0;
@@ -117,7 +153,7 @@ public class UI {
         return gamePanel.SCREEN_WIDTH / 2 - textLength / 2;
     }
 
-    private int getXForAlignToRigthText(String text, int tailX) {
+    private int getXForAlignToRightText(String text, int tailX) {
         int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return tailX - textLength;
     }
@@ -253,7 +289,7 @@ public class UI {
 
         for (int i = 0; i < labels.length; i++) {
             g2.drawString(labels[i], textX, textY);
-            int alignedTextX = getXForAlignToRigthText(values[i], tailX);
+            int alignedTextX = getXForAlignToRightText(values[i], tailX);
             g2.drawString(values[i], alignedTextX, textY);
             textY += lineHeight;
         }

@@ -191,9 +191,11 @@ public class Player extends Entity {
             gamePanel.monsters[index].life -= damage;
             gamePanel.monsters[index].invincible = true;
             gamePanel.monsters[index].damageReaction();
+            gamePanel.ui.addMessage(damage + " damage!");
 
             if(gamePanel.monsters[index].life <= 0) {
                 gamePanel.monsters[index].dying = true;
+                gamePanel.ui.addMessage("Killed the " + gamePanel.monsters[index].name + "!");
             }
         }
     }
@@ -208,16 +210,16 @@ public class Player extends Entity {
                 gamePanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
                 hasKey++;
                 gamePanel.objects[index] = null;
-                gamePanel.ui.showMessage("You get a key!");
+                gamePanel.ui.addMessage("You get a key!");
             }
             case DOOR -> {
                 if (hasKey > 0) {
                     gamePanel.playSoundEffect(SoundLabel.UNLOCK.getAudioIndex());
                     gamePanel.objects[index] = null;
                     hasKey--;
-                    gamePanel.ui.showMessage("You opened the door!");
+                    gamePanel.ui.addMessage("You opened the door!");
                 } else {
-                    gamePanel.ui.showMessage("You need a key!");
+                    gamePanel.ui.addMessage("You need a key!");
                 }
             }
             case BOOT -> {
