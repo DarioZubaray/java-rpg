@@ -5,6 +5,8 @@ import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
+import io.github.dariozubaray.object.OBJ_Shield_Wood;
+import io.github.dariozubaray.object.OBJ_Sword_Normal;
 import io.github.dariozubaray.sound.SoundLabel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -50,8 +52,28 @@ public class Player extends Entity {
         this.worldY = gamePanel.TILE_SIZE * 21;
         this.speed = 4;
         this.direction = EntityDirection.DOWN;
+
         this.maxLife = 6;
         this.life = maxLife;
+        level = 1;
+        strength = 1;
+        dexterity = 1;
+        exp = 0;
+        nextLevelExp = 5;
+        coins = 0;
+        currentWeapon = new OBJ_Sword_Normal(gamePanel);
+        currentShield = new OBJ_Shield_Wood(gamePanel);
+
+        attack = getAttack();
+        defense = getDefense();
+    }
+
+    public int getAttack() {
+        return attack = strength * currentWeapon.attackValue;
+    }
+
+    public int getDefense() {
+        return  defense = dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {

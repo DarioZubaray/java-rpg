@@ -4,5 +4,6 @@ public enum GameState {
     TITLE,
     PLAY,
     PAUSE,
-    DIALOGUE
+    DIALOGUE,
+    CHARACTER
 }
