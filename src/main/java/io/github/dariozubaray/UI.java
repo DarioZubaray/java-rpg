@@ -265,7 +265,6 @@ public class UI {
         g2.drawImage(gamePanel.player.currentShield.image1, tailX - gamePanel.TILE_SIZE, textY - 20, null);
     }
 
-
     private void drawSubWindow(int x, int y, int width, int height) {
         Color background = new Color(0, 0, 0,180);
         g2.setColor(background);

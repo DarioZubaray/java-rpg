@@ -95,7 +95,9 @@ public class Entity {
         if(this.type == 2 && contactPlayer) {
             if (!gamePanel.player.invincible) {
                 gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
-                gamePanel.player.life -= 1;
+                int damage = attack - gamePanel.player.defense;
+                if(damage < 0) damage = 0;
+                gamePanel.player.life -= damage;
                 gamePanel.player.invincible = true;
             }
         }
