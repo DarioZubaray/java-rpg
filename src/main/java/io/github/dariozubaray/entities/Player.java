@@ -19,7 +19,7 @@ public class Player extends Entity {
     public final int SCREEN_X;
     public final int SCREEN_Y;
     public int hasKey = 0;
-
+    public boolean attackCanceled;
     int standCounter = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
@@ -100,6 +100,12 @@ public class Player extends Entity {
             }
             gamePanel.eventHandler.checkEvent();
             invertSprites();
+            if (gamePanel.keyHandler.enterPressed && !attackCanceled) {
+                attacking = true;
+                spriteCounter = 0;
+                gamePanel.playSoundEffect(SoundLabel.SWING_WEAPON.getAudioIndex());
+            }
+            attackCanceled = false;
             gamePanel.keyHandler.enterPressed = false;
         } else {
             setStandUp();
@@ -204,13 +210,11 @@ public class Player extends Entity {
 
     private void interactNpc(int index) {
         if (index == -1) {
-            attacking = gamePanel.keyHandler.enterPressed;
-            if (attacking) gamePanel.playSoundEffect(SoundLabel.SWING_WEAPON.getAudioIndex());
-
             return;
         }
 
         if(gamePanel.keyHandler.enterPressed) {
+            attackCanceled = true;
             gamePanel.gameState = GameState.DIALOGUE;
             gamePanel.npcs[index].speak();
         }

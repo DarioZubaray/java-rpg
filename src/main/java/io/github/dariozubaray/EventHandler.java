@@ -1,6 +1,7 @@
 package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.EntityDirection;
+import io.github.dariozubaray.sound.SoundLabel;
 
 public class EventHandler {
 
@@ -81,6 +82,8 @@ public class EventHandler {
     public void healingPool(int col, int eventRow, GameState gameState) {
         if(gamepanel.keyHandler.enterPressed) {
             gamepanel.gameState = gameState;
+            gamepanel.player.attackCanceled = true;
+            gamepanel.playSoundEffect(SoundLabel.POWER_UP.getAudioIndex());
             this.gamepanel.ui.currentDialogue = "You drink he water.\nYour life has been recovered.";
             this.gamepanel.player.life = this.gamepanel.player.maxLife;
         }
