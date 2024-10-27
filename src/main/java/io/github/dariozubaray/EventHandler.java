@@ -90,6 +90,8 @@ public class EventHandler {
             this.gamepanel.ui.addMessage("You drink the water.");
             this.gamepanel.ui.addMessage("Your life has been recovered.");
             this.gamepanel.player.life = this.gamepanel.player.maxLife;
+
+            this.gamepanel.assetSetter.setMonster();
         }
     }
 

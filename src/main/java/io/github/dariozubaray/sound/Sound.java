@@ -19,6 +19,8 @@ public class Sound {
         soundURL[4] = getClass().getResource(SoundLabel.HIT_MONSTER.getPath());
         soundURL[5] = getClass().getResource(SoundLabel.RECEIVE_DAMAGE.getPath());
         soundURL[6] = getClass().getResource(SoundLabel.SWING_WEAPON.getPath());
+
+        soundURL[7] = getClass().getResource(SoundLabel.LEVEL_UP.getPath());
     }
 
     public void setFile(int i) {

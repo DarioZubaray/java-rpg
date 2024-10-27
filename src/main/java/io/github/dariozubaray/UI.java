@@ -105,6 +105,8 @@ public class UI {
         for (int i = start; i < messages.size(); i++) {
             String message = messages.get(i);
             if (message != null) {
+                g2.setColor(Color.BLACK);
+                g2.drawString(message, messageX+2, messageY+2);
                 g2.setColor(Color.WHITE);
                 g2.drawString(message, messageX, messageY);
                 messageY += 50;

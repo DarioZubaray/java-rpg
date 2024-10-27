@@ -59,7 +59,7 @@ public class Player extends Entity {
         strength = 1;
         dexterity = 1;
         exp = 0;
-        nextLevelExp = 5;
+        nextLevelExp = 2;
         coins = 0;
         currentWeapon = new OBJ_Sword_Normal(gamePanel);
         currentShield = new OBJ_Shield_Wood(gamePanel);
@@ -196,7 +196,27 @@ public class Player extends Entity {
             if(gamePanel.monsters[index].life <= 0) {
                 gamePanel.monsters[index].dying = true;
                 gamePanel.ui.addMessage("Killed the " + gamePanel.monsters[index].name.getName() + "!");
+                exp += gamePanel.monsters[index].exp;
+                gamePanel.ui.addMessage("Exp +" + gamePanel.monsters[index].exp);
+                checkLevelUp();
             }
+        }
+    }
+
+    public void checkLevelUp() {
+        if(exp <= nextLevelExp) {
+            level++;
+            nextLevelExp = nextLevelExp * 2;
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defense = getDefense();
+
+            gamePanel.playSoundEffect(SoundLabel.LEVEL_UP.getAudioIndex());
+            gamePanel.gameState = GameState.DIALOGUE;
+            gamePanel.ui.currentDialogue = "You are level " + level + " now!\n"
+                    + "You feel stronger!";
         }
     }
 
