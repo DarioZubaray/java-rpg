@@ -164,7 +164,21 @@ public class GamePanel extends JPanel implements Runnable {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
             g2.setColor(Color.WHITE);
-            g2.drawString("DrawTime: " + passed, 400, 550);
+            int x = 10;
+            int y = 400;
+            int lineHeight = 20;
+
+            g2.drawString("WorldX: " + player.worldX, x, y);
+            y += lineHeight;
+            g2.drawString("WorldY: " + player.worldY, x, y);
+            y += lineHeight;
+            int col = (player.worldX + player.solidArea.x) / TILE_SIZE;
+            g2.drawString("Col: " + col, x, y);
+            y += lineHeight;
+            int row = (player.worldY + player.solidArea.y) / TILE_SIZE;
+            g2.drawString("Row: " + row, x, y);
+            y += lineHeight;
+            g2.drawString("DrawTime: " + passed, x, y);
         }
         g2.dispose();
     }

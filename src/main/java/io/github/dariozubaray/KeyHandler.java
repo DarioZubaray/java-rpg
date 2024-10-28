@@ -95,6 +95,7 @@ public class KeyHandler implements KeyListener {
 
         if(code == KeyEvent.VK_F3) {
             debugMode = !debugMode;
+            gamePanel.tileManager.loadMap("/maps/world01-v2.txt");
         }
     }
 

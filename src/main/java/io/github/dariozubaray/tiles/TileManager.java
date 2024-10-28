@@ -82,13 +82,13 @@ public class TileManager {
         this.tiles[index].collision = collisionable;
     }
 
-    public void loadMap() {
+    public void loadMap(String mapPath) {
         String line;
         int col = 0;
         int row = 0;
 
         try (InputStream is = getClass().getResourceAsStream("/maps/world01-v2.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)))) {
+             BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)))) {
 
             while (col < gamePanel.MAX_WORLD_COL && row < gamePanel.MAX_WORLD_ROW) {
                 line = br.readLine();
@@ -110,6 +110,10 @@ public class TileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadMap() {
+        loadMap("/maps/world01-v2.txt");
     }
 
     public void draw(Graphics2D g2) {
