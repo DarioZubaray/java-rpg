@@ -332,8 +332,7 @@ public class UI {
         }
 
         drawInventoryCursor(slotXStart, slotYStart, slotSize);
-        drawDescriptionFrame(frameX, frameY, frameWidth, frameHeight);
-        drawDescriptionText(frameX, frameY + frameHeight);
+        drawDescriptionText(frameX, frameY, frameWidth, frameHeight);
     }
 
     private void drawInventoryFrame(int frameX, int frameY, int frameWidth, int frameHeight) {
@@ -355,13 +354,14 @@ public class UI {
         drawSubWindow(frameX, dFrameY, frameWidth, dFrameHeight);
     }
 
-    private void drawDescriptionText(int frameX, int frameY) {
+    private void drawDescriptionText(int frameX, int frameY, int frameWidth, int frameHeight) {
         int textX = frameX + 20;
-        int textY = frameY + gamePanel.TILE_SIZE;
+        int textY = frameY + frameHeight + gamePanel.TILE_SIZE;
         g2.setFont(g2.getFont().deriveFont(28f));
 
         int itemIndex = getItemIndexOnSlot();
         if(itemIndex < gamePanel.player.inventory.size()) {
+            drawDescriptionFrame(frameX, frameY, frameWidth, frameHeight);
             String description = gamePanel.player.inventory.get(itemIndex).description;
             for(String line : description.split("\n")) {
                 g2.drawString(line, textX, textY);

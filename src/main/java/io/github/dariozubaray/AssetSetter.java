@@ -1,8 +1,10 @@
 package io.github.dariozubaray;
 
+import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.NPC_OldMan;
 import io.github.dariozubaray.monster.MON_GreenSlime;
 import io.github.dariozubaray.object.OBJ_Boot;
+import io.github.dariozubaray.object.OBJ_Key;
 
 public class AssetSetter {
 
@@ -13,9 +15,18 @@ public class AssetSetter {
     }
 
     public void setObject() {
-        gamePanel.objects[0] = new OBJ_Boot(this.gamePanel);
-        gamePanel.objects[0].worldX = 36 * gamePanel.TILE_SIZE;
-        gamePanel.objects[0].worldY = 41 * gamePanel.TILE_SIZE;
+        int i = 0;
+        i = setNewObject(i, new OBJ_Boot(this.gamePanel), 36, 41);
+        i = setNewObject(i, new OBJ_Key(this.gamePanel), 25, 23);
+        i = setNewObject(i, new OBJ_Key(this.gamePanel), 21, 19);
+        setNewObject(i, new OBJ_Key(this.gamePanel), 26, 21);
+    }
+    private int setNewObject(int i, Entity object, int worldX, int worldY) {
+        gamePanel.objects[i] = object;
+        gamePanel.objects[i].worldX = worldX * gamePanel.TILE_SIZE;
+        gamePanel.objects[i].worldY = worldY * gamePanel.TILE_SIZE;
+        i++;
+        return i;
     }
 
     public void setNpc() {

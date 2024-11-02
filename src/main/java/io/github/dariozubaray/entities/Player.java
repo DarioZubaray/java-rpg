@@ -239,6 +239,12 @@ public class Player extends Entity {
         if (index == -1) {
             return;
         }
+
+        if(inventory.size() == maxInventorySize) {
+            return;
+        }
+
+        inventory.add(gamePanel.objects[index]);
         EntityLabel entityLabel = gamePanel.objects[index].name;
         switch (entityLabel) {
             case KEY -> {
