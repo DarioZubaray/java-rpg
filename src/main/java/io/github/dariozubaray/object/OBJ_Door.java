@@ -10,7 +10,8 @@ public class OBJ_Door extends Entity {
     public OBJ_Door(GamePanel gamePanel) {
         super(gamePanel);
         this.name = EntityLabel.DOOR;
-        this.image1 = ImageLoader.loadSprite("/objects/door.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.description = EntityLabel.DOOR.getDescription();
+        this.image1 = ImageLoader.loadSprite(EntityLabel.DOOR.getPath(), gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         collision = true;
     }
 }

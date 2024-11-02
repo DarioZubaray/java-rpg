@@ -10,6 +10,7 @@ public class OBJ_Chest extends Entity {
     public OBJ_Chest(GamePanel gamePanel) {
         super(gamePanel);
         this.name = EntityLabel.CHEST;
-        this.image1 = ImageLoader.loadSprite("/objects/chest.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.description = EntityLabel.CHEST.getDescription();
+        this.image1 = ImageLoader.loadSprite(EntityLabel.CHEST.getPath(), gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 }

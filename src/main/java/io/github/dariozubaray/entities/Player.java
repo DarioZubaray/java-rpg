@@ -44,8 +44,6 @@ public class Player extends Entity {
         this.solidArea.width = 32;
         this.solidArea.height = 32;
 
-        this.attackArea.width = 36;
-        this.attackArea.height = 36;
         this.inventory = new ArrayList<>();
         this.maxInventorySize = 20;
 
@@ -77,6 +75,8 @@ public class Player extends Entity {
     }
 
     public int getAttack() {
+        this.attackArea = currentWeapon.attackArea;
+        this.attackArea.height = 36;
         return attack = strength * currentWeapon.attackValue;
     }
 
@@ -273,6 +273,11 @@ public class Player extends Entity {
                 gamePanel.ui.gameFinished = true;
                 gamePanel.stopMusic();
                 gamePanel.playSoundEffect(SoundLabel.FANFARE.getAudioIndex());
+            }
+            default -> {
+                gamePanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
+                gamePanel.ui.addMessage("You get a " + gamePanel.objects[index].name + "!");
+                gamePanel.objects[index] = null;
             }
         }
     }

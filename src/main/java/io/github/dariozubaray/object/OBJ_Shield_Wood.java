@@ -11,8 +11,8 @@ public class OBJ_Shield_Wood extends Entity {
         super(gamePanel);
 
         this.name = EntityLabel.SHIELD_WOOD;
-        this.description = "[" + this.name.getName() + "]\nMade by wood.";
-        this.image1 = ImageLoader.loadSprite("/objects/shield_wood.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.description = EntityLabel.SHIELD_WOOD.getDescription();
+        this.image1 = ImageLoader.loadSprite(EntityLabel.SHIELD_WOOD.getPath(), gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         defenseValue = 1;
     }
 }

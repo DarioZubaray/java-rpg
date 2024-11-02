@@ -11,8 +11,10 @@ public class OBJ_Sword_Normal extends Entity {
         super(gamePanel);
 
         this.name = EntityLabel.SWORD_NORMAL;
-        this.description = "[" + this.name.getName() + "]\nAn old sword.";
-        this.image1 = ImageLoader.loadSprite("/objects/sword_normal.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.description = EntityLabel.SWORD_NORMAL.getDescription();
+        this.image1 = ImageLoader.loadSprite(EntityLabel.SWORD_NORMAL.getPath(), gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         attackValue = 1;
+        attackArea.width = 36;
+        attackArea.height = 36;
     }
 }

@@ -321,15 +321,7 @@ public class UI {
         int slotY = slotYStart;
         int slotSize = gamePanel.TILE_SIZE + 3;
 
-        for (int i = 0; i < gamePanel.player.inventory.size(); i++) {
-            g2.drawImage(gamePanel.player.inventory.get(i).image1, slotX, slotY, null);
-            slotX += slotSize;
-
-            if(i == 4 || i == 9 || i == 14) {
-                slotX = slotXStart;
-                slotY += slotSize;
-            }
-        }
+        drawPlayerItems(slotX, slotY, slotSize, slotXStart);
 
         drawInventoryCursor(slotXStart, slotYStart, slotSize);
         drawDescriptionText(frameX, frameY, frameWidth, frameHeight);
@@ -339,7 +331,25 @@ public class UI {
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
     }
 
-    private void drawInventoryCursor(final int slotXStart, final int slotYStart, int slotSize) {
+    private void drawPlayerItems(int slotX, int slotY, final int slotSize, final int slotXStart) {
+        for (int i = 0; i < gamePanel.player.inventory.size(); i++) {
+            var currentItem = gamePanel.player.inventory.get(i);
+            if(gamePanel.player.currentWeapon.equals(currentItem) || gamePanel.player.currentShield.equals(currentItem)) {
+                g2.setColor(new Color(240, 190, 90));
+                g2.fillRoundRect(slotX, slotY, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, 10, 10);
+            }
+
+            g2.drawImage(gamePanel.player.inventory.get(i).image1, slotX, slotY, null);
+            slotX += slotSize;
+
+            if(i == 4 || i == 9 || i == 14) {
+                slotX = slotXStart;
+                slotY += slotSize;
+            }
+        }
+    }
+
+    private void drawInventoryCursor(final int slotXStart, final int slotYStart, final int slotSize) {
         int cursorX = slotXStart + slotSize * slotCol;
         int cursorY = slotYStart + slotSize * slotRow;
         int cursorWidth = gamePanel.TILE_SIZE, cursorHeight = gamePanel.TILE_SIZE;
