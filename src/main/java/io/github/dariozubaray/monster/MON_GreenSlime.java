@@ -5,6 +5,7 @@ import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityDirection;
 import io.github.dariozubaray.entities.EntityLabel;
+import io.github.dariozubaray.entities.EntityType;
 import java.util.Random;
 
 public class MON_GreenSlime extends Entity {
@@ -12,7 +13,7 @@ public class MON_GreenSlime extends Entity {
     public MON_GreenSlime(GamePanel gamePanel) {
         super(gamePanel);
 
-        type = 2;
+        type = EntityType.MONSTER;
         name = EntityLabel.GREEN_SLIME;
         speed = 1;
         maxLife = 4;

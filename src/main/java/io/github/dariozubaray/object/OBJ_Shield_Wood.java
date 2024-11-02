@@ -4,6 +4,7 @@ import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityLabel;
+import io.github.dariozubaray.entities.EntityType;
 
 public class OBJ_Shield_Wood extends Entity {
 
@@ -13,6 +14,7 @@ public class OBJ_Shield_Wood extends Entity {
         this.name = EntityLabel.SHIELD_WOOD;
         this.description = EntityLabel.SHIELD_WOOD.getDescription();
         this.image1 = ImageLoader.loadSprite(EntityLabel.SHIELD_WOOD.getPath(), gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
-        defenseValue = 1;
+        this.type = EntityType.SHIELD;
+        this.defenseValue = 1;
     }
 }

@@ -52,7 +52,7 @@ public class Entity {
     public BufferedImage image1, image2, image3;
     public EntityLabel name;
     public boolean collision;
-    public int type;
+    public EntityType type;
     public String description;
 
     public Entity(GamePanel gamePanel) {
@@ -94,7 +94,7 @@ public class Entity {
         gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
-        if(this.type == 2 && contactPlayer) {
+        if(this.type == EntityType.MONSTER && contactPlayer) {
             if (!gamePanel.player.invincible) {
                 gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
                 int damage = attack - gamePanel.player.defense;
@@ -171,7 +171,7 @@ public class Entity {
                 case ANY -> image = image1;
             }
 
-            if (type == 2 && hpBarOn) {
+            if (type == EntityType.MONSTER && hpBarOn) {
                 displayMonsterHPBar(g2, screenX, screenY);
                 hpBarCounter++;
                 if(hpBarCounter > 600) {

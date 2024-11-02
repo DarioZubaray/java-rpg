@@ -380,7 +380,7 @@ public class UI {
         }
     }
 
-    private int getItemIndexOnSlot() {
+    public int getItemIndexOnSlot() {
         return slotCol + (slotRow * 5);
     }
 

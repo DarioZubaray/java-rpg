@@ -10,7 +10,7 @@ public enum EntityLabel {
     SWORD_NORMAL("Normal Sword", "[ Normal Sword ]\nAn old sword.", "sword_normal"),
     SHIELD_WOOD("Wood Shield", "[ Shield Wood ]\nMade by wood.", "shield_wood"),
     AXE("Woodcutter's Axe", "[ Woodcutter's Axe ]\nA bit rusty but still\ncan cut some trees.", "axe"),
-    BLUE_SHIELD("Blue Shield", "[ Blue Shield ]\n", "shield_blue");
+    BLUE_SHIELD("Blue Shield", "[ Blue Shield ]\nA Shiny blue shield", "shield_blue");
 
     private final String name;
     private final String description;

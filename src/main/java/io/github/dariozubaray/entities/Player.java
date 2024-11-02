@@ -235,6 +235,26 @@ public class Player extends Entity {
         }
     }
 
+    public void selectItem() {
+        int itemIndex = gamePanel.ui.getItemIndexOnSlot();
+
+        if (itemIndex < inventory.size()) {
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if (selectedItem.type.equals(EntityType.SWORD) || selectedItem.type.equals(EntityType.AXE)) {
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+            if (selectedItem.type.equals(EntityType.SHIELD)) {
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+            if (selectedItem.type.equals(EntityType.CONSUMABLE)) {
+                System.out.println("Selected a consumable!");
+            }
+        }
+    }
+
     private void pickUpObject(int index) {
         if (index == -1) {
             return;

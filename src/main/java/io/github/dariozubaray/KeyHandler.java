@@ -101,6 +101,9 @@ public class KeyHandler implements KeyListener {
             }
             gamePanel.playSoundEffect(SoundLabel.CURSOR.getAudioIndex());
         }
+        if (code == KeyEvent.VK_ENTER) {
+            gamePanel.player.selectItem();
+        }
     }
 
     public void playState(int code) {

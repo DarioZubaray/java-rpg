@@ -6,6 +6,7 @@ import io.github.dariozubaray.monster.MON_GreenSlime;
 import io.github.dariozubaray.object.OBJ_Axe;
 import io.github.dariozubaray.object.OBJ_Boot;
 import io.github.dariozubaray.object.OBJ_Key;
+import io.github.dariozubaray.object.OBJ_Shield_Blue;
 
 public class AssetSetter {
 
@@ -21,7 +22,8 @@ public class AssetSetter {
         i = setNewObject(i, new OBJ_Key(this.gamePanel), 25, 23);
         i = setNewObject(i, new OBJ_Key(this.gamePanel), 21, 19);
         i = setNewObject(i, new OBJ_Key(this.gamePanel), 26, 21);
-        setNewObject(i, new OBJ_Axe(this.gamePanel), 33, 21);
+        i = setNewObject(i, new OBJ_Axe(this.gamePanel), 33, 21);
+        setNewObject(i, new OBJ_Shield_Blue(this.gamePanel), 35, 21);
     }
 
     private int setNewObject(int i, Entity object, int worldX, int worldY) {

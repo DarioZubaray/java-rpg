@@ -4,6 +4,7 @@ import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityLabel;
+import io.github.dariozubaray.entities.EntityType;
 
 public class OBJ_Key extends Entity {
 
@@ -12,6 +13,7 @@ public class OBJ_Key extends Entity {
         this.name = EntityLabel.KEY;
         this.description = EntityLabel.KEY.getDescription();
         this.image1 = ImageLoader.loadSprite(EntityLabel.KEY.getPath(), gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        this.type = EntityType.CONSUMABLE;
     }
 }
 
