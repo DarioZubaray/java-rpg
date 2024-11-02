@@ -96,14 +96,26 @@ public class Player extends Entity {
     }
 
     public void getPlayerAttackImage() {
-        attackUp1 = ImageLoader.loadSprite("/player/boy_attack_up_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
-        attackUp2 = ImageLoader.loadSprite("/player/boy_attack_up_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
-        attackDown1 = ImageLoader.loadSprite("/player/boy_attack_down_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
-        attackDown2 = ImageLoader.loadSprite("/player/boy_attack_down_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
-        attackRight1 = ImageLoader.loadSprite("/player/boy_attack_right_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
-        attackRight2 = ImageLoader.loadSprite("/player/boy_attack_right_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
-        attackLeft1 = ImageLoader.loadSprite("/player/boy_attack_left_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
-        attackLeft2 = ImageLoader.loadSprite("/player/boy_attack_left_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+        if(currentWeapon.type.equals(EntityType.SWORD)) {
+            attackUp1 = ImageLoader.loadSprite("/player/boy_attack_up_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackUp2 = ImageLoader.loadSprite("/player/boy_attack_up_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackDown1 = ImageLoader.loadSprite("/player/boy_attack_down_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackDown2 = ImageLoader.loadSprite("/player/boy_attack_down_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackRight1 = ImageLoader.loadSprite("/player/boy_attack_right_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+            attackRight2 = ImageLoader.loadSprite("/player/boy_attack_right_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+            attackLeft1 = ImageLoader.loadSprite("/player/boy_attack_left_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+            attackLeft2 = ImageLoader.loadSprite("/player/boy_attack_left_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+        }
+        if(currentWeapon.type.equals(EntityType.AXE)) {
+            attackUp1 = ImageLoader.loadSprite("/player/boy_axe_up_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackUp2 = ImageLoader.loadSprite("/player/boy_axe_up_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackDown1 = ImageLoader.loadSprite("/player/boy_axe_down_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackDown2 = ImageLoader.loadSprite("/player/boy_axe_down_2.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE * 2);
+            attackRight1 = ImageLoader.loadSprite("/player/boy_axe_right_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+            attackRight2 = ImageLoader.loadSprite("/player/boy_axe_right_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+            attackLeft1 = ImageLoader.loadSprite("/player/boy_axe_left_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+            attackLeft2 = ImageLoader.loadSprite("/player/boy_axe_left_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+        }
     }
 
     public void setInventoryItem() {
@@ -244,13 +256,15 @@ public class Player extends Entity {
             if (selectedItem.type.equals(EntityType.SWORD) || selectedItem.type.equals(EntityType.AXE)) {
                 currentWeapon = selectedItem;
                 attack = getAttack();
+                getPlayerAttackImage();
             }
             if (selectedItem.type.equals(EntityType.SHIELD)) {
                 currentShield = selectedItem;
                 defense = getDefense();
             }
             if (selectedItem.type.equals(EntityType.CONSUMABLE)) {
-                System.out.println("Selected a consumable!");
+                selectedItem.use(this);
+                inventory.remove(itemIndex);
             }
         }
     }
@@ -296,7 +310,7 @@ public class Player extends Entity {
             }
             default -> {
                 gamePanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
-                gamePanel.ui.addMessage("You get a " + gamePanel.objects[index].name + "!");
+                gamePanel.ui.addMessage("You get a " + gamePanel.objects[index].name.getName() + "!");
                 gamePanel.objects[index] = null;
             }
         }
