@@ -30,6 +30,8 @@ public class UI {
     DecimalFormat decimalFormat;
     public String currentDialogue;
 
+    public int slotCol, slotRow;
+
     public UI(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
@@ -44,6 +46,8 @@ public class UI {
 
         this.messages = new ArrayList<>();
         this.messagesCounter = new ArrayList<>();
+        slotCol = 0;
+        slotRow = 0;
     }
 
     public void addMessage(String text) {
@@ -77,6 +81,7 @@ public class UI {
 
         if(gamePanel.gameState == GameState.CHARACTER) {
             drawCharacterScreen();
+            drawInventory();
             return;
         }
 
@@ -301,6 +306,26 @@ public class UI {
         textY += gamePanel.TILE_SIZE;
         g2.drawString("Shield", textX, textY);
         g2.drawImage(gamePanel.player.currentShield.image1, tailX - gamePanel.TILE_SIZE, textY - 20, null);
+    }
+
+    private void drawInventory() {
+        int frameX = gamePanel.TILE_SIZE * 9;
+        int frameY = gamePanel.TILE_SIZE;
+        int frameWidth = gamePanel.TILE_SIZE * 6;
+        int frameHeight = gamePanel.TILE_SIZE * 5;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        final int slotXStart = frameX + 20;
+        final int slotYStart = frameY + 20;
+        int slotX = slotXStart;
+        int slotY = slotYStart;
+
+        int cursorX = slotXStart + gamePanel.TILE_SIZE * slotCol;
+        int cursorY = slotYStart + gamePanel.TILE_SIZE * slotRow;
+        int cursorWidth = gamePanel.TILE_SIZE, cursorHeight = gamePanel.TILE_SIZE;
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
     }
 
     private void drawSubWindow(int x, int y, int width, int height) {

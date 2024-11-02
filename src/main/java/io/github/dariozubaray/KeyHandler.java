@@ -1,6 +1,7 @@
 package io.github.dariozubaray;
 
 import static io.github.dariozubaray.sound.Music.MAIN_MUSIC_INDEX;
+import io.github.dariozubaray.sound.SoundLabel;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -41,9 +42,7 @@ public class KeyHandler implements KeyListener {
         }
 
         if(gamePanel.gameState == GameState.CHARACTER) {
-            if(code == KeyEvent.VK_C) {
-                gamePanel.gameState = GameState.PLAY;
-            }
+            characterState(code);
             return;
         }
 
@@ -70,6 +69,37 @@ public class KeyHandler implements KeyListener {
             if(gamePanel.ui.commandNumber == 2) {
                 System.exit(0);
             }
+        }
+    }
+
+    public void characterState(int code) {
+        if(code == KeyEvent.VK_C) {
+            gamePanel.gameState = GameState.PLAY;
+        }
+
+        if (code == KeyEvent.VK_W) {
+            if(gamePanel.ui.slotRow != 0) {
+                gamePanel.ui.slotRow--;
+            }
+            gamePanel.playSoundEffect(SoundLabel.CURSOR.getAudioIndex());
+        }
+        if (code == KeyEvent.VK_A) {
+            if(gamePanel.ui.slotCol != 0) {
+                gamePanel.ui.slotCol--;
+            }
+            gamePanel.playSoundEffect(SoundLabel.CURSOR.getAudioIndex());
+        }
+        if (code == KeyEvent.VK_S) {
+            if(gamePanel.ui.slotRow != 3) {
+                gamePanel.ui.slotRow++;
+            }
+            gamePanel.playSoundEffect(SoundLabel.CURSOR.getAudioIndex());
+        }
+        if (code == KeyEvent.VK_D) {
+            if(gamePanel.ui.slotCol != 4) {
+                gamePanel.ui.slotCol++;
+            }
+            gamePanel.playSoundEffect(SoundLabel.CURSOR.getAudioIndex());
         }
     }
 
