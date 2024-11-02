@@ -53,6 +53,7 @@ public class Entity {
     public EntityLabel name;
     public boolean collision;
     public int type;
+    public String description;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -64,6 +65,7 @@ public class Entity {
         this.alive = true;
         this.dying = false;
         this.dyingCounter = 0;
+        this.description = "";
     }
 
     public void setAction() {}

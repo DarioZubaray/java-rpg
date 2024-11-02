@@ -5,6 +5,7 @@ import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
+import io.github.dariozubaray.object.OBJ_Key;
 import io.github.dariozubaray.object.OBJ_Shield_Wood;
 import io.github.dariozubaray.object.OBJ_Sword_Normal;
 import io.github.dariozubaray.sound.SoundLabel;
@@ -13,6 +14,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends Entity {
 
@@ -23,6 +26,8 @@ public class Player extends Entity {
     public int hasKey = 0;
     public boolean attackCanceled;
     int standCounter = 0;
+    public List<Entity> inventory;
+    public final int maxInventorySize;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -41,10 +46,13 @@ public class Player extends Entity {
 
         this.attackArea.width = 36;
         this.attackArea.height = 36;
+        this.inventory = new ArrayList<>();
+        this.maxInventorySize = 20;
 
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setInventoryItem();
     }
 
     public void setDefaultValues() {
@@ -96,6 +104,13 @@ public class Player extends Entity {
         attackRight2 = ImageLoader.loadSprite("/player/boy_attack_right_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
         attackLeft1 = ImageLoader.loadSprite("/player/boy_attack_left_1.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
         attackLeft2 = ImageLoader.loadSprite("/player/boy_attack_left_2.png", gamePanel.TILE_SIZE * 2, gamePanel.TILE_SIZE);
+    }
+
+    public void setInventoryItem() {
+        this.inventory.add(currentWeapon);
+        this.inventory.add(currentShield);
+        this.inventory.add(new OBJ_Key(gamePanel));
+        this.inventory.add(new OBJ_Key(gamePanel));
     }
 
     @Override
