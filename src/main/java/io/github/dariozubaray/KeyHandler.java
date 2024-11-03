@@ -9,7 +9,7 @@ public class KeyHandler implements KeyListener {
 
     GamePanel gamePanel;
     public boolean upPressed, downPressed, rightPressed, leftPressed;
-    public boolean enterPressed;
+    public boolean enterPressed, shotKeyPressed;
     public boolean debugMode;
 
     public KeyHandler(GamePanel gamePanel) {
@@ -125,6 +125,9 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
+        if(code == KeyEvent.VK_F) {
+            shotKeyPressed = true;
+        }
 
         if(code == KeyEvent.VK_F3) {
             debugMode = !debugMode;
@@ -146,6 +149,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_A) {
             leftPressed = false;
+        }
+        if(code == KeyEvent.VK_F) {
+            shotKeyPressed = false;
         }
     }
 }

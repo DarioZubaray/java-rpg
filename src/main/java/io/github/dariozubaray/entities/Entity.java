@@ -15,8 +15,10 @@ public class Entity {
     public BufferedImage up1, up2, down1, down2, right1, right2, left1, left2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackRight1, attackRight2, attackLeft1, attackLeft2;
     public EntityDirection direction;
+
     public int spriteCounter = 0;
     public int spriteNumber = 1;
+
     public Rectangle solidArea;
     public Rectangle attackArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
@@ -26,12 +28,15 @@ public class Entity {
     public boolean invincible;
     public boolean attacking;
     public int invincibleCounter;
+
     String[] dialogues;
     int dialogueIndex;
     int maxDialogueIndex;
 
     public int maxLife;
     public int life;
+    public int maxMana;
+    public int mana;
     public int level;
     public int strength;
     public int dexterity;
@@ -42,6 +47,8 @@ public class Entity {
     public int coins;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Projectile projectile;
+    public int useCost;
 
     public int attackValue;
     public int defenseValue;
@@ -93,8 +100,8 @@ public class Entity {
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
         gamePanel.collisionChecker.checkObject(this, false);
-        gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
-        gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.npcsArray);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
         if(this.type == EntityType.MONSTER && contactPlayer) {
             if (!gamePanel.player.invincible) {

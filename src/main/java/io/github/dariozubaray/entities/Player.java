@@ -5,6 +5,7 @@ import io.github.dariozubaray.GameState;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.KeyHandler;
 
+import io.github.dariozubaray.object.OBJ_Fireball;
 import io.github.dariozubaray.object.OBJ_Key;
 import io.github.dariozubaray.object.OBJ_Shield_Wood;
 import io.github.dariozubaray.object.OBJ_Sword_Normal;
@@ -61,17 +62,18 @@ public class Player extends Entity {
 
         this.maxLife = 6;
         this.life = maxLife;
-        level = 1;
-        strength = 1;
-        dexterity = 1;
-        exp = 0;
-        nextLevelExp = 5;
-        coins = 0;
-        currentWeapon = new OBJ_Sword_Normal(gamePanel);
-        currentShield = new OBJ_Shield_Wood(gamePanel);
+        this.level = 1;
+        this.strength = 1;
+        this.dexterity = 1;
+        this.exp = 0;
+        this.nextLevelExp = 5;
+        this.coins = 0;
+        this.currentWeapon = new OBJ_Sword_Normal(gamePanel);
+        this.currentShield = new OBJ_Shield_Wood(gamePanel);
+        this.projectile = new OBJ_Fireball(gamePanel);
 
-        attack = getAttack();
-        defense = getDefense();
+        this.attack = getAttack();
+        this.defense = getDefense();
     }
 
     public int getAttack() {
@@ -137,10 +139,10 @@ public class Player extends Entity {
             int objectIndex = gamePanel.collisionChecker.checkObject(this, true);
             pickUpObject(objectIndex);
 
-            int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npcs);
+            int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npcsArray);
             interactNpc(npcIndex);
 
-            int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+            int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
             contactMonster(monsterIndex);
 
             if(isPlayerMoving) {
@@ -160,6 +162,7 @@ public class Player extends Entity {
             setStandUp();
         }
 
+        shotProjectile();
         checkInvincibility();
     }
 
@@ -196,7 +199,7 @@ public class Player extends Entity {
         solidArea.width = attackArea.width;
         solidArea.height = attackArea.height;
 
-        int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monsters);
+        int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
         damageMonster(monsterIndex);
 
         worldX = currentWorldX;
@@ -210,21 +213,22 @@ public class Player extends Entity {
             return;
         }
 
-        if(!gamePanel.monsters[index].invincible) {
+        var monster = gamePanel.monstersArray[index];
+        if(!monster.invincible) {
             gamePanel.playSoundEffect(SoundLabel.HIT_MONSTER.getAudioIndex());
-            int damage = attack - gamePanel.monsters[index].defense;
+            int damage = attack - monster.defense;
             if(damage < 0) damage = 0;
 
-            gamePanel.monsters[index].life -= damage;
-            gamePanel.monsters[index].invincible = true;
-            gamePanel.monsters[index].damageReaction();
+            monster.life -= damage;
+            monster.invincible = true;
+            monster.damageReaction();
             gamePanel.ui.addMessage(damage + " damage!");
 
-            if(gamePanel.monsters[index].life <= 0) {
-                gamePanel.monsters[index].dying = true;
-                gamePanel.ui.addMessage("Killed the " + gamePanel.monsters[index].name.getName() + "!");
-                exp += gamePanel.monsters[index].exp;
-                gamePanel.ui.addMessage("Exp +" + gamePanel.monsters[index].exp);
+            if(monster.life <= 0) {
+                monster.dying = true;
+                gamePanel.ui.addMessage("Killed the " + gamePanel.monstersArray[index].name.getName() + "!");
+                exp += monster.exp;
+                gamePanel.ui.addMessage("Exp +" + monster.exp);
                 checkLevelUp();
             }
         }
@@ -278,19 +282,19 @@ public class Player extends Entity {
             return;
         }
 
-        inventory.add(gamePanel.objects[index]);
-        EntityLabel entityLabel = gamePanel.objects[index].name;
+        inventory.add(gamePanel.objectsArray[index]);
+        EntityLabel entityLabel = gamePanel.objectsArray[index].name;
         switch (entityLabel) {
             case KEY -> {
                 gamePanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
                 hasKey++;
-                gamePanel.objects[index] = null;
+                gamePanel.objectsArray[index] = null;
                 gamePanel.ui.addMessage("You get a key!");
             }
             case DOOR -> {
                 if (hasKey > 0) {
                     gamePanel.playSoundEffect(SoundLabel.UNLOCK.getAudioIndex());
-                    gamePanel.objects[index] = null;
+                    gamePanel.objectsArray[index] = null;
                     hasKey--;
                     gamePanel.ui.addMessage("You opened the door!");
                 } else {
@@ -299,7 +303,7 @@ public class Player extends Entity {
             }
             case BOOT -> {
                 gamePanel.playSoundEffect(SoundLabel.POWER_UP.getAudioIndex());
-                gamePanel.objects[index] = null;
+                gamePanel.objectsArray[index] = null;
                 gamePanel.ui.addMessage("You got the speed boots!");
                 speed += 2;
             }
@@ -310,8 +314,8 @@ public class Player extends Entity {
             }
             default -> {
                 gamePanel.playSoundEffect(SoundLabel.COIN.getAudioIndex());
-                gamePanel.ui.addMessage("You get a " + gamePanel.objects[index].name.getName() + "!");
-                gamePanel.objects[index] = null;
+                gamePanel.ui.addMessage("You get a " + gamePanel.objectsArray[index].name.getName() + "!");
+                gamePanel.objectsArray[index] = null;
             }
         }
     }
@@ -324,7 +328,7 @@ public class Player extends Entity {
         if(gamePanel.keyHandler.enterPressed) {
             attackCanceled = true;
             gamePanel.gameState = GameState.DIALOGUE;
-            gamePanel.npcs[index].speak();
+            gamePanel.npcsArray[index].speak();
         }
     }
 
@@ -333,7 +337,7 @@ public class Player extends Entity {
             return;
         }
 
-        var monster = gamePanel.monsters[monsterIndex];
+        var monster = gamePanel.monstersArray[monsterIndex];
         if(!invincible && !monster.alive) {
             gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
             int damage = monster.attack - defense;
@@ -350,6 +354,15 @@ public class Player extends Entity {
         if (standCounter >= 60) {
             standCounter = 0;
             spriteNumber = 1;
+        }
+    }
+
+    private void shotProjectile() {
+        if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive) {
+            projectile.set(worldX, worldY, direction, true, this);
+            gamePanel.projectileList.add(projectile);
+
+            gamePanel.playSoundEffect(SoundLabel.BURNING.getAudioIndex());
         }
     }
 

@@ -9,7 +9,8 @@ public enum SoundLabel {
     RECEIVE_DAMAGE("receivedamage", "/sound/receivedamage.wav", 5),
     SWING_WEAPON("swingweapon", "/sound/swingweapon.wav", 6),
     LEVEL_UP("levelup", "/sound/levelup.wav", 7),
-    CURSOR("cursor", "/sound/cursor.wav", 8);
+    CURSOR("cursor", "/sound/cursor.wav", 8),
+    BURNING("burning", "/sound/burning.wav", 9);
 
     private final String name;
     private final String path;

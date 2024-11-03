@@ -2,6 +2,7 @@ package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.Player;
+import io.github.dariozubaray.entities.Projectile;
 import io.github.dariozubaray.sound.Music;
 import io.github.dariozubaray.sound.Sound;
 import io.github.dariozubaray.tiles.TileManager;
@@ -45,10 +46,11 @@ public class GamePanel extends JPanel implements Runnable {
     Sound sound;
     public UI ui;
     public CollisionChecker collisionChecker;
-    public Entity[] objects;
-    List<Entity> entityList;
-    public Entity[] npcs;
-    public Entity[] monsters;
+    public List<Entity> entityList;
+    public List<Projectile> projectileList;
+    public Entity[] objectsArray;
+    public Entity[] npcsArray;
+    public Entity[] monstersArray;
     public AssetSetter assetSetter;
     public Player player;
 
@@ -64,14 +66,18 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
         this.tileManager = new TileManager(this);
-        music = new Music();
-        sound = new Sound();
-        ui = new UI(this, keyHandler);
+        this.music = new Music();
+        this.sound = new Sound();
+        this.ui = new UI(this, keyHandler);
         this.collisionChecker = new CollisionChecker(this);
-        this.objects = new Entity[10];
+
         this.entityList = new ArrayList<>();
-        this.npcs = new Entity[10];
-        this.monsters = new Entity[20];
+        this.projectileList = new ArrayList<>();
+
+        this.objectsArray = new Entity[10];
+        this.npcsArray = new Entity[10];
+        this.monstersArray = new Entity[20];
+
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
 //        this.gameState = GameState.TITLE;
@@ -125,11 +131,18 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == GameState.PLAY) {
             player.update();
 
-            Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
-            for (int i = 0; i < monsters.length; i++) {
-                if (monsters[i] != null) {
-                    if (monsters[i].alive && !monsters[i].dying) monsters[i].update();
-                    if (!monsters[i].alive) monsters[i] = null;
+            Arrays.stream(npcsArray).filter(Objects::nonNull).forEach(Entity::update);
+            for (int i = 0; i < monstersArray.length; i++) {
+                if (monstersArray[i] != null) {
+                    if (monstersArray[i].alive && !monstersArray[i].dying) monstersArray[i].update();
+                    if (!monstersArray[i].alive) monstersArray[i] = null;
+                }
+            }
+
+            for (int i = 0; i < projectileList.size(); i++) {
+                if (projectileList.get(i) != null) {
+                    if (projectileList.get(i).alive) projectileList.get(i).update();
+                    if (!projectileList.get(i).alive) projectileList.remove(i);
                 }
             }
         }
@@ -152,9 +165,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.tileManager.draw(g2);
 
         entityList.add(player);
-        Arrays.stream(npcs).filter(Objects::nonNull).forEach(entityList::add);
-        Arrays.stream(objects).filter(Objects::nonNull).forEach(entityList::add);
-        Arrays.stream(monsters).filter(Objects::nonNull).forEach(entityList::add);
+        Arrays.stream(npcsArray).filter(Objects::nonNull).forEach(entityList::add);
+        Arrays.stream(objectsArray).filter(Objects::nonNull).forEach(entityList::add);
+        Arrays.stream(monstersArray).filter(Objects::nonNull).forEach(entityList::add);
+        projectileList.stream().filter(Objects::nonNull).forEach(entityList::add);
+
         entityList.sort(Comparator.comparingInt(e -> e.worldY));
         entityList.forEach(e -> e.draw(g2));
         entityList.clear();

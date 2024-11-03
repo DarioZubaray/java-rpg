@@ -22,6 +22,7 @@ public class Sound {
 
         soundURL[7] = getClass().getResource(SoundLabel.LEVEL_UP.getPath());
         soundURL[8] = getClass().getResource(SoundLabel.CURSOR.getPath());
+        soundURL[9] = getClass().getResource(SoundLabel.BURNING.getPath());
     }
 
     public void setFile(int i) {
