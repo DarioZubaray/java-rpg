@@ -200,7 +200,7 @@ public class Player extends Entity {
         solidArea.height = attackArea.height;
 
         int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
-        damageMonster(monsterIndex);
+        damageMonster(monsterIndex, attack);
 
         worldX = currentWorldX;
         worldY = currentWorldY;
@@ -208,7 +208,7 @@ public class Player extends Entity {
         solidArea.height = solidAreaHeight;
     }
 
-    private void damageMonster(int index) {
+    public void damageMonster(int index, int attack) {
         if (index == -1) {
             return;
         }
@@ -358,11 +358,16 @@ public class Player extends Entity {
     }
 
     private void shotProjectile() {
-        if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive) {
+        if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30) {
             projectile.set(worldX, worldY, direction, true, this);
             gamePanel.projectileList.add(projectile);
 
+            shotAvailableCounter = 0;
             gamePanel.playSoundEffect(SoundLabel.BURNING.getAudioIndex());
+        }
+
+        if(shotAvailableCounter < 30) {
+            shotAvailableCounter++;
         }
     }
 

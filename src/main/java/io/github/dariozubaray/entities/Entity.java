@@ -53,6 +53,7 @@ public class Entity {
     public int attackValue;
     public int defenseValue;
 
+    public int shotAvailableCounter;
     public int dyingCounter, hpBarCounter;
     public boolean alive, dying, hpBarOn;
 
