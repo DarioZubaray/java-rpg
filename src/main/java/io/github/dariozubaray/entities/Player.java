@@ -333,12 +333,15 @@ public class Player extends Entity {
             return;
         }
 
-        if(!invincible) {
+        var monster = gamePanel.monsters[monsterIndex];
+        if(!invincible && !monster.alive) {
             gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
-            int damage = gamePanel.monsters[monsterIndex].attack - defense;
+            int damage = monster.attack - defense;
+
             if(damage < 0) damage = 0;
+
             this.life -= damage;
-            invincible = true;
+            this.invincible = true;
         }
     }
 

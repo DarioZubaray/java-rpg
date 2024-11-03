@@ -202,7 +202,6 @@ public class Entity {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
         if(dyingCounter > intervalTime * 8) {
-            dying = false;
             alive = false;
         }
     }
