@@ -103,20 +103,25 @@ public class Entity {
         gamePanel.collisionChecker.checkObject(this, false);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.npcsArray);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
+
+        damagePlayer(attack);
+        moveNPC();
+        invertSprites();
+        checkInvincibility();
+        countShotAvailability();
+    }
+
+    public void damagePlayer(int attack) {
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
         if(this.type == EntityType.MONSTER && contactPlayer) {
             if (!gamePanel.player.invincible) {
                 gamePanel.playSoundEffect(SoundLabel.RECEIVE_DAMAGE.getAudioIndex());
                 int damage = attack - gamePanel.player.defense;
-                if(damage < 0) damage = 0;
+                if (damage < 0) damage = 0;
                 gamePanel.player.life -= damage;
                 gamePanel.player.invincible = true;
             }
         }
-
-        moveNPC();
-        invertSprites();
-        checkInvincibility();
     }
 
     private void moveNPC() {
@@ -147,6 +152,12 @@ public class Entity {
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+    }
+
+    private void countShotAvailability() {
+        if(shotAvailableCounter < 30) {
+            shotAvailableCounter++;
         }
     }
 

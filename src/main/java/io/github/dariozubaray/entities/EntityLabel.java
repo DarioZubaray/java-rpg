@@ -8,6 +8,7 @@ public enum EntityLabel {
     HEART("Heart", "[ <3 ]", ""),
     POTION_RED("Red Potion", "[ Red Potion ]\nHeals your life by ", "potion_red"),
     FIREBALL("Fireball", "[ Fireball ]\nA tiny fireball.", ""),
+    ROCK("Rock", "[ Rock ] It is a boulder.", ""),
 
     GREEN_SLIME("Green Slime", "", ""),
 
