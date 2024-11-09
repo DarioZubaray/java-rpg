@@ -52,4 +52,10 @@ public class Projectile extends Entity {
             else if(spriteNumber == 1) spriteNumber = 2;
         }
     }
+
+    public boolean haveResource(Entity user) {
+        return false;
+    }
+
+    public void subtractResource(Entity user) {}
 }

@@ -36,6 +36,7 @@ public class Entity {
     public int maxLife;
     public int life;
     public int maxMana;
+    public int ammo;
     public int mana;
     public int level;
     public int strength;

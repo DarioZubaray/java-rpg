@@ -2,6 +2,7 @@ package io.github.dariozubaray;
 
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.object.OBJ_Heart;
+import io.github.dariozubaray.object.OBJ_ManaCrystal;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -18,7 +19,7 @@ public class UI {
     KeyHandler keyHandler;
     Font purisaBold;
     Font maruMonica;
-    BufferedImage heartFull, heartHalf, heartBlank;
+    BufferedImage heartFull, heartHalf, heartBlank, crystalFull, crystalBlank;
     int titleImageCounter;
     public int commandNumber = 0;
 
@@ -43,6 +44,9 @@ public class UI {
         heartFull = heart.image1;
         heartHalf = heart.image2;
         heartBlank = heart.image3;
+        Entity mana = new OBJ_ManaCrystal(gamePanel);
+        crystalFull = mana.image1;
+        crystalBlank = mana.image2;
 
         this.messages = new ArrayList<>();
         this.messagesCounter = new ArrayList<>();
@@ -62,6 +66,7 @@ public class UI {
 
         if(gamePanel.gameState == GameState.TITLE) {
             drawPlayerLife();
+            drawPlayerMana();
             drawTitleScreen();
             return;
         }
@@ -70,6 +75,7 @@ public class UI {
             g2.setFont(purisaBold);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 60F));
             drawPlayerLife();
+            drawPlayerMana();
             drawPauseScreen();
             return;
         }
@@ -86,6 +92,7 @@ public class UI {
         }
 
         drawPlayerLife();
+        drawPlayerMana();
         drawMessages();
 
         if(keyHandler.debugMode) {
@@ -152,6 +159,25 @@ public class UI {
         for (int i = 0; i < remainingLife; i++) {
             g2.drawImage(this.heartBlank, x, y, null);
             x += gamePanel.TILE_SIZE;
+        }
+    }
+
+    private void drawPlayerMana() {
+        int x = (gamePanel.TILE_SIZE / 2) - 5;
+        int y = (int) (gamePanel.TILE_SIZE * 1.5);
+        int i = 0;
+        while(i < gamePanel.player.maxMana) {
+            g2.drawImage(crystalBlank, x, y, null);
+            i++;
+            x += 35;
+        }
+        x = (gamePanel.TILE_SIZE / 2) - 5;
+        y = (int) (gamePanel.TILE_SIZE * 1.5);
+        i = 0;
+        while(i < gamePanel.player.mana) {
+            g2.drawImage(crystalFull, x, y, null);
+            i++;
+            x += 35;
         }
     }
 
@@ -281,10 +307,11 @@ public class UI {
         final int lineHeight = 35;
         int tailX = (frameX + frameWidth) - 30;
 
-        String[] labels = {"Level", "Life", "Strength", "Dexterity", "Attack", "Defense", "Exp", "Next Level", "Coins"};
+        String[] labels = {"Level", "Life", "Mana","Strength", "Dexterity", "Attack", "Defense", "Exp", "Next Level", "Coins"};
         String[] values = {
                 String.valueOf(gamePanel.player.level),
                 gamePanel.player.life + "/" + gamePanel.player.maxLife,
+                gamePanel.player.mana + "/" + gamePanel.player.maxMana,
                 String.valueOf(gamePanel.player.strength),
                 String.valueOf(gamePanel.player.dexterity),
                 String.valueOf(gamePanel.player.attack),
@@ -302,10 +329,10 @@ public class UI {
         }
 
         g2.drawString("Weapon", textX, textY);
-        g2.drawImage(gamePanel.player.currentWeapon.image1, tailX - gamePanel.TILE_SIZE, textY - 20, null);
+        g2.drawImage(gamePanel.player.currentWeapon.image1, tailX - gamePanel.TILE_SIZE, textY - 30, null);
         textY += gamePanel.TILE_SIZE;
         g2.drawString("Shield", textX, textY);
-        g2.drawImage(gamePanel.player.currentShield.image1, tailX - gamePanel.TILE_SIZE, textY - 20, null);
+        g2.drawImage(gamePanel.player.currentShield.image1, tailX - gamePanel.TILE_SIZE, textY - 30, null);
     }
 
     private void drawInventory() {
@@ -317,11 +344,9 @@ public class UI {
 
         final int slotXStart = frameX + 20;
         final int slotYStart = frameY + 20;
-        int slotX = slotXStart;
-        int slotY = slotYStart;
         int slotSize = gamePanel.TILE_SIZE + 3;
 
-        drawPlayerItems(slotX, slotY, slotSize, slotXStart);
+        drawPlayerItems(slotXStart, slotYStart, slotSize, slotXStart);
 
         drawInventoryCursor(slotXStart, slotYStart, slotSize);
         drawDescriptionText(frameX, frameY, frameWidth, frameHeight);

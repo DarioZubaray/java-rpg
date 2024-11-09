@@ -6,6 +6,7 @@ public enum EntityLabel {
     KEY("Key", "[ Key ]\nAn small key,\nit opens a door.", "key"),
     BOOT("Boot", "[ Boots ]\nPerfect to run faster.", "boots"),
     HEART("Heart", "[ <3 ]", ""),
+    MANA("Mana Crystal", "[ Mana ]", ""),
     POTION_RED("Red Potion", "[ Red Potion ]\nHeals your life by ", "potion_red"),
     FIREBALL("Fireball", "[ Fireball ]\nA tiny fireball.", ""),
     ROCK("Rock", "[ Rock ] It is a boulder.", ""),

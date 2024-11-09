@@ -7,6 +7,7 @@ import io.github.dariozubaray.KeyHandler;
 
 import io.github.dariozubaray.object.OBJ_Fireball;
 import io.github.dariozubaray.object.OBJ_Key;
+import io.github.dariozubaray.object.OBJ_Rock;
 import io.github.dariozubaray.object.OBJ_Shield_Wood;
 import io.github.dariozubaray.object.OBJ_Sword_Normal;
 import io.github.dariozubaray.sound.SoundLabel;
@@ -62,15 +63,19 @@ public class Player extends Entity {
 
         this.maxLife = 6;
         this.life = maxLife;
+        this.maxMana = 4;
+        this.mana = maxMana;
+        this.ammo = 10;
         this.level = 1;
         this.strength = 1;
         this.dexterity = 1;
         this.exp = 0;
-        this.nextLevelExp = 5;
+        this.nextLevelExp = 6;
         this.coins = 0;
         this.currentWeapon = new OBJ_Sword_Normal(gamePanel);
         this.currentShield = new OBJ_Shield_Wood(gamePanel);
         this.projectile = new OBJ_Fireball(gamePanel);
+        //this.projectile = new OBJ_Rock(gamePanel);
 
         this.attack = getAttack();
         this.defense = getDefense();
@@ -235,7 +240,8 @@ public class Player extends Entity {
     }
 
     public void checkLevelUp() {
-        if(exp <= nextLevelExp) {
+        System.out.println("exp: " + exp + ", next: " + nextLevelExp);
+        if(exp >= nextLevelExp) {
             level++;
             nextLevelExp = nextLevelExp * 2;
             maxLife += 2;
@@ -358,8 +364,12 @@ public class Player extends Entity {
     }
 
     private void shotProjectile() {
-        if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30) {
+        if(gamePanel.keyHandler.shotKeyPressed
+                && !projectile.alive && shotAvailableCounter == 30
+                && projectile.haveResource(this)) {
+
             projectile.set(worldX, worldY, direction, true, this);
+            projectile.subtractResource(this);
             gamePanel.projectileList.add(projectile);
 
             shotAvailableCounter = 0;

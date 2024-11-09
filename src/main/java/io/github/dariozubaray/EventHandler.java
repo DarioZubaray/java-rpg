@@ -88,9 +88,9 @@ public class EventHandler {
             gamepanel.player.attackCanceled = true;
             gamepanel.playSoundEffect(SoundLabel.POWER_UP.getAudioIndex());
             this.gamepanel.ui.addMessage("You drink the water.");
-            this.gamepanel.ui.addMessage("Your life has been recovered.");
+            this.gamepanel.ui.addMessage("Your life and mana has been recovered.");
             this.gamepanel.player.life = this.gamepanel.player.maxLife;
-
+            this.gamepanel.player.mana = this.gamepanel.player.maxMana;
             this.gamepanel.assetSetter.setMonster();
         }
     }

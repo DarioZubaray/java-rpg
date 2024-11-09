@@ -2,6 +2,7 @@ package io.github.dariozubaray.object;
 
 import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.ImageLoader;
+import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityLabel;
 import io.github.dariozubaray.entities.Projectile;
 
@@ -29,5 +30,14 @@ public class OBJ_Rock extends Projectile {
         right2 = ImageLoader.loadSprite("/projectile/rock_image_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         left1 = ImageLoader.loadSprite("/projectile/rock_image_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
         left2 = ImageLoader.loadSprite("/projectile/rock_image_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+    }
+
+
+    public boolean haveResource(Entity user) {
+        return user.ammo >= useCost;
+    }
+
+    public void subtractResource(Entity user) {
+        user.ammo -= useCost;
     }
 }
