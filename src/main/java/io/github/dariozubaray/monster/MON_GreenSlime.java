@@ -6,6 +6,9 @@ import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityDirection;
 import io.github.dariozubaray.entities.EntityLabel;
 import io.github.dariozubaray.entities.EntityType;
+import io.github.dariozubaray.object.OBJ_Coin_Bronze;
+import io.github.dariozubaray.object.OBJ_Heart;
+import io.github.dariozubaray.object.OBJ_ManaCrystal;
 import io.github.dariozubaray.object.OBJ_Rock;
 import java.util.Random;
 
@@ -80,5 +83,18 @@ public class MON_GreenSlime extends Entity {
     public void damageReaction() {
         actionLockCounter = 0;
         this.direction = gamePanel.player.direction;
+    }
+
+    @Override
+    public void checkDrop() {
+        int i = new Random().nextInt(100) + 1;
+
+        if(i < 50) {
+            dropItem(new OBJ_Coin_Bronze(gamePanel));
+        } else if(i < 75) {
+            dropItem(new OBJ_Heart(gamePanel));
+        } else {
+            dropItem(new OBJ_ManaCrystal(gamePanel));
+        }
     }
 }

@@ -97,6 +97,18 @@ public class Entity {
     }
 
     public void use(Entity entity) { }
+    public void checkDrop() { }
+
+    public void dropItem(Entity droppedItem) {
+        for (int i = 0; i < gamePanel.objectsArray.length; i++) {
+            if (gamePanel.objectsArray[i] == null) {
+                gamePanel.objectsArray[i] = droppedItem;
+                gamePanel.objectsArray[i].worldX = worldX;
+                gamePanel.objectsArray[i].worldY = worldY;
+                break;
+            }
+        }
+    }
 
     public void update() {
         setAction();
