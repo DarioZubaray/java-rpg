@@ -4,6 +4,7 @@ import io.github.dariozubaray.GamePanel;
 import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityLabel;
+import io.github.dariozubaray.entities.EntityType;
 import io.github.dariozubaray.entities.Projectile;
 
 public class OBJ_Rock extends Projectile {
@@ -12,6 +13,7 @@ public class OBJ_Rock extends Projectile {
         super(gamePanel);
 
         name = EntityLabel.ROCK;
+        type = EntityType.MONSTER;
         speed = 8;
         maxLife = 80;
         life = maxLife;
