@@ -5,35 +5,41 @@ import io.github.dariozubaray.entities.NPC_OldMan;
 import io.github.dariozubaray.monster.MON_GreenSlime;
 import io.github.dariozubaray.object.OBJ_Axe;
 import io.github.dariozubaray.object.OBJ_Boot;
+import io.github.dariozubaray.object.OBJ_Coin_Bronze;
+import io.github.dariozubaray.object.OBJ_Heart;
 import io.github.dariozubaray.object.OBJ_Key;
+import io.github.dariozubaray.object.OBJ_ManaCrystal;
 import io.github.dariozubaray.object.OBJ_Potion_Red;
 import io.github.dariozubaray.object.OBJ_Shield_Blue;
 
 public class AssetSetter {
 
     GamePanel gamePanel;
+    int indexCounter;
 
     public AssetSetter(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        indexCounter = 0;
     }
 
     public void setObject() {
-        int i = 0;
-        i = setNewObject(i, new OBJ_Boot(this.gamePanel), 36, 41);
-        i = setNewObject(i, new OBJ_Key(this.gamePanel), 25, 23);
-        i = setNewObject(i, new OBJ_Key(this.gamePanel), 21, 19);
-        i = setNewObject(i, new OBJ_Key(this.gamePanel), 26, 21);
-        i = setNewObject(i, new OBJ_Axe(this.gamePanel), 33, 21);
-        i = setNewObject(i, new OBJ_Shield_Blue(this.gamePanel), 35, 21);
-        setNewObject(i, new OBJ_Potion_Red(this.gamePanel), 22, 27);
+        setNewObject(new OBJ_Boot(this.gamePanel), 36, 41);
+        setNewObject(new OBJ_Coin_Bronze(this.gamePanel), 25, 23);
+        setNewObject(new OBJ_Coin_Bronze(this.gamePanel), 21, 19);
+        setNewObject(new OBJ_Coin_Bronze(this.gamePanel), 26, 21);
+        setNewObject(new OBJ_Axe(this.gamePanel), 33, 21);
+        setNewObject(new OBJ_Shield_Blue(this.gamePanel), 35, 21);
+        setNewObject(new OBJ_Potion_Red(this.gamePanel), 22, 27);
+
+        setNewObject(new OBJ_Heart(this.gamePanel), 22, 29);
+        setNewObject(new OBJ_ManaCrystal(this.gamePanel), 22, 31);
     }
 
-    private int setNewObject(int i, Entity object, int worldX, int worldY) {
-        gamePanel.objectsArray[i] = object;
-        gamePanel.objectsArray[i].worldX = worldX * gamePanel.TILE_SIZE;
-        gamePanel.objectsArray[i].worldY = worldY * gamePanel.TILE_SIZE;
-        i++;
-        return i;
+    private void setNewObject(Entity object, int worldX, int worldY) {
+        gamePanel.objectsArray[indexCounter] = object;
+        gamePanel.objectsArray[indexCounter].worldX = worldX * gamePanel.TILE_SIZE;
+        gamePanel.objectsArray[indexCounter].worldY = worldY * gamePanel.TILE_SIZE;
+        indexCounter++;
     }
 
     public void setNpc() {

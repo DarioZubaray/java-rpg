@@ -169,6 +169,7 @@ public class Player extends Entity {
 
         shotProjectile();
         checkInvincibility();
+        checkMaxLifeAndMaxMana();
     }
 
     private void attackingMode() {
@@ -284,6 +285,12 @@ public class Player extends Entity {
             return;
         }
 
+        if(gamePanel.objectsArray[index].type.equals(EntityType.PICK_UP_ONLY)) {
+            gamePanel.objectsArray[index].use(this);
+            gamePanel.objectsArray[index] = null;
+            return;
+        }
+
         if(inventory.size() == maxInventorySize) {
             return;
         }
@@ -388,6 +395,15 @@ public class Player extends Entity {
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+    }
+
+    private void checkMaxLifeAndMaxMana() {
+        if(life > maxLife) {
+            life = maxLife;
+        }
+        if(mana > maxMana) {
+            mana = maxMana;
         }
     }
 

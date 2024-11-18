@@ -33,6 +33,7 @@ public class Entity {
     int dialogueIndex;
     int maxDialogueIndex;
 
+    public int value;
     public int maxLife;
     public int life;
     public int maxMana;

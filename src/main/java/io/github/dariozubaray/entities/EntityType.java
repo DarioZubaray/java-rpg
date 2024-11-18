@@ -7,5 +7,6 @@ public enum EntityType {
     SWORD,
     AXE,
     SHIELD,
-    CONSUMABLE
+    CONSUMABLE,
+    PICK_UP_ONLY
 }
