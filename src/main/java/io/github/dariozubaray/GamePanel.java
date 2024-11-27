@@ -6,6 +6,7 @@ import io.github.dariozubaray.entities.Projectile;
 import io.github.dariozubaray.sound.Music;
 import io.github.dariozubaray.sound.Sound;
 import io.github.dariozubaray.tiles.TileManager;
+import io.github.dariozubaray.tiles_interactive.InteractiveTile;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -51,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[] objectsArray;
     public Entity[] npcsArray;
     public Entity[] monstersArray;
+    public InteractiveTile[] interactiveTiles;
     public AssetSetter assetSetter;
     public Player player;
 
@@ -77,10 +79,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.objectsArray = new Entity[30];
         this.npcsArray = new Entity[10];
         this.monstersArray = new Entity[20];
+        this.interactiveTiles = new InteractiveTile[50];
 
         this.assetSetter = new AssetSetter(this);
         this.player = new Player(this, keyHandler);
-//        this.gameState = GameState.TITLE;
+        this.gameState = GameState.TITLE;
         this.gameState = GameState.PLAY;
     }
 
@@ -88,6 +91,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.setObject();
         assetSetter.setNpc();
         assetSetter.setMonster();
+        assetSetter.setInteractiveTiles();
     }
 
     public void startGameThread() {
@@ -151,6 +155,10 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
             }
+
+            Arrays.stream(interactiveTiles)
+                    .filter(Objects::nonNull)
+                    .forEach(InteractiveTile::update);
         }
     }
 
@@ -169,6 +177,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         this.tileManager.draw(g2);
+        Arrays.stream(interactiveTiles)
+                .filter(Objects::nonNull)
+                .forEach(tile -> tile.draw(g2));
 
         entityList.add(player);
         Arrays.stream(npcsArray).filter(Objects::nonNull).forEach(entityList::add);

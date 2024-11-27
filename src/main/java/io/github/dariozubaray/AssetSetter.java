@@ -11,6 +11,7 @@ import io.github.dariozubaray.object.OBJ_Key;
 import io.github.dariozubaray.object.OBJ_ManaCrystal;
 import io.github.dariozubaray.object.OBJ_Potion_Red;
 import io.github.dariozubaray.object.OBJ_Shield_Blue;
+import io.github.dariozubaray.tiles_interactive.IT_DryTree;
 
 public class AssetSetter {
 
@@ -69,5 +70,18 @@ public class AssetSetter {
         gamePanel.monstersArray[index] = new MON_GreenSlime(gamePanel);
         gamePanel.monstersArray[index].worldX = gamePanel.TILE_SIZE * 38;
         gamePanel.monstersArray[index].worldY = gamePanel.TILE_SIZE * 42;
+    }
+
+    public void setInteractiveTiles() {
+        int index = 0;
+        gamePanel.interactiveTiles[index] = new IT_DryTree(gamePanel, 27, 11);
+        index++;
+        gamePanel.interactiveTiles[index] = new IT_DryTree(gamePanel, 28, 11);
+        index++;
+        gamePanel.interactiveTiles[index] = new IT_DryTree(gamePanel, 29, 11);
+        index++;
+        gamePanel.interactiveTiles[index] = new IT_DryTree(gamePanel, 30, 11);
+        index++;
+        gamePanel.interactiveTiles[index] = new IT_DryTree(gamePanel, 31, 11);
     }
 }

@@ -11,6 +11,7 @@ import io.github.dariozubaray.object.OBJ_Rock;
 import io.github.dariozubaray.object.OBJ_Shield_Wood;
 import io.github.dariozubaray.object.OBJ_Sword_Normal;
 import io.github.dariozubaray.sound.SoundLabel;
+import io.github.dariozubaray.tiles_interactive.InteractiveTile;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -150,6 +151,8 @@ public class Player extends Entity {
             int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
             contactMonster(monsterIndex);
 
+            checkInteractiveTileCollision();
+
             if(isPlayerMoving) {
                 setDirection();
                 movePlayer();
@@ -182,6 +185,7 @@ public class Player extends Entity {
             spriteNumber = 2;
 
             checkDamageMonster();
+            checkInteractiveTile();
         }
         if(spriteCounter > 25) {
             spriteNumber = 1;
@@ -212,6 +216,24 @@ public class Player extends Entity {
         worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
         solidArea.height = solidAreaHeight;
+    }
+
+    private void checkInteractiveTile() {
+        int tileIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
+        InteractiveTile it = gamePanel.interactiveTiles[tileIndex];
+        if (tileIndex == -1
+                || !it.destructible
+                || !it.isCorrectItem(this)
+                || it.invincible) {
+            return;
+        }
+
+        it.playSoundEffect();
+        it.life--;
+        it.invincible = true;
+        if(it.life == 0) {
+            gamePanel.interactiveTiles[tileIndex] = it.getDestroyedForm();
+        }
     }
 
     public void damageMonster(int index, int attack) {
@@ -360,6 +382,10 @@ public class Player extends Entity {
             this.life -= damage;
             this.invincible = true;
         }
+    }
+
+    private void checkInteractiveTileCollision() {
+        int tileIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
     }
 
     private void setStandUp() {

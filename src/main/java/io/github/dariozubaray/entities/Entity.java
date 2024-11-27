@@ -117,6 +117,7 @@ public class Entity {
         gamePanel.collisionChecker.checkObject(this, false);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.npcsArray);
         gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
 
         damagePlayer(attack);
         moveNPC();
