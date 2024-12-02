@@ -82,6 +82,35 @@ public class Entity {
 
     public void damageReaction() {}
 
+    public Color getParticleColor() {
+        return null;
+    }
+    public int getParticleSize() {
+        return 0;
+    }
+    public int getParticleSpeed() {
+        return 0;
+    }
+    public int getParticleMaxLife() {
+        return 0;
+    }
+
+    public void generateParticle(Entity generator, Entity target) {
+        Color color = generator.getParticleColor();
+        int size = generator.getParticleSize();
+        int speed = generator.getParticleSpeed();
+        int maxLife = generator.getParticleMaxLife();
+
+        Particle particle1 = new Particle(gamePanel, generator, color, size, speed, maxLife, -1, -1);
+        Particle particle2 = new Particle(gamePanel, generator, color, size, speed, maxLife, 1, -1);
+        Particle particle3 = new Particle(gamePanel, generator, color, size, speed, maxLife, -1, 1);
+        Particle particle4 = new Particle(gamePanel, generator, color, size, speed, maxLife, 1, 1);
+        gamePanel.particleList.add(particle1);
+        gamePanel.particleList.add(particle2);
+        gamePanel.particleList.add(particle3);
+        gamePanel.particleList.add(particle4);
+    }
+
     public void speak() {
         gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
         if (dialogueIndex < maxDialogueIndex) {

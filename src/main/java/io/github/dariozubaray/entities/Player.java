@@ -220,9 +220,10 @@ public class Player extends Entity {
 
     private void checkInteractiveTile() {
         int tileIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.interactiveTiles);
+        if (tileIndex == -1) return;
+
         InteractiveTile it = gamePanel.interactiveTiles[tileIndex];
-        if (tileIndex == -1
-                || !it.destructible
+        if(!it.destructible
                 || !it.isCorrectItem(this)
                 || it.invincible) {
             return;
@@ -231,6 +232,9 @@ public class Player extends Entity {
         it.playSoundEffect();
         it.life--;
         it.invincible = true;
+
+        generateParticle(it, it);
+
         if(it.life == 0) {
             gamePanel.interactiveTiles[tileIndex] = it.getDestroyedForm();
         }

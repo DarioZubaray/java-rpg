@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker collisionChecker;
     public List<Entity> entityList;
     public List<Projectile> projectileList;
+    public List<Entity> particleList;
     public Entity[] objectsArray;
     public Entity[] npcsArray;
     public Entity[] monstersArray;
@@ -75,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.entityList = new ArrayList<>();
         this.projectileList = new ArrayList<>();
+        this.particleList = new ArrayList<>();
 
         this.objectsArray = new Entity[30];
         this.npcsArray = new Entity[10];
@@ -156,6 +158,16 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
+            for (int i = 0; i < particleList.size(); i++) {
+                if (particleList.get(i) != null) {
+                    if (particleList.get(i).alive) particleList.get(i).update();
+                    if (!particleList.get(i).alive) {
+                        particleList.remove(i);
+                        i--;
+                    }
+                }
+            }
+
             Arrays.stream(interactiveTiles)
                     .filter(Objects::nonNull)
                     .forEach(InteractiveTile::update);
@@ -186,6 +198,7 @@ public class GamePanel extends JPanel implements Runnable {
         Arrays.stream(objectsArray).filter(Objects::nonNull).forEach(entityList::add);
         Arrays.stream(monstersArray).filter(Objects::nonNull).forEach(entityList::add);
         projectileList.stream().filter(Objects::nonNull).forEach(entityList::add);
+        particleList.stream().filter(Objects::nonNull).forEach(entityList::add);
 
         entityList.sort(Comparator.comparingInt(e -> e.worldY));
         entityList.forEach(e -> e.draw(g2));

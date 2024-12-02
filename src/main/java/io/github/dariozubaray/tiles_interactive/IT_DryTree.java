@@ -5,6 +5,7 @@ import io.github.dariozubaray.ImageLoader;
 import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityType;
 import io.github.dariozubaray.sound.SoundLabel;
+import java.awt.Color;
 
 public class IT_DryTree extends InteractiveTile {
 
@@ -29,5 +30,18 @@ public class IT_DryTree extends InteractiveTile {
     @Override
     public InteractiveTile getDestroyedForm() {
         return new IT_Trunk(gamePanel, worldX / gamePanel.TILE_SIZE, worldY / gamePanel.TILE_SIZE);
+    }
+
+    public Color getParticleColor() {
+        return new Color(65, 50, 30);
+    }
+    public int getParticleSize() {
+        return 6;
+    }
+    public int getParticleSpeed() {
+        return 1;
+    }
+    public int getParticleMaxLife() {
+        return 20;
     }
 }
