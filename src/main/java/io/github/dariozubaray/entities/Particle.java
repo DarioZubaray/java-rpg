@@ -49,6 +49,7 @@ public class Particle extends Entity {
         int screenY = worldY - gamePanel.player.worldY + gamePanel.player.SCREEN_Y;
 
         g2.setColor(color);
+        System.out.println("screenX: " + screenX + ", screenY: " + screenY + ", size: " + size);
         g2.fillRect(screenX, screenY, size, size);
     }
 }

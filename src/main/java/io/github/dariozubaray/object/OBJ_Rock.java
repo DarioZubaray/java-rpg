@@ -6,6 +6,7 @@ import io.github.dariozubaray.entities.Entity;
 import io.github.dariozubaray.entities.EntityLabel;
 import io.github.dariozubaray.entities.EntityType;
 import io.github.dariozubaray.entities.Projectile;
+import java.awt.Color;
 
 public class OBJ_Rock extends Projectile {
 
@@ -34,12 +35,24 @@ public class OBJ_Rock extends Projectile {
         left2 = ImageLoader.loadSprite("/projectile/rock_image_1.png", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 
-
     public boolean haveResource(Entity user) {
         return user.ammo >= useCost;
     }
 
     public void subtractResource(Entity user) {
         user.ammo -= useCost;
+    }
+
+    public Color getParticleColor() {
+        return new Color(40, 50, 0);
+    }
+    public int getParticleSize() {
+        return 10;
+    }
+    public int getParticleSpeed() {
+        return 1;
+    }
+    public int getParticleMaxLife() {
+        return 20;
     }
 }

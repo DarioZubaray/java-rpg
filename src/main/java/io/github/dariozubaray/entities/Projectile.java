@@ -19,17 +19,20 @@ public class Projectile extends Entity {
         this.life = this.maxLife;
     }
 
+    @Override
     public void update() {
         if(gamePanel.player.equals(user)) {
             int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monstersArray);
-            if(monsterIndex != 1) {
+            if(monsterIndex != -1) {
                 gamePanel.player.damageMonster(monsterIndex, attack);
-                alive = true;
+                generateParticle(user.projectile, gamePanel.monstersArray[monsterIndex]);
+                alive = false;
             }
         } else {
             boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
             if(!gamePanel.player.invincible && contactPlayer) {
                 damagePlayer(attack);
+                generateParticle(user.projectile, gamePanel.player);
                 alive = false;
             }
         }
